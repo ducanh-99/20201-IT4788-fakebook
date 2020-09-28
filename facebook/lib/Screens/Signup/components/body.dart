@@ -1,3 +1,4 @@
+import 'package:facebook/Screens/Signup/components/name_signup.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/Screens/Login/login_screen.dart';
 import 'package:facebook/Screens/Signup/components/background.dart';
@@ -71,9 +72,10 @@ class Body extends StatelessWidget {
                 "Tiếp",
               ),
               color: kPrimaryColor,
+              textColor: backgroundColor,
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return LoginScreen();
+                  return NameSignup();
                 }));
               },
 
