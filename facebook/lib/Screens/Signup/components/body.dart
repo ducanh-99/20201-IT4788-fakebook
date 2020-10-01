@@ -67,18 +67,31 @@ class Body extends StatelessWidget {
             //     ),
             //   ),
             // ),
-            FlatButton(
-              child: Text(
-                "Tiếp",
+            // FlatButton(
+            //   child: Text(
+            //     "Tiếp",
+            //   ),
+            //   color: kPrimaryColor,
+            //   textColor: backgroundColor,
+            //   onPressed: () {
+            //     Navigator.push(context, MaterialPageRoute(builder: (context) {
+            //       return NameSignup();
+            //     }));
+            //   },
+            // ),
+            SizedBox(height: size.height * 0.05),
+            ButtonTheme(
+              minWidth: double.infinity,
+              child: MaterialButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return NameSignup();
+                  }));
+                },
+                child: Text('Tiếp'),
+                color: kPrimaryColor,
+                textColor: backgroundColor,
               ),
-              color: kPrimaryColor,
-              textColor: backgroundColor,
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return NameSignup();
-                }));
-              },
-
             ),
             SizedBox(height: size.height * 0.2),
             Align(
