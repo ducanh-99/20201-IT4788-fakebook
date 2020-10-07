@@ -4,11 +4,31 @@ import 'package:facebook/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 
 class ConfirmSignup extends StatelessWidget {
   final User user;
 
   ConfirmSignup({Key key, @required this.user}) : super(key: key);
+
+  apiRegister(User userData) async {
+    var response = await http.post(
+      "https://fakebook-20201.herokuapp.com/api/auth/signup",
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'phonenumber': userData.phone,
+        'password': userData.password,
+        'lastname': userData.lastName,
+        'firtname': userData.firstName,
+        'birthday': userData.birthday,
+      }),
+    );
+    return response;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +64,10 @@ class ConfirmSignup extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: Padding(
-                    padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                    child: Text("FB-", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16))
-                  ),
+                      padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                      child: Text("FB-",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16))),
                 ),
                 Expanded(
                   flex: 1,
@@ -55,8 +76,9 @@ class ConfirmSignup extends StatelessWidget {
                     child: TextFormField(
                       autofocus: true,
                       decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: kPrimaryColor, width: 5.0))
-                      ),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: kPrimaryColor, width: 5.0))),
                     ),
                   ),
                 ),
@@ -65,10 +87,30 @@ class ConfirmSignup extends StatelessWidget {
             ButtonTheme(
               minWidth: double.infinity,
               child: MaterialButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return LoginScreen();
-                  }));
+                onPressed: () async {
+                  var response = await http.post(
+                    "https://fakebook-20201.herokuapp.com/api/auth/signup",
+                    headers: {
+                      'Content-Type': 'application/json; charset=UTF-8',
+                    },
+                    body: jsonEncode({
+                      'phonenumber': user.phone,
+                      'password': user.password,
+                      'lastname': user.lastName,
+                      'firtname': user.firstName,
+                      'birthday': user.birthday,
+                    }),
+                  );
+                  var responseJson = json.decode(response.body);
+                  print(responseJson);
+                  if (responseJson['code'] == 1000) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return LoginScreen();
+                    }));
+                  } else {
+                    print(responseJson['message']);
+                  }
                 },
                 child: Text('Tiếp'),
                 color: kPrimaryColor,

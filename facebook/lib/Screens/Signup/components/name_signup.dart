@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
 
 class NameSignup extends StatelessWidget {
-  final User user;
+  User user = new User();
 
-  NameSignup({Key key, @required this.user}) : super(key: key);
+  NameSignup({
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,9 @@ class NameSignup extends StatelessWidget {
                     child: TextFormField(
                       autofocus: true,
                       controller: first,
+                      onChanged: (value) {
+                        user.firstName = value;
+                      },
                       decoration: InputDecoration(
                         labelText: "Họ",
                       ),
@@ -67,6 +72,9 @@ class NameSignup extends StatelessWidget {
                     child: TextFormField(
                       autofocus: true,
                       controller: last,
+                      onChanged: (value) {
+                        user.lastName = value;
+                      },
                       decoration: InputDecoration(
                         labelText: "Tên",
                       ),
@@ -81,101 +89,18 @@ class NameSignup extends StatelessWidget {
                 ),
               ],
             ),
-            // Form(
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: [
-            //       TextFormField(
-            //         validator: (value) {
-            //           if (value.isEmpty) {
-            //             return 'Please enter some text';
-            //           }
-            //           return null;
-            //         },
-            //       ),
-            //       // TextFormField(
-            //       //   controller: firstName,
-            //       //   autofocus: true,
-            //       //   // decoration: const InputDecoration(
-            //       //   //   hintText: "Họ",
-            //       //   //   labelText: "Họ",
-            //       //   // ),
-            //       //   validator: (String value) {
-            //       //     return (value.length == 0)
-            //       //         ? "Không được bỏ trống trường này"
-            //       //         : null;
-            //       //   },
-            //       // ),
-            //       // TextFormField(
-            //       //   controller: lastName,
-            //       //   // decoration: const InputDecoration(
-            //       //   //   hintText: "Tên",
-            //       //   //   labelText: "Tên",
-            //       //   // ),
-            //       //   validator: (String value) {
-            //       //     return (value.length == 0)
-            //       //         ? "Không được bỏ trống trường này"
-            //       //         : null;
-            //       //   },
-            //       // ),
-            //     ],
-            //   ),
-            // ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     Form(
-            //
-            //     ),
-            //     TextField(
-            //       controller: firstName,
-            //       autofocus: true,
-            //       decoration: new InputDecoration(
-            //         hintText: "Họ",
-            //         labelText: "Họ",
-            //       ),
-            //       // validator: (String value) {
-            //       //   return (value.length == 0)
-            //       //       ? "Không được bỏ trống trường này"
-            //       //       : null;
-            //       // },
-            //     ),
-            //     TextField(
-            //       controller: lastName,
-            //       decoration: new InputDecoration(
-            //         hintText: "Tên",
-            //         labelText: "Tên",
-            //       ),
-            //       // validator: (String value) {
-            //       //   return (value.length == 0)
-            //       //       ? "Không được bỏ trống trường này"
-            //       //       : null;
-            //       // },
-            //     ),
-            //
-            //   ],
-            // ),
-            // RaisedButton(
-            //   child: Text("Tiếp"),
-            //   color: kPrimaryColor,
-            //   textColor: backgroundColor,
-            //   onPressed: () {
-            //     user.firstName = firstName.text;
-            //     user.lastName = lastName.text;
-            //     // Navigator.push(
-            //     //   context,
-            //     //   MaterialPageRoute(builder: (context) => User(user: user)),
-            //     // );
-            //   },
-            // ),
             SizedBox(height: size.height * 0.05),
             ButtonTheme(
               minWidth: double.infinity,
               child: MaterialButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return BirthdaySignup(user: user);
-                  }));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BirthdaySignup(
+                          user: user,
+                        ),
+                      ));
                 },
                 child: Text('Tiếp'),
                 color: kPrimaryColor,

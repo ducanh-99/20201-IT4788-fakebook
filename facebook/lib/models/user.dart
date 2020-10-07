@@ -1,17 +1,17 @@
 class User {
   String firstName;
   String lastName;
-  DateTime birthday;
+  String birthday;
   String phone;
   String email;
-
-  User(this.firstName,this.lastName, this.birthday, this.email, this.phone);
+  String password;
 
   Map<String, dynamic> toJSON() => {
         'firstName': firstName,
         'lastName': lastName,
         'birthday': birthday,
         'email': email,
-        'phone': phone
+        'phone': phone,
+        'password': password
       };
 }
