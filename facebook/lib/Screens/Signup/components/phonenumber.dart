@@ -1,5 +1,5 @@
 import 'package:facebook/Screens/Signup/components/background.dart';
-import 'package:facebook/models/user.dart';
+import 'package:facebook/data/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';

@@ -1,34 +1,17 @@
 import 'package:facebook/Screens/Login/login_screen.dart';
 import 'package:facebook/Screens/Signup/components/background.dart';
-import 'package:facebook/models/user.dart';
+import 'package:facebook/bloc/sign_bloc.dart';
+import 'package:facebook/data/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
-import 'package:http/http.dart' as http;
-import 'dart:async';
-import 'dart:convert';
+import 'package:facebook/utils/context_ext.dart';
+
 
 class ConfirmSignup extends StatelessWidget {
   final User user;
-
+  SignUpBloc _registerBloc = SignUpBloc();
   ConfirmSignup({Key key, @required this.user}) : super(key: key);
-
-  apiRegister(User userData) async {
-    var response = await http.post(
-      "https://fakebook-20201.herokuapp.com/api/auth/signup",
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode({
-        'phonenumber': userData.phone,
-        'password': userData.password,
-        'lastname': userData.lastName,
-        'firtname': userData.firstName,
-        'birthday': userData.birthday,
-      }),
-    );
-    return response;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,31 +70,14 @@ class ConfirmSignup extends StatelessWidget {
             ButtonTheme(
               minWidth: double.infinity,
               child: MaterialButton(
-                onPressed: () async {
-                  var response = await http.post(
-                    "https://fakebook-20201.herokuapp.com/api/auth/signup",
-                    headers: {
-                      'Content-Type': 'application/json; charset=UTF-8',
-                    },
-                    body: jsonEncode({
-                      'phonenumber': user.phone,
-                      'password': user.password,
-                      'lastname': user.lastName,
-                      'firtname': user.firstName,
-                      'birthday': user.birthday,
-                    }),
-                  );
-                  var responseJson = json.decode(response.body);
-                  print(responseJson);
-                  if (responseJson['code'] == 1000) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return LoginScreen();
-                    }));
-                  } else {
-                    print(responseJson['message']);
-                  }
-                },
+                onPressed:(){
+                  _registerBloc.signUp(user, (){
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                  }, (code){
+                    context.showToast(code);
+                  });
+                } ,
                 child: Text('Tiếp'),
                 color: kPrimaryColor,
                 textColor: backgroundColor,

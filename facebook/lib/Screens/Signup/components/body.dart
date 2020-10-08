@@ -1,7 +1,7 @@
 import 'package:facebook/Screens/Signup/components/name_signup.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/Screens/Login/login_screen.dart';
-import 'package:facebook/models/user.dart';
+import 'package:facebook/data/models/user.dart';
 import 'package:facebook/Screens/Signup/components/background.dart';
 import 'package:facebook/Screens/Signup/components/or_divider.dart';
 import 'package:facebook/Screens/Signup/components/social_icon.dart';
