@@ -1,3 +1,4 @@
+import 'package:facebook/Screens/Home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/Screens/Login/components/background.dart';
 import 'package:facebook/Screens/Signup/signup_screen.dart';
@@ -65,6 +66,14 @@ class Body extends StatelessWidget {
                 var responseJson = json.decode(response.body);
                 if (responseJson['code'] == 1000) {
                   print(responseJson['message']);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return HomeScreen();
+                      },
+                    ),
+                  );
                 }
               },
             ),
@@ -75,7 +84,7 @@ class Body extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return SignUpScreen();
+                      return HomeScreen();
                     },
                   ),
                 );

@@ -6,3 +6,4 @@ const kPrimaryColorText = Color(0xFF1979FF);
 const backgroundColor = Color(0xFFFFFFFF);
 const textColor = Color(0xFFFFFFFF);
 const kColorTextNormal = Color(0xFF000000);
+const kColorButton = Color(0xFF757575);

@@ -26,6 +26,8 @@ dependencies:
   toast: ^0.1.5
   intl: ^0.16.0
   http: ^0.12.2
+  cached_network_image: ^2.2.0+1
+  material_design_icons_flutter: ^4.0.5345
   flutter:
     sdk: flutter
 
