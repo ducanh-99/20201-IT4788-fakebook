@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_facebook_responsive_ui/data/data.dart';
 import 'package:facebook/constants.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/components/home_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'screens.dart';
-import 'package:facebook/data/source/localdatasource/data.dart';
+import 'package:facebook/data/source/localdatasource/local_data.dart';
 
 class NavScreen extends StatefulWidget {
   @override
@@ -24,8 +23,8 @@ class _NavScreenState extends State<NavScreen> {
   final List<IconData> _icons = const [
     Icons.home,
     Icons.ondemand_video,
-    MdiIcons.accountCircleOutline,
     MdiIcons.accountGroupOutline,
+    MdiIcons.accountCircleOutline,
     MdiIcons.bellOutline,
     Icons.menu,
   ];

@@ -6,6 +6,7 @@ class Post {
   final String caption;
   final String timeAgo;
   final String imageUrl;
+  final bool like;
   final int likes;
   final int comments;
 
@@ -14,6 +15,7 @@ class Post {
     @required this.caption,
     @required this.timeAgo,
     @required this.imageUrl,
+    @required this.like,
     @required this.likes,
     @required this.comments,
   });

@@ -141,7 +141,12 @@ class _PostStats extends StatelessWidget {
             ),
             const SizedBox(width: 4.0),
             Expanded(
-              child: Text(
+              child: '${post.like}' != 'true' ? Text(
+                'Bạn và ${post.likes-1} người khác ',
+                style: TextStyle(
+                  color: kColorButton,
+                ),
+              ) : Text(
                 '${post.likes}',
                 style: TextStyle(
                   color: kColorButton,
@@ -149,7 +154,7 @@ class _PostStats extends StatelessWidget {
               ),
             ),
             Text(
-              '${post.comments} Comments',
+              '${post.comments} Bình luận',
               style: TextStyle(
                 color: kColorButton,
               ),
@@ -167,12 +172,16 @@ class _PostStats extends StatelessWidget {
         Row(
           children: [
             _PostButton(
-              icon: Icon(
+              icon: '${post.like}' != 'true' ? Icon(
+                Icons.thumb_up,
+                color: kPrimaryColor,
+                size: 20.0,
+              ) : Icon(
                 MdiIcons.thumbUpOutline,
                 color: kColorButton,
                 size: 20.0,
               ),
-              label: 'Thích',
+              label: Text('Thích', style: TextStyle(color: '${post.like}' != 'true' ? kPrimaryColor : kColorTextNormal)),
               onTap: () => print('Thích'),
             ),
             _PostButton(
@@ -181,7 +190,7 @@ class _PostStats extends StatelessWidget {
                 color: kColorButton,
                 size: 20.0,
               ),
-              label: 'Bình luận',
+              label: Text('Bình luận'),
               onTap: () => print('Comment'),
             ),
             // _PostButton(
@@ -202,7 +211,7 @@ class _PostStats extends StatelessWidget {
 
 class _PostButton extends StatelessWidget {
   final Icon icon;
-  final String label;
+  final Text label;
   final Function onTap;
 
   const _PostButton({
@@ -228,7 +237,7 @@ class _PostButton extends StatelessWidget {
               children: [
                 icon,
                 const SizedBox(width: 3.0),
-                Text(label),
+                label
               ],
             ),
           ),
