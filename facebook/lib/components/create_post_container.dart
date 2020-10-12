@@ -1,3 +1,4 @@
+import 'package:facebook/Screens/Post/post_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/components/home_widget.dart';
@@ -30,6 +31,11 @@ class CreatePostContainer extends StatelessWidget {
                 const SizedBox(width: 8.0),
                 Expanded(
                   child: TextField(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return PostScreen();
+                      }));
+                    },
                     decoration: InputDecoration.collapsed(
                       hintText: 'Bạn đang nghĩ gì?',
                     ),

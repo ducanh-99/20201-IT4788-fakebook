@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:facebook/data/models/models.dart';
-import 'package:facebook/components/home_widget.dart';
+import '../data/models/models.dart';
+import '../components/home_widget.dart';
 
 class UserCard extends StatelessWidget {
   final User user;
@@ -20,11 +20,11 @@ class UserCard extends StatelessWidget {
           // ProfileAvatar(imageUrl: user.imageUrl),
           const SizedBox(width: 6.0),
           Flexible(
-            // child: Text(
-            //   user.name,
-            //   style: const TextStyle(fontSize: 16.0),
-            //   overflow: TextOverflow.ellipsis,
-            // ),
+            child: Text(
+              user.username,
+              style: const TextStyle(fontSize: 16.0),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),
