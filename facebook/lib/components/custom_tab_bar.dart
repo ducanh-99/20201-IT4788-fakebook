@@ -11,7 +11,7 @@ class CustomTabBar extends StatelessWidget {
     @required this.icons,
     @required this.selectedIndex,
     @required this.onTap,
-    this.isBottomIndicator = false,
+    this.isBottomIndicator = true,
   }) : super(key: key);
 
   @override

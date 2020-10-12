@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:facebook/components/home_widget.dart';
 import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +15,7 @@ class PostScreen extends StatelessWidget {
           child: new Text(
             "ĐĂNG",
             style: TextStyle(
-                fontWeight: FontWeight.bold, color: kColorButton),
+                fontWeight: FontWeight.bold, color: kColorTextNormal),
           ),
           onPressed: () => print('Đăng'),
         ),
@@ -28,16 +26,16 @@ class PostScreen extends StatelessWidget {
               SizedBox(height: size.height * 0.01),
               Row(
                 children: [
+                  SizedBox(width: size.width * 0.02),
                   ProfileAvatar(avatar: currentUser.avatar),
                   Text(
                     currentUser.username,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   )
                 ],
-                  // ProfileAvatar(avatar: currentUser.avatar)
               ),
               TextField(
-                maxLines: null,
+                maxLines: 12,
                 keyboardType: TextInputType.multiline,
               )
             ],
