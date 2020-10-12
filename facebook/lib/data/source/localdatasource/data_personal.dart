@@ -1,6 +1,7 @@
 import 'package:facebook/data/models/models.dart';
 
 final User currentUser = User(
+  id: "5f7de287fdd8763ef26d05a1",
   phone:
   "1234567890",
   password:

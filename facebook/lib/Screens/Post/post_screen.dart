@@ -1,12 +1,17 @@
 import 'package:facebook/components/home_widget.dart';
+import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
 import 'package:facebook/components/components.dart';
 
 class PostScreen extends StatelessWidget {
+  final Post post;
+  PostScreen({Key key, this.post}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    TextEditingController postContent = new TextEditingController();
+    postContent.text = post.caption;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: BackAppbarButton(
@@ -68,6 +73,7 @@ class PostScreen extends StatelessWidget {
               TextField(
                 maxLines: 12,
                 keyboardType: TextInputType.multiline,
+                controller: postContent,
               )
             ],
           ),

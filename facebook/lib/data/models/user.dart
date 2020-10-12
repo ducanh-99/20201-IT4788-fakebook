@@ -9,6 +9,7 @@ class User {
   String email;
   String password;
   String avatar;
+  String id;
 
   User({
     @required this.username,
@@ -19,6 +20,7 @@ class User {
     @required this.birthday,
     this.avatar,
     this.email,
+    this.id
   });
 
   Map<String, dynamic> toJSON() => {

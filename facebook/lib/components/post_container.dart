@@ -1,9 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:facebook/Screens/Post/post_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/components/home_widget.dart';
+import 'package:facebook/components/components.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:facebook/data/source/localdatasource/local_data.dart';
 
 class PostContainer extends StatelessWidget {
   final Post post;
@@ -106,7 +109,26 @@ class _PostHeader extends StatelessWidget {
         ),
         IconButton(
           icon: const Icon(Icons.more_horiz),
-          onPressed: () => print('More'),
+          onPressed: () => showModal(context, [
+            post.user.id == currentUser.id  ? ListTile(
+              leading: Icon(Icons.edit),
+              title: Text('Sửa bài viết'),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PostScreen(
+                        post: post,
+                      ),
+                    ));
+              },
+            ) : SizedBox(height: 0),
+            ListTile(
+              leading: Icon(Icons.delete),
+              title: Text('Xóa bài viết'),
+              onTap: () => print('xóa bài viết'),
+            ),
+          ]),
         ),
       ],
     );
@@ -141,17 +163,19 @@ class _PostStats extends StatelessWidget {
             ),
             const SizedBox(width: 4.0),
             Expanded(
-              child: '${post.like}' != 'true' ? Text(
-                'Bạn và ${post.likes-1} người khác ',
-                style: TextStyle(
-                  color: kColorButton,
-                ),
-              ) : Text(
-                '${post.likes}',
-                style: TextStyle(
-                  color: kColorButton,
-                ),
-              ),
+              child: '${post.like}' != 'true'
+                  ? Text(
+                      'Bạn và ${post.likes - 1} người khác ',
+                      style: TextStyle(
+                        color: kColorButton,
+                      ),
+                    )
+                  : Text(
+                      '${post.likes}',
+                      style: TextStyle(
+                        color: kColorButton,
+                      ),
+                    ),
             ),
             Text(
               '${post.comments} Bình luận',
@@ -172,16 +196,22 @@ class _PostStats extends StatelessWidget {
         Row(
           children: [
             _PostButton(
-              icon: '${post.like}' != 'true' ? Icon(
-                Icons.thumb_up,
-                color: kPrimaryColor,
-                size: 20.0,
-              ) : Icon(
-                MdiIcons.thumbUpOutline,
-                color: kColorButton,
-                size: 20.0,
-              ),
-              label: Text('Thích', style: TextStyle(color: '${post.like}' != 'true' ? kPrimaryColor : kColorTextNormal)),
+              icon: '${post.like}' != 'true'
+                  ? Icon(
+                      Icons.thumb_up,
+                      color: kPrimaryColor,
+                      size: 20.0,
+                    )
+                  : Icon(
+                      MdiIcons.thumbUpOutline,
+                      color: kColorButton,
+                      size: 20.0,
+                    ),
+              label: Text('Thích',
+                  style: TextStyle(
+                      color: '${post.like}' != 'true'
+                          ? kPrimaryColor
+                          : kColorTextNormal)),
               onTap: () => print('Thích'),
             ),
             _PostButton(
@@ -234,11 +264,7 @@ class _PostButton extends StatelessWidget {
             height: 25.0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                icon,
-                const SizedBox(width: 3.0),
-                label
-              ],
+              children: [icon, const SizedBox(width: 3.0), label],
             ),
           ),
         ),
