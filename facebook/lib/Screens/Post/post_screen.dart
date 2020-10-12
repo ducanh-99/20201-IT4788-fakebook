@@ -26,12 +26,43 @@ class PostScreen extends StatelessWidget {
               SizedBox(height: size.height * 0.01),
               Row(
                 children: [
-                  SizedBox(width: size.width * 0.02),
+                  // SizedBox(width: size.width * 0.02),
+                  // ProfileAvatar(avatar: currentUser.avatar),
+                  // Text(
+                  //   currentUser.username,
+                  //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  // )
                   ProfileAvatar(avatar: currentUser.avatar),
-                  Text(
-                    currentUser.username,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  )
+                  const SizedBox(width: 8.0),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          currentUser.username,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.public,
+                              color: kColorButton,
+                              size: 16.0,
+                            ),
+                            Text(
+                              '  Công khai',
+                              style: TextStyle(
+                                color: kColorButton,
+                                fontSize: 13.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               TextField(
