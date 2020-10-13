@@ -109,26 +109,36 @@ class _PostHeader extends StatelessWidget {
         ),
         IconButton(
           icon: const Icon(Icons.more_horiz),
-          onPressed: () => showModal(context, [
-            post.user.id == currentUser.id  ? ListTile(
-              leading: Icon(Icons.edit),
-              title: Text('Sửa bài viết'),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PostScreen(
-                        post: post,
+          onPressed: () => showModal(
+              context,
+              post.user.id == currentUser.id
+                  ? [
+                      ListTile(
+                        leading: Icon(Icons.edit),
+                        title: Text('Sửa bài viết'),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PostScreen(
+                                  post: post,
+                                ),
+                              ));
+                        },
                       ),
-                    ));
-              },
-            ) : SizedBox(height: 0),
-            ListTile(
-              leading: Icon(Icons.delete),
-              title: Text('Xóa bài viết'),
-              onTap: () => print('xóa bài viết'),
-            ),
-          ]),
+                      ListTile(
+                        leading: Icon(Icons.delete),
+                        title: Text('Xóa bài viết'),
+                        onTap: () => print('xóa bài viết'),
+                      ),
+                    ]
+                  : [
+                      ListTile(
+                        leading: Icon(Icons.report),
+                        title: Text('Báo cáo bài viết'),
+                        onTap: () => print('Báo cáo bài viết'),
+                      ),
+                    ]),
         ),
       ],
     );
