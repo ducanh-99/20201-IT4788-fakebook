@@ -8,11 +8,12 @@ class CreatePostContainer extends StatelessWidget {
 
   const CreatePostContainer({
     Key key,
-    @required this.currentUser,
+    @required this.currentUser
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Post post = new Post();
     final bool isDesktop = Responsive.isDesktop(context);
     return Card(
       margin: EdgeInsets.symmetric(horizontal: isDesktop ? 5.0 : 0.0),
@@ -33,7 +34,7 @@ class CreatePostContainer extends StatelessWidget {
                   child: TextField(
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return PostScreen();
+                        return PostScreen(post: post);
                       }));
                     },
                     decoration: InputDecoration.collapsed(

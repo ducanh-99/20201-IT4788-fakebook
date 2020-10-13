@@ -11,7 +11,7 @@ class PostScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController postContent = new TextEditingController();
-    postContent.text = post.caption;
+    postContent.text = post.caption != null ? post.caption : "";
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: BackAppbarButton(
