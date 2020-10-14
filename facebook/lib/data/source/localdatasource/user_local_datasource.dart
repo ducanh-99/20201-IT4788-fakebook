@@ -1,6 +1,3 @@
-abstract class UserLocalDatasource{
+abstract class UserLocalDatasource {}
 
-}
-class UserLocalDatasourceImpl implements UserLocalDatasource{
-
-}
+class UserLocalDatasourceImpl implements UserLocalDatasource {}

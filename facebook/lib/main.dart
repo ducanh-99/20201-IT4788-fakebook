@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         primaryColor: kPrimaryColor,
         scaffoldBackgroundColor: backgroundColor,
       ),
-      home: currentUser == null ? WelcomeScreen(): NavScreen(),
+      home: WelcomeScreen(),
     );
   }
 }
