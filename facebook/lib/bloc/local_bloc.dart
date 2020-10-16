@@ -9,6 +9,6 @@ class UserLocal_bloc {
   UserRepository _userRepositoryImpl =
       UserRepositoryImpl(UserLocalDatasourceImpl(), UserRemoteDatasourceImpl());
   setCurrentUser() async {
-    return (await _userRepositoryImpl.setCurrentUser());
+    await _userRepositoryImpl.setCurrentUser();
   }
 }

@@ -4,7 +4,7 @@ String token;
 String avatar =
     'https://images.unsplash.com/photo-1578133671540-edad0b3d689e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80';
 
-User currentUser;
+User currentUser = null;
 final User currentUser2 = currentUser;
 // User(
 //   id: "5f7de287fdd8763ef26d05a1",

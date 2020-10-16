@@ -53,7 +53,6 @@ class Body extends StatelessWidget {
             ),
             RoundedPasswordField(
               onChanged: (value) {
-                print(currentUser.avatar);
                 userLogin['password'] = value;
               },
             ),

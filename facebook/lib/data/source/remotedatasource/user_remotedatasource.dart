@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:facebook/bloc/local_bloc.dart';
 import 'package:facebook/data/models/user.dart';
 import 'package:facebook/data/source/base/user_database.dart';
 import 'package:facebook/data/source/base/user_models.dart';
@@ -72,7 +73,9 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
       var responseJson = json.decode(value.body);
       if (responseJson['code'] == 1000) {
         DatabaseProvider database = await DatabaseProvider.databaseProvider;
-
+        // await database.deleteDB();
+        // print('b');
+        UserLocalDatasource _userLocalDatasource;
         UserModels userModel = UserModels(
             userId: responseJson['data']['id'],
             username: responseJson['data']['username'],
@@ -90,6 +93,9 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
         //     new UserLocalDatasourceImpl();
         // UserModels _userModels = await _userLocalDatasource.getLocalUser();
         // print(_userModels.avatar.runtimeType);
+        UserLocal_bloc userLocalBloc = UserLocal_bloc();
+        await userLocalBloc.setCurrentUser();
+        print(currentUser.username);
         onSuccess();
       } else {
         print('no login');

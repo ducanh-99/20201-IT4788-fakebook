@@ -32,6 +32,6 @@ class UserRepositoryImpl extends UserRepository {
   @override
   setCurrentUser() async {
     // TODO: implement setCurrentUser
-    return (await _userLocalDatasource.setLocalUser());
+    await _userLocalDatasource.setLocalUser();
   }
 }

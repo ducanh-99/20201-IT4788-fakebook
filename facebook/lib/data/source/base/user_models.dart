@@ -25,7 +25,7 @@ class UserModels {
     @required this.avatar,
   });
 
-  Map<String, dynamic> toMap(UserModels user, String avatar) {
+  Map<String, dynamic> toMap(UserModels user) {
     return Map<String, dynamic>()
       ..["userId"] = user.userId
       ..["username"] = user.username
@@ -35,7 +35,7 @@ class UserModels {
       ..["birthday"] = user.birthday
       ..["phone"] = user.phone
       ..["token"] = user.token
-      ..["avatar"] = avatar;
+      ..["avatar"] = user.avatar;
   }
 
   static UserModels formJson(Map<String, dynamic> json) {

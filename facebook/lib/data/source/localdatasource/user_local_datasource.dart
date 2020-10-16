@@ -13,18 +13,18 @@ class UserLocalDatasourceImpl implements UserLocalDatasource {
     // ignore: await_only_futures
     DatabaseProvider database = await DatabaseProvider.databaseProvider;
     UserModels _userModels = await database.getUser();
-    currentUser = User(
-        username: _userModels.username,
-        lastName: _userModels.lastname,
-        firstName: _userModels.firstname,
-        phone: _userModels.phone,
-        password: null,
-        birthday: _userModels.birthday,
-        avatar: _userModels.avatar);
-    token = _userModels.token;
-    if (currentUser != null && token != null) {
-      return true;
-    } else
-      return false;
+    if (_userModels != null) {
+      currentUser = User(
+          username: _userModels.username,
+          lastName: _userModels.lastname,
+          firstName: _userModels.firstname,
+          phone: _userModels.phone,
+          password: null,
+          birthday: _userModels.birthday,
+          avatar: _userModels.avatar);
+      token = _userModels.token;
+    } else {
+      print('null');
+    }
   }
 }

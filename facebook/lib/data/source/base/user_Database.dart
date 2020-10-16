@@ -51,7 +51,7 @@ class DatabaseProvider {
 
   Future<int> addUser(UserModels user, String avatar) async {
     final db = await database;
-    return await db.insert(TABLE_USER, user.toMap(user, avatar),
+    return await db.insert(TABLE_USER, user.toMap(user),
         conflictAlgorithm: ConflictAlgorithm.ignore);
   }
 
@@ -71,8 +71,13 @@ class DatabaseProvider {
 
   Future<UserModels> getUser() async {
     final db = await database;
-    final List<Map<String, dynamic>> userMapData = await db.query(TABLE_USER);
-    UserModels userData = UserModels.formJson(userMapData.first);
-    return userData;
+    List<Map<String, dynamic>> userMapData = await db.query(TABLE_USER);
+    if (userMapData.isEmpty) {
+      UserModels userData = null;
+      return userData;
+    } else {
+      UserModels userData = UserModels.formJson(userMapData.first);
+      return userData;
+    }
   }
 }
