@@ -11,17 +11,16 @@ class User {
   String avatar;
   String id;
 
-  User({
-    @required this.username,
-    @required this.lastName,
-    @required this.firstName,
-    @required this.phone,
-    @required this.password,
-    @required this.birthday,
-    this.avatar,
-    this.email,
-    this.id
-  });
+  User(
+      {@required this.username,
+      @required this.lastName,
+      @required this.firstName,
+      @required this.phone,
+      @required this.password,
+      @required this.birthday,
+      this.avatar,
+      this.email,
+      this.id});
 
   Map<String, dynamic> toJSON() => {
         'firstName': firstName,

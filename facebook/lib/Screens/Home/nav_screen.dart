@@ -43,7 +43,7 @@ class _NavScreenState extends State<NavScreen> {
                   currentUser: currentUser,
                   icons: _icons,
                   selectedIndex: _selectedIndex,
-                   onTap: (index) => setState(() => _selectedIndex = index),
+                  onTap: (index) => setState(() => _selectedIndex = index),
                 ),
               )
             : null,

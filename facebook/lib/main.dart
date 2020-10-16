@@ -1,10 +1,18 @@
 import 'package:facebook/Screens/Home/nav_screen.dart';
+import 'package:facebook/Screens/Login/login_screen.dart';
+import 'package:facebook/bloc/local_bloc.dart';
+import 'package:facebook/data/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/Screens/Welcome/welcome_screen.dart';
 import 'package:facebook/constants.dart';
-import 'package:facebook/data/source/localdatasource/data_personal.dart';
+import 'package:facebook/data/source/localdatasource/local_data.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  UserLocal_bloc userLocalBloc = UserLocal_bloc();
+  await userLocalBloc.setCurrentUser();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -17,7 +25,7 @@ class MyApp extends StatelessWidget {
         primaryColor: kPrimaryColor,
         scaffoldBackgroundColor: backgroundColor,
       ),
-      home: WelcomeScreen(),
+      home: currentUser == null ? WelcomeScreen() : NavScreen(),
     );
   }
 }

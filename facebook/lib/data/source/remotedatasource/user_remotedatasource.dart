@@ -1,9 +1,16 @@
 import 'dart:convert';
 
 import 'package:facebook/data/models/user.dart';
+import 'package:facebook/data/source/base/user_database.dart';
+import 'package:facebook/data/source/base/user_models.dart';
+import 'package:facebook/data/source/localdatasource/data_personal.dart';
+import 'package:facebook/data/source/localdatasource/user_local_datasource.dart';
 import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+
+String avatar =
+    "https://images.unsplash.com/photo-1578133671540-edad0b3d689e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80";
 
 abstract class UserRemoteDatasource {
   apiRegister(User user, Function onSuccess, Function(String) onError);
@@ -62,17 +69,31 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
       }),
     )
         .then((value) async {
-      print(phone + ' ' + password);
-      print('success');
       var responseJson = json.decode(value.body);
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      print(responseJson['data']['id']);
-      await prefs.setString('jwt', responseJson['data']['token']);
-      await prefs.setString('avata',
-          'https://images.unsplash.com/photo-1578133671540-edad0b3d689e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80');
-      var prefdCheck = prefs.getString('jwt');
-      print(prefdCheck);
-      onSuccess();
+      if (responseJson['code'] == 1000) {
+        DatabaseProvider database = await DatabaseProvider.databaseProvider;
+
+        UserModels userModel = UserModels(
+            userId: responseJson['data']['id'],
+            username: responseJson['data']['username'],
+            uuid: responseJson['data']['uuid'],
+            firstname: responseJson['data']['firstname'],
+            lastname: responseJson['data']['lastname'],
+            birthday: responseJson['data']['modified_date'],
+            phone: responseJson['data']['phonenumber'],
+            token: responseJson['data']['token'],
+            avatar: avatar);
+        await database.addUser(userModel, avatar);
+        // UserModels _userModels = await database.getUser();
+        // print(_userModels.runtimeType);
+        // UserLocalDatasource _userLocalDatasource =
+        //     new UserLocalDatasourceImpl();
+        // UserModels _userModels = await _userLocalDatasource.getLocalUser();
+        // print(_userModels.avatar.runtimeType);
+        onSuccess();
+      } else {
+        print('no login');
+      }
     }).catchError((error) {
       onError(error.message);
     });

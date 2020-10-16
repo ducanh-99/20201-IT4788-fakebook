@@ -15,6 +15,7 @@ import 'dart:convert';
 import 'package:facebook/data/source/remotedatasource/user_remotedatasource.dart';
 import 'package:facebook/bloc/sign_bloc.dart';
 import 'package:facebook/utils/context_ext.dart';
+import 'package:facebook/data/source/localdatasource/local_data.dart';
 
 class Body extends StatelessWidget {
   const Body({
@@ -52,6 +53,7 @@ class Body extends StatelessWidget {
             ),
             RoundedPasswordField(
               onChanged: (value) {
+                print(currentUser.avatar);
                 userLogin['password'] = value;
               },
             ),

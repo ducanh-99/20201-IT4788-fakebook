@@ -7,6 +7,7 @@ import 'package:facebook/components/home_widget.dart';
 import 'package:facebook/components/components.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PostContainer extends StatelessWidget {
   final Post post;
@@ -225,15 +226,7 @@ class _PostStats extends StatelessWidget {
                         color: check != 'true'
                             ? kPrimaryColor
                             : kColorTextNormal)),
-                onTap: () => {
-                      print(check),
-                      check == 'true'
-                          ? {
-                              check = 'false',
-                            }
-                          : check = 'true',
-                      print(check),
-                    }),
+                onTap: () {}),
             _PostButton(
               icon: Icon(
                 MdiIcons.commentOutline,
