@@ -13,18 +13,19 @@ class BackAppbarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-        // appBar: AppBar(
-        //   title: title,
-        //   backgroundColor: backgroundColor,
-        // ),
-        appBar: AppBar(
-          title: text,
-          backgroundColor: backgroundColor,
-          iconTheme: IconThemeData(color: kColorTextNormal),
-          actions: [button],
-        ),
-        body: child);
+    return SafeArea(
+        child: Scaffold(
+            // appBar: AppBar(
+            //   title: title,
+            //   backgroundColor: backgroundColor,
+            // ),
+            appBar: AppBar(
+              title: text,
+              backgroundColor: backgroundColor,
+              iconTheme: IconThemeData(color: kColorTextNormal),
+              actions: [button],
+            ),
+            body: child));
     // return Container(
     //   height: size.height,
     //   width: double.infinity,

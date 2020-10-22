@@ -136,7 +136,15 @@ class _PostHeader extends StatelessWidget {
                       ListTile(
                         leading: Icon(Icons.report),
                         title: Text('Báo cáo bài viết'),
-                        onTap: () => print('Báo cáo bài viết'),
+                        onTap: () => {
+                          showModalFullSheet(context, [
+                            ListTile(
+                              leading: Icon(Icons.delete),
+                              title: Text('Xóa bài viết'),
+                              onTap: () => print('xóa bài viết'),
+                            ),
+                          ])
+                        },
                       ),
                     ]),
         ),
@@ -231,7 +239,7 @@ class _PostStats extends StatelessWidget {
                 size: 20.0,
               ),
               label: Text('Bình luận'),
-              onTap: () => print('Comment'),
+              // onTap: () => showModalFullSheet(context, widget),
             ),
             // _PostButton(
             //   icon: Icon(

@@ -9,8 +9,10 @@ class Post {
   final bool like;
   final int likes;
   final int comments;
+  final String id;
 
   const Post({
+    @required this.id,
     @required this.user,
     @required this.caption,
     @required this.timeAgo,
@@ -19,4 +21,14 @@ class Post {
     @required this.likes,
     @required this.comments,
   });
+}
+
+class Comment {
+  final Post post;
+  final String content;
+  final DateTime creation_time;
+  final String id;
+  final User user;
+
+  Comment({this.post, this.content, this.creation_time, this.id, this.user});
 }

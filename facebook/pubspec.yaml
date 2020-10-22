@@ -28,6 +28,7 @@ dependencies:
   http: ^0.12.2
   cached_network_image: ^2.2.0+1
   material_design_icons_flutter: ^4.0.5345
+  flutter_emoji: ">= 2.0.0"
   flutter:
     sdk: flutter
 

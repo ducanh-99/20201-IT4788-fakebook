@@ -4,23 +4,32 @@ import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
 import 'package:facebook/components/components.dart';
+import 'package:flutter_emoji/flutter_emoji.dart';
 
 class PostScreen extends StatelessWidget {
   final Post post;
+  var parser = EmojiParser();
   PostScreen({Key key, this.post}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     TextEditingController postContent = new TextEditingController();
     postContent.text = post.caption != null ? post.caption : "";
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
+    var emojiHeart = parser.info('heart');
+
+    postContent.text = parser.emojify(postContent.text);
+    print(postContent.text);
+    return SafeArea(
+        child: Scaffold(
       body: BackAppbarButton(
-        text: Text('Tạo bài viết', style: TextStyle(color: kColorTextNormal, fontSize: 16)),
+        text: Text('Tạo bài viết',
+            style: TextStyle(color: kColorTextNormal, fontSize: 16)),
         button: FlatButton(
           child: new Text(
             "ĐĂNG",
-            style: TextStyle(
-                fontWeight: FontWeight.bold, color: kColorTextNormal),
+            style:
+                TextStyle(fontWeight: FontWeight.bold, color: kColorTextNormal),
           ),
           onPressed: () => print('Đăng'),
         ),
@@ -79,6 +88,28 @@ class PostScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ));
   }
+}
+
+Future<bool> _onBackPressed(BuildContext context) {
+  return showDialog(
+        context: context,
+        builder: (context) => new AlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('Do you want to exit an App'),
+          actions: <Widget>[
+            new GestureDetector(
+              onTap: () => Navigator.of(context).pop(false),
+              child: Text("NO"),
+            ),
+            SizedBox(height: 16),
+            new GestureDetector(
+              onTap: () => Navigator.of(context).pop(true),
+              child: Text("YES"),
+            ),
+          ],
+        ),
+      ) ??
+      false;
 }
