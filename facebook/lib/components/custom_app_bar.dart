@@ -66,7 +66,7 @@ class CustomAppBar extends StatelessWidget {
                 CircleButton(
                   icon: Icons.search,
                   iconSize: 30.0,
-                  onPressed: () => print('Search'),
+                  onPressed: () => print('search'),
                 ),
                 CircleButton(
                   icon: MdiIcons.facebookMessenger,

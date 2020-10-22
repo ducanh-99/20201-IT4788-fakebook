@@ -6,13 +6,9 @@ import 'package:facebook/data/source/localdatasource/user_local_datasource.dart'
 import 'package:facebook/data/source/remotedatasource/user_remotedatasource.dart';
 import 'package:facebook/utils/string_ext.dart';
 
-
-class SignUpBloc{
-
-  UserRepository _userRepositoryImpl = UserRepositoryImpl(
-    UserLocalDatasourceImpl(),
-    UserRemoteDatasourceImpl()
-  );
+class SignUpBloc {
+  UserRepository _userRepositoryImpl =
+      UserRepositoryImpl(UserLocalDatasourceImpl(), UserRemoteDatasourceImpl());
 
   StreamController _firstNameController = new StreamController.broadcast();
   StreamController _lastNameController = new StreamController.broadcast();
@@ -117,5 +113,14 @@ class SignUpBloc{
     _emailController.close();
     _birthdayController.close();
     _passController.close();
+  }
+}
+
+class SignInBloc {
+  UserRepository _userRepositoryImpl =
+      UserRepositoryImpl(UserLocalDatasourceImpl(), UserRemoteDatasourceImpl());
+  void signIn(String phone, String password, Function onSuccess,
+      Function(String) onError) {
+    _userRepositoryImpl.signIn(phone, password, onSuccess, onError);
   }
 }

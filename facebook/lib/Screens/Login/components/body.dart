@@ -1,4 +1,6 @@
 import 'package:facebook/Screens/Home/screens.dart';
+import 'package:facebook/bloc/sign_bloc.dart';
+import 'package:facebook/data/source/localdatasource/user_local_datasource.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/Screens/Login/components/background.dart';
 import 'package:facebook/Screens/Signup/signup_screen.dart';
@@ -10,6 +12,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'package:facebook/data/source/remotedatasource/user_remotedatasource.dart';
+import 'package:facebook/bloc/sign_bloc.dart';
+import 'package:facebook/utils/context_ext.dart';
+import 'package:facebook/data/source/localdatasource/local_data.dart';
 
 class Body extends StatelessWidget {
   const Body({
@@ -18,6 +24,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SignInBloc _signinBloc = SignInBloc();
     Size size = MediaQuery.of(context).size;
     var userLogin = {
       'phonenumber': '',
@@ -52,20 +59,8 @@ class Body extends StatelessWidget {
             RoundedButton(
               text: "LOGIN",
               press: () async {
-                var response = await http.post(
-                  'https://fakebook-20201.herokuapp.com/api/auth/login',
-                  headers: {
-                    'Content-Type': 'application/json; charset=UTF-8',
-                  },
-                  body: jsonEncode({
-                    'phonenumber': userLogin['phonenumber'],
-                    'password': userLogin['password'],
-                  }),
-                );
-                print(json.decode(response.body));
-                var responseJson = json.decode(response.body);
-                if (responseJson['code'] == 1000) {
-                  print(responseJson['message']);
+                _signinBloc.signIn(
+                    userLogin['phonenumber'], userLogin['password'], () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -74,7 +69,32 @@ class Body extends StatelessWidget {
                       },
                     ),
                   );
-                }
+                }, (code) {
+                  context.showToast(code);
+                });
+                // var response = await http.post(
+                //   'https://fakebook-20201.herokuapp.com/api/auth/login',
+                //   headers: {
+                //     'Content-Type': 'application/json; charset=UTF-8',
+                //   },
+                //   body: jsonEncode({
+                //     'phonenumber': userLogin['phonenumber'],
+                //     'password': userLogin['password'],
+                //   }),
+                // );
+                // var responseJson = json.decode(response.body);
+                // print(responseJson['data']['id']);
+                // if (responseJson['code'] == 1000) {
+                //   print(responseJson['message']);
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) {
+                //       return NavScreen();
+                //     },
+                //   ),
+                // );
+                // }
               },
             ),
             SizedBox(height: size.height * 0.03),

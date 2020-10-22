@@ -7,6 +7,7 @@ import 'package:facebook/components/home_widget.dart';
 import 'package:facebook/components/components.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PostContainer extends StatelessWidget {
   final Post post;
@@ -163,6 +164,9 @@ class _PostStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String check;
+    check = '${post.like}';
+
     return Column(
       children: [
         Row(
@@ -181,7 +185,7 @@ class _PostStats extends StatelessWidget {
             ),
             const SizedBox(width: 4.0),
             Expanded(
-              child: '${post.like}' != 'true'
+              child: check != 'true'
                   ? Text(
                       'Bạn và ${post.likes - 1} người khác ',
                       style: TextStyle(
@@ -214,24 +218,23 @@ class _PostStats extends StatelessWidget {
         Row(
           children: [
             _PostButton(
-              icon: '${post.like}' != 'true'
-                  ? Icon(
-                      Icons.thumb_up,
-                      color: kPrimaryColor,
-                      size: 20.0,
-                    )
-                  : Icon(
-                      MdiIcons.thumbUpOutline,
-                      color: kColorButton,
-                      size: 20.0,
-                    ),
-              label: Text('Thích',
-                  style: TextStyle(
-                      color: '${post.like}' != 'true'
-                          ? kPrimaryColor
-                          : kColorTextNormal)),
-              onTap: () => print('Thích'),
-            ),
+                icon: check != 'true'
+                    ? Icon(
+                        Icons.thumb_up,
+                        color: kPrimaryColor,
+                        size: 20.0,
+                      )
+                    : Icon(
+                        MdiIcons.thumbUpOutline,
+                        color: kColorButton,
+                        size: 20.0,
+                      ),
+                label: Text('Thích',
+                    style: TextStyle(
+                        color: check != 'true'
+                            ? kPrimaryColor
+                            : kColorTextNormal)),
+                onTap: () {}),
             _PostButton(
               icon: Icon(
                 MdiIcons.commentOutline,

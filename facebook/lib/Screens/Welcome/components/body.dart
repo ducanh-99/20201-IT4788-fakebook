@@ -8,6 +8,7 @@ import 'package:facebook/components/rounded_button.dart';
 import 'package:facebook/constants.dart';
 import 'package:facebook/components/components.dart';
 import '../../../constants.dart';
+import 'package:facebook/data/source/localdatasource/local_data.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -124,27 +125,25 @@ class Body extends StatelessWidget {
                 alignment: Alignment.center,
                 children: <Widget>[
                   Positioned(
-                    bottom: 0,
-                    left: 0,
-                    child: new Align(
-                      alignment: FractionalOffset.bottomCenter,
-                      child:
-                      FlatButton(
-                        child: new Text(
-                          "TẠO TÀI KHOẢN FACEBOOK MỚI",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: kPrimaryColorText),
+                      bottom: 0,
+                      left: 0,
+                      child: new Align(
+                        alignment: FractionalOffset.bottomCenter,
+                        child: FlatButton(
+                          child: new Text(
+                            "TẠO TÀI KHOẢN FACEBOOK MỚI",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: kPrimaryColorText),
+                          ),
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return SignUpScreen();
+                            }));
+                          },
                         ),
-                        onPressed: (){
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                                return SignUpScreen();
-                              }));
-                        },
-                      ),
-                    )
-                  ),
+                      )),
                 ],
               ),
             )

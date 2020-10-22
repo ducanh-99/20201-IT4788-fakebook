@@ -1,4 +1,3 @@
-import 'package:date_time_picker/date_time_picker.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
 
@@ -19,82 +18,62 @@ final User friendUser = User(
 
 final List<Post> posts = [
   Post(
-      user: currentUser,
-      caption: 'Check out these cool puppers :heart: hi',
-      timeAgo: '58m',
-      imageUrl: '',
-      likes: 1202,
-      like: true,
-      comments: 184,
-      id: ''),
-  Post(
-      user: friendUser,
-      caption:
-          'Please enjoy this placeholder text: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      timeAgo: '3hr',
-      imageUrl: null,
-      likes: 683,
-      like: false,
-      comments: 79,
-      id: ''),
-  Post(
-      user: friendUser,
-      caption: 'This is a very good boi.',
-      timeAgo: '8hr',
-      imageUrl:
-          'https://images.unsplash.com/photo-1575535468632-345892291673?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
-      likes: 894,
-      comments: 201,
-      id: ''),
-  Post(
-      user: currentUser,
-      caption: 'Adventure 🏔',
-      timeAgo: '15hr',
-      imageUrl:
-          'https://images.unsplash.com/photo-1573331519317-30b24326bb9a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
-      likes: 722,
-      like: true,
-      comments: 183,
-      id: ''),
-  Post(
-      user: currentUser,
-      caption:
-          'More placeholder text for the soul: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      timeAgo: '1d',
-      imageUrl: null,
-      likes: 482,
-      like: false,
-      comments: 37,
-      id: ''),
-  Post(
-      user: currentUser,
-      caption: 'A classic.',
-      timeAgo: '1d',
-      imageUrl:
-          'https://images.unsplash.com/reserve/OlxPGKgRUaX0E1hg3b3X_Dumbo.JPG?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
-      likes: 1523,
-      like: true,
-      comments: 301,
-      id: '')
-];
-
-final List<Comment> comment = [
-  Comment(
-    post: posts[0],
-    content: 'Ahihi',
     user: currentUser,
-    creation_time: DateTime.now(),
+    caption: 'Check out these cool puppers :) hi',
+    timeAgo: '58m',
+    imageUrl: '',
+    likes: 1202,
+    like: true,
+    comments: 184,
   ),
-  Comment(
-    post: posts[1],
-    content: 'Ahihi',
+  Post(
+    user: friendUser,
+    caption:
+        'Please enjoy this placeholder text: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    timeAgo: '3hr',
+    imageUrl: null,
+    likes: 683,
+    like: false,
+    comments: 79,
+  ),
+  Post(
+    user: friendUser,
+    caption: 'This is a very good boi.',
+    timeAgo: '8hr',
+    imageUrl:
+        'https://images.unsplash.com/photo-1575535468632-345892291673?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
+    likes: 894,
+    like: false,
+    comments: 201,
+  ),
+  Post(
     user: currentUser,
-    creation_time: DateTime.now(),
+    caption: 'Adventure 🏔',
+    timeAgo: '15hr',
+    imageUrl:
+        'https://images.unsplash.com/photo-1573331519317-30b24326bb9a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
+    likes: 722,
+    like: true,
+    comments: 183,
   ),
-  Comment(
-    post: posts[0],
-    content: 'Haha',
+  Post(
     user: currentUser,
-    creation_time: DateTime.now(),
+    caption:
+        'More placeholder text for the soul: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    timeAgo: '1d',
+    imageUrl: null,
+    likes: 482,
+    like: false,
+    comments: 37,
   ),
+  Post(
+    user: currentUser,
+    caption: 'A classic.',
+    timeAgo: '1d',
+    imageUrl:
+        'https://images.unsplash.com/reserve/OlxPGKgRUaX0E1hg3b3X_Dumbo.JPG?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
+    likes: 1523,
+    like: true,
+    comments: 301,
+  )
 ];

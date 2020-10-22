@@ -6,10 +6,8 @@ import 'package:facebook/components/home_widget.dart';
 class CreatePostContainer extends StatelessWidget {
   final User currentUser;
 
-  const CreatePostContainer({
-    Key key,
-    @required this.currentUser
-  }) : super(key: key);
+  const CreatePostContainer({Key key, @required this.currentUser})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +30,9 @@ class CreatePostContainer extends StatelessWidget {
                 const SizedBox(width: 8.0),
                 Expanded(
                   child: TextField(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
                         return PostScreen(post: post);
                       }));
                     },
@@ -51,7 +50,7 @@ class CreatePostContainer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   FlatButton.icon(
-                    onPressed: () => print('Live'),
+                    onPressed: () => print(currentUser.username),
                     icon: const Icon(
                       Icons.videocam,
                       color: Colors.red,
