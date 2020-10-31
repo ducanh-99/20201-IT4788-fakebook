@@ -9,14 +9,18 @@ import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:facebook/data/source/localdatasource/user_local_datasource.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
 import 'package:flutter/rendering.dart';
+
 import 'package:http/http.dart' as http;
+
 List<Post> post_res;
 String avatar =
     "https://images.unsplash.com/photo-1578133671540-edad0b3d689e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80";
+
 abstract class PostRemoteDatasource {
   apiGetAllPost();
-  apiUploadPost(String token,String described);
+  apiUploadPost(String token, String described);
 }
+
 final User friendUser = User(
   id: "5f7f1db24c54c6f6b0aceb27",
   phone: "1234567890",
@@ -26,46 +30,52 @@ final User friendUser = User(
   username: "Manh Luong",
   birthday: "2020-10-07 22:44:47.714868",
   avatar:
-  'https://images.unsplash.com/photo-1575535468632-345892291673?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
+      'https://images.unsplash.com/photo-1575535468632-345892291673?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
   // name: 'Marcus Ng',
   // imageUrl: https://images.unsplash.com/photo-1525253086316-d0c936c814f8
   // 'https://images.unsplash.com/photo-1578133671540-edad0b3d689e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80',
 );
+
 class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   @override
   apiGetAllPost() async {
     var response = await http
         .get(
       "https://fakebook-20201.herokuapp.com/api/post",
-    ).then((value) async {
+    )
+        .then((value) async {
       print('success');
-      var responseJson = json.decode(value.body) as List;
-      print(responseJson);
-      final List<Post> posts= responseJson.map((post){
-        return Post(
-            user: friendUser,
-            described: post['described'],
-            timeAgo: "",
-            imageUrl: "",
-            isliked: false,
-            likes: post['like'],
-            comments: post['comment'],
-        );
+      var responseJson = json.decode(value.body);
+      // print(responseJson);
+      // responseJson.map((post) {
+      //   print('a');
+      // });
+      responseJson.map((post) {
+        print(post['described']);
+        posts.add(Post(
+          user: friendUser,
+          described: post['described'],
+          username: 'Manh',
+          timeAgo: '',
+          imageUrl: '',
+          likes: 1203,
+          isliked: true,
+          comments: 184,
+        ));
       }).toList();
       print('Get thanh cong');
-      print(posts[0].user );
       post_res = posts;
-      print(post_res[0].described);
-      print(post_res[1].described);
-      print(post_res[2].described);
+      print(post_res.runtimeType);
+      print(posts.runtimeType);
       // return posts;
     }).catchError((error) {
       print('Error');
       // return List<Post>();
     });
   }
+
   @override
-  apiUploadPost(String token,String described)async {
+  apiUploadPost(String token, String described) async {
     var response = http
         .post(
       "https://fakebook-20201.herokuapp.com/api/post",
@@ -74,14 +84,12 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       },
-      body: jsonEncode({
-        'described':described
-      }),
-    ).then((value) async {
+      body: jsonEncode({'described': described}),
+    )
+        .then((value) async {
       print('success');
       var responseJson = json.decode(value.body);
       print(responseJson);
-
     }).catchError((error) {
       print('Error');
     });

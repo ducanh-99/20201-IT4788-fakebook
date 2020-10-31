@@ -4,6 +4,7 @@ import 'package:facebook/data/source/localdatasource/local_data.dart';
 import 'package:facebook/data/source/base/user_database.dart';
 import 'package:facebook/data/source/base/user_models.dart';
 import 'package:facebook/data/source/remotedatasource/post_remotedatasource.dart';
+
 final User friendUser = User(
   id: "5f7f1db24c54c6f6b0aceb27",
   phone: "1234567890",
@@ -26,10 +27,10 @@ List<Post> posts = [
   Post(
     user: friendUser,
     described: '',
-    username:'Manh',
+    username: 'Manh',
     timeAgo: '',
     imageUrl: '',
-    likes: 1202,
+    likes: 1203,
     isliked: true,
     comments: 184,
   )

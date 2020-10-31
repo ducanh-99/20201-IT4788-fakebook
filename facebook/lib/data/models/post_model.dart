@@ -11,7 +11,7 @@ class Post {
   final bool isliked;
   final int likes;
   final int comments;
-
+  final String caption;
   Post({
     this.id,
     this.user,
@@ -22,14 +22,15 @@ class Post {
     this.isliked,
     this.likes,
     this.comments,
+    this.caption,
   });
   Map<String, dynamic> toJSON() => {
-    'username': username,
-    'described': described,
-    'timeAgo': timeAgo,
-    'imageUrl': imageUrl,
-    'is_liked': isliked,
-    'like': likes,
-    'comment': comments,
-  };
+        'username': username,
+        'described': described,
+        'timeAgo': timeAgo,
+        'imageUrl': imageUrl,
+        'is_liked': isliked,
+        'like': likes,
+        'comment': comments,
+      };
 }

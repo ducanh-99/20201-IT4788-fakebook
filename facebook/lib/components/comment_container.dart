@@ -9,7 +9,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:facebook/data/source/localdatasource/local_data.dart';
 
 class CommentContainer extends StatelessWidget {
-  final Comment comment;
+  final comment;
 
   const CommentContainer({
     Key key,
@@ -51,7 +51,7 @@ class CommentContainer extends StatelessWidget {
 }
 
 class _CommentHeader extends StatelessWidget {
-  final Comment comment;
+  final comment;
 
   const _CommentHeader({Key key, this.comment}) : super(key: key);
 
@@ -95,4 +95,3 @@ class _CommentHeader extends StatelessWidget {
     );
   }
 }
-
