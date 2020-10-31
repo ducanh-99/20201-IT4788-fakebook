@@ -51,6 +51,41 @@ void showModalFullSheet(BuildContext context, List<Widget> widget) {
       });
 }
 
+void showCommentSheet(BuildContext context, List<Widget> widget) {
+  showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          // top: true,
+
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(
+                'Bình luận',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: kColorTextNormal),
+              ),
+              backgroundColor: backgroundColor,
+            ),
+          ),
+          minimum: const EdgeInsets.fromLTRB(0, 16.0, 0, 0),
+          // child: Container(
+          // height: double.infinity,
+          // child: Expanded(
+          //     child: Column(
+          //       children: widget,
+          //     )),
+          // decoration: BoxDecoration(color: Theme.of(context).canvasColor))
+        );
+        // return Scaffold(
+        //   appBar: AppBar(
+        //     title: Text('Báo cáo', textAlign: TextAlign.center, style: TextStyle(color: kColorTextNormal),),
+        //     backgroundColor: backgroundColor,
+        //   ),
+        // );
+      });
+}
 
 
 // void showAlert(){

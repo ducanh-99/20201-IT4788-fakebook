@@ -1,4 +1,5 @@
 import 'package:facebook/Screens/Post/post_screen.dart';
+import 'package:facebook/Screens/Post/post_screen_ful.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/components/home_widget.dart';
@@ -33,7 +34,7 @@ class CreatePostContainer extends StatelessWidget {
                     onTap: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return PostScreen(post: post);
+                        return PostScreenFul(post: post);
                       }));
                     },
                     decoration: InputDecoration.collapsed(

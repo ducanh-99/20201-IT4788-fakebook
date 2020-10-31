@@ -1,3 +1,4 @@
+import 'package:emoji_picker/emoji_picker.dart';
 import 'package:facebook/components/home_widget.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
@@ -6,41 +7,49 @@ import 'package:facebook/constants.dart';
 import 'package:facebook/components/components.dart';
 import 'package:flutter_emoji/flutter_emoji.dart';
 
-class PostScreen extends StatelessWidget {
+class PostScreenFul extends StatefulWidget {
   final Post post;
-  var parser = EmojiParser();
 
-  PostScreen({Key key, this.post}) : super(key: key);
+  // PostScreenFul(this.post);
+  const PostScreenFul({Key key, this.post}) : super(key: key);
+
+  @override
+  _PostScreenState createState() => _PostScreenState();
+
+}
+
+class _PostScreenState extends State<PostScreenFul> {
+  TextEditingController textFieldController = TextEditingController();
+  // FirebaseRepository _repository = FirebaseRepository();
+
+  ScrollController _listScrollController = ScrollController();
+
+  FocusNode textFieldFocus = FocusNode();
+
+  bool isWriting = false;
+
+  bool showEmojiPicker = false;
+
+  showKeyboard() => textFieldFocus.requestFocus();
+
+  hideKeyboard() => textFieldFocus.unfocus();
+
+  hideEmojiContainer() {
+    setState(() {
+      showEmojiPicker = false;
+    });
+  }
+
+  showEmojiContainer() {
+    setState(() {
+      showEmojiPicker = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController postContent = new TextEditingController();
-    postContent.text = post.caption != null ? post.caption : "";
     Size size = MediaQuery.of(context).size;
-    var emojiHeart = parser.info('heart');
-
-    //
-    // FocusNode textFieldFocus = FocusNode();
-    // showKeyboard() => textFieldFocus.requestFocus();
-    // hideKeyboard() => textFieldFocus.unfocus();
-    // bool isWriting = false;
-    // bool showEmojiPicker = false;
-    // hideEmojiContainer() {
-    //   setState(() {
-    //     showEmojiPicker = false;
-    //   });
-    // }
-    //
-    // showEmojiContainer() {
-    //   setState(() {
-    //     showEmojiPicker = true;
-    //   });
-    // }
-    //
-    postContent.text = parser.emojify(postContent.text);
-    print(postContent.text);
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       body: BackAppbarButton(
         text: Text('Tạo bài viết',
             style: TextStyle(color: kColorTextNormal, fontSize: 16)),
@@ -48,7 +57,7 @@ class PostScreen extends StatelessWidget {
           child: new Text(
             "ĐĂNG",
             style:
-                TextStyle(fontWeight: FontWeight.bold, color: kColorTextNormal),
+            TextStyle(fontWeight: FontWeight.bold, color: kColorTextNormal),
           ),
           onPressed: () => print('ĐĂNG'),
         ),
@@ -101,34 +110,40 @@ class PostScreen extends StatelessWidget {
               TextField(
                 maxLines: 12,
                 keyboardType: TextInputType.multiline,
-                controller: postContent,
-              )
+                // controller: postContent,
+              ),
+              showEmojiPicker ? Container(child: emojiContainer()) : Container(),
             ],
           ),
         ),
       ),
-    ));
+    );
+    //   Scaffold(
+    //   backgroundColor: backgroundColor,
+    //   // appBar: customAppBar(context),
+    //   body: Column(
+    //     children: <Widget>[
+    //       showEmojiPicker ? Container(child: emojiContainer()) : Container(),
+    //     ],
+    //   ),
+    // );
   }
-}
 
-Future<bool> _onBackPressed(BuildContext context) {
-  return showDialog(
-        context: context,
-        builder: (context) => new AlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('Do you want to exit an App'),
-          actions: <Widget>[
-            new GestureDetector(
-              onTap: () => Navigator.of(context).pop(false),
-              child: Text("NO"),
-            ),
-            SizedBox(height: 16),
-            new GestureDetector(
-              onTap: () => Navigator.of(context).pop(true),
-              child: Text("YES"),
-            ),
-          ],
-        ),
-      ) ??
-      false;
+  emojiContainer() {
+    return EmojiPicker(
+      bgColor: kColorButton,
+      indicatorColor: kPrimaryColor,
+      rows: 3,
+      columns: 7,
+      onEmojiSelected: (emoji, category) {
+        setState(() {
+          isWriting = true;
+        });
+
+        textFieldController.text = textFieldController.text + emoji.emoji;
+      },
+      recommendKeywords: ["face", "happy", "party", "sad"],
+      numRecommended: 50,
+    );
+  }
 }

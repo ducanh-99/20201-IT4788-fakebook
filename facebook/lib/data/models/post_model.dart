@@ -26,7 +26,7 @@ class Post {
 class Comment {
   final Post post;
   final String content;
-  final DateTime creation_time;
+  final String creation_time;
   final String id;
   final User user;
 

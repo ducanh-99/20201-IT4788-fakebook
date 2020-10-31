@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook/Screens/Post/post_screen.dart';
+import 'package:facebook/components/comment_container.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
 import 'package:facebook/data/models/models.dart';
@@ -242,7 +243,11 @@ class _PostStats extends StatelessWidget {
                 size: 20.0,
               ),
               label: Text('Bình luận'),
-              // onTap: () => showModalFullSheet(context, widget),
+              onTap: () => showCommentSheet(context, [
+                CommentContainer(
+
+                )
+              ]),
             ),
             // _PostButton(
             //   icon: Icon(
