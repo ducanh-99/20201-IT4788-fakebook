@@ -1,29 +1,36 @@
+import 'package:facebook/bloc/post_bloc.dart';
 import 'package:facebook/components/home_widget.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
 import 'package:facebook/components/components.dart';
-
+import 'package:facebook/data/source/localdatasource/local_data.dart';
 class PostScreen extends StatelessWidget {
   final Post post;
   PostScreen({Key key, this.post}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     TextEditingController postContent = new TextEditingController();
-    postContent.text = post.caption != null ? post.caption : "";
+    postContent.text = post.described != null ? post.described : "";
     Size size = MediaQuery.of(context).size;
+    PostBloc _postBloc = PostBloc();
+    var described = '' ;
     return Scaffold(
       body: BackAppbarButton(
         text: Text('Tạo bài viết',
-            style: TextStyle(color: kColorTextNormal, fontSize: 16)),
+            style: TextStyle(color: kColorTextNormal, fontSize: 16,)),
         button: FlatButton(
           child: new Text(
             "ĐĂNG",
             style:
                 TextStyle(fontWeight: FontWeight.bold, color: kColorTextNormal),
           ),
-          onPressed: () => print('ĐĂNG'),
+          onPressed:  () async {
+            _postBloc.uploadPost(token, described);
+            // _postBloc.getAllPost();
+            print("dang thanh cong");
+        },
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -75,6 +82,9 @@ class PostScreen extends StatelessWidget {
                 maxLines: 12,
                 keyboardType: TextInputType.multiline,
                 controller: postContent,
+                onChanged: (value) {
+                  described = value;
+                },
               )
             ],
           ),

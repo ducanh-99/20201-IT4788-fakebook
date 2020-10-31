@@ -41,7 +41,7 @@ class PostContainer extends StatelessWidget {
                 children: [
                   _PostHeader(post: post),
                   const SizedBox(height: 4.0),
-                  Text(post.caption),
+                  Text(post.described),
                   post.imageUrl != null
                       ? const SizedBox.shrink()
                       : const SizedBox(height: 6.0),
@@ -157,7 +157,7 @@ class _PostStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String check;
-    check = '${post.like}';
+    check = '${post.isliked}';
 
     return Column(
       children: [
@@ -226,7 +226,9 @@ class _PostStats extends StatelessWidget {
                         color: check != 'true'
                             ? kPrimaryColor
                             : kColorTextNormal)),
-                onTap: () {}),
+                onTap: () {
+                  print("Thich");
+                }),
             _PostButton(
               icon: Icon(
                 MdiIcons.commentOutline,
