@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook/Screens/Post/post_screen.dart';
+import 'package:facebook/components/comment_container.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
 import 'package:facebook/data/models/models.dart';
@@ -137,7 +138,15 @@ class _PostHeader extends StatelessWidget {
                       ListTile(
                         leading: Icon(Icons.report),
                         title: Text('Báo cáo bài viết'),
-                        onTap: () => print('Báo cáo bài viết'),
+                        onTap: () => {
+                          showModalFullSheet(context, [
+                            ListTile(
+                              leading: Icon(Icons.delete),
+                              title: Text('Xóa bài viết'),
+                              onTap: () => print('xóa bài viết'),
+                            ),
+                          ])
+                        },
                       ),
                     ]),
         ),
@@ -236,7 +245,11 @@ class _PostStats extends StatelessWidget {
                 size: 20.0,
               ),
               label: Text('Bình luận'),
-              onTap: () => print('Comment'),
+              onTap: () => showCommentSheet(context, [
+                CommentContainer(
+
+                )
+              ]),
             ),
             // _PostButton(
             //   icon: Icon(
