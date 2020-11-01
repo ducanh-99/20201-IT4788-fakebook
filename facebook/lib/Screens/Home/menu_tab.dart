@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:facebook/Screens/Home/profile_tab.dart';
 import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:flutter/material.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -45,6 +46,9 @@ class MenuTab extends StatelessWidget {
                 ),
                 onTap: () {
                   print("Xem trang cá nhân của bạn");
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return ProfileTab();
+                  }));
                 },
               ),
 
