@@ -57,7 +57,8 @@ class PostContainer extends StatelessWidget {
                 : const SizedBox.shrink(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: _PostStats(post: post),
+              // child: _PostStats(post: post),
+              child: _PostBodyStateful(post: post),
             ),
           ],
         ),
@@ -155,19 +156,60 @@ class _PostHeader extends StatelessWidget {
   }
 }
 
-class _PostStats extends StatelessWidget {
+class _PostHeaderStateful extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _PostHeaderState();
+  }
+}
+
+class _PostHeaderState extends State<_PostHeaderStateful> {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}
+
+class _PostBodyStateful extends StatefulWidget {
   final Post post;
 
-  const _PostStats({
-    Key key,
-    @required this.post,
-  }) : super(key: key);
+  const _PostBodyStateful({Key key, this.post}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _PostBodyState(post);
+  }
+}
+
+class _PostBodyState extends State<_PostBodyStateful> {
+  final Post post;
+  bool isLiked;
+  int likes;
+
+  _PostBodyState(this.post);
+
+  @override
+  void initState() {
+    super.initState();
+    isLiked = post.isliked;
+    likes = post.likes;
+  }
+
+  void _like() {
+    setState(() {
+      isLiked = !isLiked;
+      if (isLiked) {
+        likes = likes + 1;
+      } else {
+        likes = likes - 1;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    String check;
-    check = '${post.isliked}';
-
     return Column(
       children: [
         Row(
@@ -186,15 +228,15 @@ class _PostStats extends StatelessWidget {
             ),
             const SizedBox(width: 4.0),
             Expanded(
-              child: check != 'true'
+              child: isLiked
                   ? Text(
-                      'Bạn và ${post.likes - 1} người khác ',
+                      'Bạn và ${likes - 1} người khác ',
                       style: TextStyle(
                         color: kColorButton,
                       ),
                     )
                   : Text(
-                      '${post.likes}',
+                      '${likes}',
                       style: TextStyle(
                         color: kColorButton,
                       ),
@@ -207,19 +249,13 @@ class _PostStats extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8.0),
-            // Text(
-            //   '${post.shares} Shares',
-            //   style: TextStyle(
-            //     color: kColorButton,
-            //   ),
-            // )
           ],
         ),
         const Divider(),
         Row(
           children: [
             _PostButton(
-                icon: check != 'true'
+                icon: isLiked
                     ? Icon(
                         Icons.thumb_up,
                         color: kPrimaryColor,
@@ -232,11 +268,10 @@ class _PostStats extends StatelessWidget {
                       ),
                 label: Text('Thích',
                     style: TextStyle(
-                        color: check != 'true'
-                            ? kPrimaryColor
-                            : kColorTextNormal)),
+                        color: isLiked ? kPrimaryColor : kColorTextNormal)),
                 onTap: () {
-                  print("Thich");
+                  print("Thích");
+                  _like();
                 }),
             _PostButton(
               icon: Icon(
@@ -245,21 +280,8 @@ class _PostStats extends StatelessWidget {
                 size: 20.0,
               ),
               label: Text('Bình luận'),
-              onTap: () => showCommentSheet(context, [
-                CommentContainer(
-
-                )
-              ]),
+              onTap: () => showCommentSheet(context, [CommentContainer()]),
             ),
-            // _PostButton(
-            //   icon: Icon(
-            //     MdiIcons.shareOutline,
-            //     color: kColorButton,
-            //     size: 25.0,
-            //   ),
-            //   label: 'Share',
-            //   onTap: () => print('Share'),
-            // )
           ],
         ),
       ],
