@@ -14,16 +14,16 @@ class NavScreen extends StatefulWidget {
 class _NavScreenState extends State<NavScreen> {
   final List<Widget> _screens = [
     HomeScreen(),
+    FriendsTab(),
     Scaffold(),
+    ProfileTab(),
     Scaffold(),
-    Scaffold(),
-    Scaffold(),
-    Scaffold(),
+    MenuTab(),
   ];
   final List<IconData> _icons = const [
     Icons.home,
-    Icons.ondemand_video,
     MdiIcons.accountGroupOutline,
+    Icons.ondemand_video,
     MdiIcons.accountCircleOutline,
     MdiIcons.bellOutline,
     Icons.menu,
