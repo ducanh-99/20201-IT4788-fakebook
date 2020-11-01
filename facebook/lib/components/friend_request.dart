@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 
 class FriendRequest extends StatefulWidget {
-  User user;
+  // User user;
 
   @override
   State<StatefulWidget> createState() {
