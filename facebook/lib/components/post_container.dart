@@ -9,6 +9,7 @@ import 'package:facebook/components/components.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class PostContainer extends StatelessWidget {
   final Post post;
@@ -69,7 +70,6 @@ class PostContainer extends StatelessWidget {
 
 class _PostHeader extends StatelessWidget {
   final Post post;
-
   const _PostHeader({
     Key key,
     @required this.post,
@@ -77,6 +77,8 @@ class _PostHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var timeAgo = DateTime.parse(post.createDate) ;
+    timeago.setLocaleMessages('vi', timeago.ViShortMessages());
     return Row(
       children: [
         ProfileAvatar(avatar: post.user.avatar),
@@ -94,7 +96,7 @@ class _PostHeader extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    '${post.timeAgo} • ',
+                    '${timeago.format(timeAgo, locale: 'vi')} • ',
                     style: TextStyle(
                       color: kColorButton,
                       fontSize: 12.0,

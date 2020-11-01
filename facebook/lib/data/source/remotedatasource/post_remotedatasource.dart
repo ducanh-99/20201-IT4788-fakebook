@@ -61,6 +61,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
           likes: 1203,
           isliked: true,
           comments: 184,
+          createDate: post['creation_date']
         ));
       }).toList();
       print('Get thanh cong');

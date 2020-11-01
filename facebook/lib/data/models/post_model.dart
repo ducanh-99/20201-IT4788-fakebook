@@ -12,6 +12,7 @@ class Post {
   final int likes;
   final int comments;
   final String caption;
+  final String createDate;
   Post({
     this.id,
     this.user,
@@ -23,6 +24,7 @@ class Post {
     this.likes,
     this.comments,
     this.caption,
+    this.createDate,
   });
   Map<String, dynamic> toJSON() => {
         'username': username,
@@ -32,5 +34,6 @@ class Post {
         'is_liked': isliked,
         'like': likes,
         'comment': comments,
+        'createDate': createDate,
       };
 }

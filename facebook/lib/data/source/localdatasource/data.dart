@@ -25,14 +25,14 @@ final User friendUser = User(
 // postBloc.getAllPost();
 List<Post> posts = [
   Post(
-    user: friendUser,
-    described: '',
-    username: 'Manh',
-    timeAgo: '',
-    imageUrl: '',
-    likes: 1203,
-    isliked: true,
-    comments: 184,
-  )
+      user: friendUser,
+      described: '',
+      username: 'Manh',
+      timeAgo: '',
+      imageUrl: '',
+      likes: 1203,
+      isliked: true,
+      comments: 184,
+      createDate: '2020-10-29T16:04:00.391+00:00')
 ];
 // final List<Post> posts = post_res;
