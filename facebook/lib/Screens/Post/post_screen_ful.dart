@@ -123,42 +123,64 @@ class _PostScreenState extends State<PostScreenFul> {
                 // controller: postContent,
               ),
               showEmojiPicker ? Container(child: emojiContainer()) : Container(),
-              Row(
-                children: [
-                  Icon(Icons.video_call, color: Colors.purple),
-                  Text("Tạo phòng họp mặt")
-                ],
+              Container(
+                height: 40.0,
+                child: Row(
+                  children: [
+                    Icon(Icons.video_call, color: Colors.purple),
+                    Text("Tạo phòng họp mặt")
+                  ],
+                ),
               ),
-              Row(
-                children: [
-                  Icon(Icons.photo_library , color: Colors.green),
-                  Text("Ảnh/Video")
-                ],
+              Container(
+                height: 40.0,
+                child: Row(
+                  children: [
+                    Icon(Icons.photo_library , color: Colors.green),
+                    Text("Ảnh/Video")
+                  ],
+                ),
               ),
-              Row(
-                children: [
-                  Icon(Icons.person_add, color: Colors.blue),
-                  Text("Gắn thẻ bạn bè")
-                ],
+
+              Container(
+                height: 40.0,
+                child: Row(
+                  children: [
+                    Icon(Icons.person_add, color: Colors.blue),
+                    Text("Gắn thẻ bạn bè")
+                  ],
+                ),
               ),
-              Row(
-                children: [
-                  Icon(Icons.emoji_emotions, color: Colors.yellowAccent),
-                  Text("Cảm xúc/Hoạt động")
-                ],
+
+              Container(
+                height: 40.0,
+                child: Row(
+                  children: [
+                    Icon(Icons.emoji_emotions, color: Colors.yellowAccent),
+                    Text("Cảm xúc/Hoạt động")
+                  ],
+                ),
               ),
-              Row(
-                children: [
-                  Icon(Icons.location_on, color: Colors.red),
-                  Text("Check in")
-                ],
+
+              Container(
+                height: 40.0,
+                child: Row(
+                  children: [
+                    Icon(Icons.location_on, color: Colors.red),
+                    Text("Check in")
+                  ],
+                ),
               ),
-              Row(
-                children: [
-                  Icon(Icons.videocam, color: Colors.red),
-                  Text("Phát trực tiếp")
-                ],
-              )
+
+              Container(
+                height: 40.0,
+                child: Row(
+                  children: [
+                    Icon(Icons.videocam, color: Colors.red),
+                    Text("Phát trực tiếp")
+                  ],
+                )
+              ),
             ],
           ),
         ),
