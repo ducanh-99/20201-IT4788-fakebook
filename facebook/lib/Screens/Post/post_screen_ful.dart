@@ -110,9 +110,55 @@ class _PostScreenState extends State<PostScreenFul> {
               TextField(
                 maxLines: 12,
                 keyboardType: TextInputType.multiline,
+                decoration: new InputDecoration(
+                    hintStyle: TextStyle(fontSize: 23.0),
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    contentPadding:
+                    EdgeInsets.only(left: 10, bottom: 0, top: 20, right: 0),
+                    hintText: "Bạn đang nghĩ gì?"),
                 // controller: postContent,
               ),
               showEmojiPicker ? Container(child: emojiContainer()) : Container(),
+              Row(
+                children: [
+                  Icon(Icons.video_call, color: Colors.purple),
+                  Text("Tạo phòng họp mặt")
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(Icons.photo_library , color: Colors.green),
+                  Text("Ảnh/Video")
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(Icons.person_add, color: Colors.blue),
+                  Text("Gắn thẻ bạn bè")
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(Icons.emoji_emotions, color: Colors.yellowAccent),
+                  Text("Cảm xúc/Hoạt động")
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(Icons.location_on, color: Colors.red),
+                  Text("Check in")
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(Icons.videocam, color: Colors.red),
+                  Text("Phát trực tiếp")
+                ],
+              )
             ],
           ),
         ),
