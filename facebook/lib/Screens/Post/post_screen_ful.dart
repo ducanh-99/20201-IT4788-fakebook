@@ -94,7 +94,19 @@ class _PostScreenState extends State<PostScreenFul> {
                               size: 16.0,
                             ),
                             Text(
-                              '  Công khai',
+                              '  Công khai  ',
+                              style: TextStyle(
+                                color: kColorButton,
+                                fontSize: 13.0,
+                              ),
+                            ),
+                            Icon(
+                              Icons.add,
+                              color: kColorButton,
+                              size: 16.0,
+                            ),
+                            Text(
+                              '  Album',
                               style: TextStyle(
                                 color: kColorButton,
                                 fontSize: 13.0,
@@ -110,9 +122,124 @@ class _PostScreenState extends State<PostScreenFul> {
               TextField(
                 maxLines: 12,
                 keyboardType: TextInputType.multiline,
+                decoration: new InputDecoration(
+                    hintStyle: TextStyle(fontSize: 23.0),
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    contentPadding:
+                    EdgeInsets.only(left: 10, bottom: 0, top: 20, right: 0),
+                    hintText: "Bạn đang nghĩ gì?"),
                 // controller: postContent,
               ),
               showEmojiPicker ? Container(child: emojiContainer()) : Container(),
+              Container(
+                height: 30.0,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Icon(Icons.unfold_more_rounded, color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 40.0,
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey)
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(left: 5.0, right: 10.0),
+                      child: Icon(Icons.video_call, color: Colors.purple),
+                    ),
+                    Text("Tạo phòng họp mặt", style: TextStyle(fontSize: 20.0))
+                  ],
+                ),
+              ),
+              Container(
+                height: 40.0,
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey)
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(left: 5.0, right: 10.0),
+                      child: Icon(Icons.photo_library , color: Colors.green),
+                    ),
+                    Text("Ảnh/Video", style: TextStyle(fontSize: 20.0))
+                  ],
+                ),
+              ),
+
+              Container(
+                height: 40.0,
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey)
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(left: 5.0, right: 10.0),
+                      child: Icon(Icons.person_add, color: Colors.blue),
+                    ),
+                    Text("Gắn thẻ bạn bè", style: TextStyle(fontSize: 20.0))
+                  ],
+                ),
+              ),
+
+              Container(
+                height: 40.0,
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey)
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(left: 5.0, right: 10.0),
+                      child: Icon(Icons.emoji_emotions, color: Colors.yellowAccent),
+                    ),
+                    Text("Cảm xúc/Hoạt động", style: TextStyle(fontSize: 20.0))
+                  ],
+                ),
+              ),
+
+              Container(
+                height: 40.0,
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey)
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(left: 5.0, right: 10.0),
+                      child: Icon(Icons.location_on, color: Colors.red),
+                    ),
+                    Text("Check in", style: TextStyle(fontSize: 20.0))
+                  ],
+                ),
+              ),
+
+              Container(
+                height: 40.0,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey)
+                  ),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(left: 5.0, right: 10.0),
+                      child: Icon(Icons.videocam, color: Colors.red),
+                    ),
+                    Text("Phát trực tiếp", style: TextStyle(fontSize: 20.0))
+                  ],
+                )
+              ),
             ],
           ),
         ),
