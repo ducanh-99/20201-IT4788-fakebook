@@ -6,12 +6,12 @@ import 'package:facebook/data/source/base/user_database.dart';
 import 'package:facebook/data/source/base/user_models.dart';
 import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:facebook/data/source/localdatasource/user_local_datasource.dart';
+import 'package:facebook/data/source/remotedatasource/post_remotedatasource.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:facebook/data/source/remotedatasource/post_remotedatasource.dart';
 import 'package:http/http.dart' as http;
-
-String avatar =
-    "https://images.unsplash.com/photo-1578133671540-edad0b3d689e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80";
 
 abstract class UserRemoteDatasource {
   apiRegister(User user, Function onSuccess, Function(String) onError);
@@ -22,6 +22,15 @@ abstract class UserRemoteDatasource {
 class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   @override
   apiRegister(User user, Function onSuccess, Function(String) onError) async {
+    print(user.firstName +
+        'a ' +
+        user.lastName +
+        'b ' +
+        user.birthday +
+        ' c' +
+        user.phone +
+        'd ' +
+        user.password);
     var response = http
         .post(
       "https://fakebook-20201.herokuapp.com/api/auth/signup",
@@ -40,6 +49,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
       print('success');
       var responseJson = json.decode(value.body);
       print(responseJson);
+
       onSuccess();
     }).catchError((error) {
       onError(error.message);
@@ -72,9 +82,10 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
         .then((value) async {
       var responseJson = json.decode(value.body);
       if (responseJson['code'] == 1000) {
+        avatar = ('https://fakebook-20201.herokuapp.com/api/get_avt/' +
+            responseJson['data']['id']);
+        print(avatar);
         DatabaseProvider database = await DatabaseProvider.databaseProvider;
-        // await database.deleteDB();
-        // print('b');
         UserLocalDatasource _userLocalDatasource;
         UserModels userModel = UserModels(
             userId: responseJson['data']['id'],
@@ -87,15 +98,11 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
             token: responseJson['data']['token'],
             avatar: avatar);
         await database.addUser(userModel, avatar);
-        // UserModels _userModels = await database.getUser();
-        // print(_userModels.runtimeType);
-        // UserLocalDatasource _userLocalDatasource =
-        //     new UserLocalDatasourceImpl();
-        // UserModels _userModels = await _userLocalDatasource.getLocalUser();
-        // print(_userModels.avatar.runtimeType);
         UserLocal_bloc userLocalBloc = UserLocal_bloc();
         await userLocalBloc.setCurrentUser();
         print(currentUser.username);
+        PostRemoteDatasourceImpl test = PostRemoteDatasourceImpl();
+        await test.apiGetAllPost();
         onSuccess();
       } else {
         print('no login');

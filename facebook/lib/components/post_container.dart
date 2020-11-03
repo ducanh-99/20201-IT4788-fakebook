@@ -10,6 +10,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:facebook/data/source/localdatasource/local_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:facebook/bloc/post_bloc.dart';
 
 class PostContainer extends StatelessWidget {
   final Post post;
@@ -77,7 +78,7 @@ class _PostHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var timeAgo = DateTime.parse(post.createDate) ;
+    var timeAgo = DateTime.parse(post.createDate);
     timeago.setLocaleMessages('vi', timeago.ViShortMessages());
     return Row(
       children: [
@@ -189,6 +190,7 @@ class _PostBodyState extends State<_PostBodyStateful> {
   final Post post;
   bool isLiked;
   int likes;
+  PostBloc postBloc = PostBloc();
 
   _PostBodyState(this.post);
 
@@ -200,6 +202,11 @@ class _PostBodyState extends State<_PostBodyStateful> {
   }
 
   void _like() {
+    if (!isLiked) {
+      postBloc.likePost(post.id);
+    } else {
+      postBloc.unlikePost(post.id);
+    }
     setState(() {
       isLiked = !isLiked;
       if (isLiked) {
@@ -271,19 +278,20 @@ class _PostBodyState extends State<_PostBodyStateful> {
                 label: Text('Thích',
                     style: TextStyle(
                         color: isLiked ? kPrimaryColor : kColorTextNormal)),
-                onTap: () {
-                  print("Thích");
+                onTap: () async {
                   _like();
                 }),
             _PostButton(
-              icon: Icon(
-                MdiIcons.commentOutline,
-                color: kColorButton,
-                size: 20.0,
-              ),
-              label: Text('Bình luận'),
-              onTap: () => showCommentSheet(context, [CommentContainer()]),
-            ),
+                icon: Icon(
+                  MdiIcons.commentOutline,
+                  color: kColorButton,
+                  size: 20.0,
+                ),
+                label: Text('Bình luận'),
+                onTap: () {
+                  print(isLiked);
+                  showCommentSheet(context, [CommentContainer()]);
+                }),
           ],
         ),
       ],

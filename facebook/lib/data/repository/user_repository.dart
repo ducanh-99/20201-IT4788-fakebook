@@ -11,6 +11,7 @@ abstract class UserRepository {
   signIn(String phone, String password, Function onSuccess,
       Function(String) onError);
   setCurrentUser();
+  logOut();
 }
 
 class UserRepositoryImpl extends UserRepository {
@@ -33,5 +34,11 @@ class UserRepositoryImpl extends UserRepository {
   setCurrentUser() async {
     // TODO: implement setCurrentUser
     await _userLocalDatasource.setLocalUser();
+  }
+
+  @override
+  logOut() async {
+    // TODO: implement logOut
+    await _userLocalDatasource.logOut();
   }
 }

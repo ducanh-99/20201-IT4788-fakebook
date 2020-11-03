@@ -12,12 +12,12 @@ class User {
   String id;
 
   User(
-      {@required this.username,
-      @required this.lastName,
-      @required this.firstName,
-      @required this.phone,
-      @required this.password,
-      @required this.birthday,
+      {this.username,
+      this.lastName,
+      this.firstName,
+      this.phone,
+      this.password,
+      this.birthday,
       this.avatar,
       this.email,
       this.id});

@@ -8,17 +8,25 @@ import 'package:facebook/constants.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
 import 'package:facebook/data/source/base/user_database.dart';
 import 'package:facebook/data/source/remotedatasource/post_remotedatasource.dart';
+import 'package:facebook/data/source/remotedatasource/friend_remotedatasource.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // DatabaseProvider database = await DatabaseProvider.databaseProvider;
   // await database.deleteDB();
   // print('b');
-  PostRemoteDatasourceImpl test = PostRemoteDatasourceImpl();
-  await test.apiGetAllPost();
-  print("Anascsacsa");
   UserLocal_bloc userLocalBloc = UserLocal_bloc();
   await userLocalBloc.setCurrentUser();
+
+  if (currentUser != null) {
+    print(currentUser.avatar);
+    print(currentUser.id);
+    print(token);
+    PostRemoteDatasourceImpl test = PostRemoteDatasourceImpl();
+    FriendRemotedatasourceImpl check = FriendRemotedatasourceImpl();
+    check.apiGetFreindRequest();
+    await test.apiGetAllPost();
+  }
   runApp(MyApp());
 }
 

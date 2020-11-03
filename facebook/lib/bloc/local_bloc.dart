@@ -11,4 +11,8 @@ class UserLocal_bloc {
   setCurrentUser() async {
     await _userRepositoryImpl.setCurrentUser();
   }
+
+  logOut() async {
+    await _userRepositoryImpl.logOut();
+  }
 }

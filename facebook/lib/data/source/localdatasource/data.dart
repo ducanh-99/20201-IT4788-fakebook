@@ -26,7 +26,7 @@ final User friendUser = User(
 List<Post> posts = [
   Post(
       user: friendUser,
-      described: '',
+      described: token,
       username: 'Manh',
       timeAgo: '',
       imageUrl: '',
@@ -36,3 +36,4 @@ List<Post> posts = [
       createDate: '2020-10-29T16:04:00.391+00:00')
 ];
 // final List<Post> posts = post_res;
+List<User> friends;

@@ -5,6 +5,7 @@ import 'package:facebook/data/source/localdatasource/local_data.dart';
 
 abstract class UserLocalDatasource {
   setLocalUser();
+  logOut();
 }
 
 class UserLocalDatasourceImpl implements UserLocalDatasource {
@@ -21,10 +22,18 @@ class UserLocalDatasourceImpl implements UserLocalDatasource {
           phone: _userModels.phone,
           password: null,
           birthday: _userModels.birthday,
-          avatar: _userModels.avatar);
+          avatar: _userModels.avatar,
+          id: _userModels.userId);
       token = _userModels.token;
     } else {
       print('null');
     }
+  }
+
+  @override
+  logOut() async {
+    // TODO: implement logOut
+    DatabaseProvider database = await DatabaseProvider.databaseProvider;
+    await database.deleteDB();
   }
 }

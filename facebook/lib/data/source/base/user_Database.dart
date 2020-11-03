@@ -46,7 +46,8 @@ class DatabaseProvider {
 
   //delete the database
   Future deleteDB() async {
-    return deleteDatabase(join(await getDatabasesPath(), DB_NAME));
+    final db = await database;
+    return db.execute('DELETE FROM user');
   }
 
   Future<int> addUser(UserModels user, String avatar) async {

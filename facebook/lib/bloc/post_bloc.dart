@@ -7,11 +7,21 @@ import 'package:facebook/data/source/remotedatasource/post_remotedatasource.dart
 import 'package:facebook/data/source/localdatasource/post_local_datasource.dart';
 
 class PostBloc {
-  PostRepository _postRepositoryImpl = PostRepositoryImpl(PostLocalDatasourceImpl() , PostRemoteDatasourceImpl());
-  void getAllPost(){
+  PostRepository _postRepositoryImpl =
+      PostRepositoryImpl(PostLocalDatasourceImpl(), PostRemoteDatasourceImpl());
+  void getAllPost() {
     _postRepositoryImpl.getAllPost();
   }
-  void uploadPost(String token,String described){
+
+  void uploadPost(String token, String described) {
     _postRepositoryImpl.uploadPost(token, described);
+  }
+
+  Future<bool> likePost(String postID) {
+    return _postRepositoryImpl.likePost(postID);
+  }
+
+  Future<bool> unlikePost(String postID) {
+    return _postRepositoryImpl.unlikePost(postID);
   }
 }
