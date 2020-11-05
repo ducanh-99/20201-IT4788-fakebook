@@ -6,8 +6,9 @@ abstract class FriendRespository {
 
 class FriendResposityImpl implements FriendRespository {
   FriendRemotedatasource _friendRemotedatasource;
+  FriendResposityImpl(this._friendRemotedatasource);
   @override
-  apiGetRequestFriend() {
-    _friendRemotedatasource.apiGetFreindRequest();
+  apiGetRequestFriend() async {
+    await _friendRemotedatasource.apiGetFreindRequest();
   }
 }

@@ -14,20 +14,25 @@ abstract class FriendRemotedatasource {
 class FriendRemotedatasourceImpl implements FriendRemotedatasource {
   @override
   apiGetFreindRequest() async {
-    var respose = await http
-        .get('https://fakebook-20201.herokuapp.com/api/friend/listrequest' +
-            currentUser.id)
-        .then((value) {
-      print('success');
+    print(currentUser.id);
+    var respose = await http.get(
+      'https://fakebook-20201.herokuapp.com/api/friend/listrequest/' +
+          currentUser.id,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    ).then((value) {
       var responseJson = json.decode(value.body);
-      print(responseJson);
       responseJson.map((post) {
-        friends.add(User(
+        listFriends.add(User(
           avatar: ('https://fakebook-20201.herokuapp.com/api/get_avt/' +
               responseJson['data']['user']['id']),
           username: responseJson['data']['username'],
         ));
       }).toList();
+      print(listFriends);
       print('Get thanh cong');
     }).catchError((error) {
       print('Error');

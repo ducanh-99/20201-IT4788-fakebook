@@ -1,3 +1,4 @@
+import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
 import 'package:facebook/data/models/models.dart';
@@ -57,10 +58,16 @@ class _NavScreenState extends State<NavScreen> {
                 padding: const EdgeInsets.only(bottom: 12.0),
                 color: Colors.white,
                 child: CustomTabBar(
-                  icons: _icons,
-                  selectedIndex: _selectedIndex,
-                  onTap: (index) => setState(() => _selectedIndex = index),
-                ),
+                    icons: _icons,
+                    selectedIndex: _selectedIndex,
+                    onTap: (index) async {
+                      if (index == 1) {
+                        Friend_Bloc friend_bloc = Friend_Bloc();
+                        await friend_bloc.apiGetRequestFriend();
+                        print(listFriends);
+                      }
+                      setState(() => _selectedIndex = index);
+                    }),
               )
             : const SizedBox.shrink(),
       ),

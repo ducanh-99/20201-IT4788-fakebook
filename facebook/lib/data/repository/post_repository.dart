@@ -10,7 +10,6 @@ import 'package:facebook/data/source/remotedatasource/user_remotedatasource.dart
 import 'package:facebook/data/source/remotedatasource/post_remotedatasource.dart';
 
 abstract class PostRepository {
-  List<Post> posts;
   getAllPost();
   uploadPost(String token, String described);
   Future<bool> likePost(String postID);
@@ -23,24 +22,24 @@ class PostRepositoryImpl extends PostRepository {
   PostRepositoryImpl(this._postLocalDatasource, this._postRemoteDatasource);
 
   @override
-  getAllPost() {
-    _postRemoteDatasource.apiGetAllPost();
+  getAllPost() async {
+    await _postRemoteDatasource.apiGetAllPost();
   }
 
   @override
-  uploadPost(String token, String described) {
-    _postRemoteDatasource.apiUploadPost(token, described);
+  uploadPost(String token, String described) async {
+    await _postRemoteDatasource.apiUploadPost(token, described);
   }
 
   @override
   Future<bool> likePost(String postID) async {
     // TODO: implement likePostR
-    return _postRemoteDatasource.apiLikePost(postID);
+    await _postRemoteDatasource.apiLikePost(postID);
   }
 
   @override
-  Future<bool> unlikePost(String postID) {
+  Future<bool> unlikePost(String postID) async {
     // TODO: implement unlikePost
-    _postRemoteDatasource.apiUnlikePost(postID);
+    await _postRemoteDatasource.apiUnlikePost(postID);
   }
 }

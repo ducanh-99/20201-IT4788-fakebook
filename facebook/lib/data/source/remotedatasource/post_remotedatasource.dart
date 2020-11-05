@@ -40,11 +40,14 @@ final User friendUser = User(
 class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   @override
   apiGetAllPost() async {
-    var response = await http
-        .get(
+    var response = await http.get(
       "https://fakebook-20201.herokuapp.com/api/post",
-    )
-        .then((value) async {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    ).then((value) async {
       print('success');
       var responseJson = json.decode(value.body);
       print(responseJson);

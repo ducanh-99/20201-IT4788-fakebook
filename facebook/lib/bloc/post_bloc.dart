@@ -9,19 +9,19 @@ import 'package:facebook/data/source/localdatasource/post_local_datasource.dart'
 class PostBloc {
   PostRepository _postRepositoryImpl =
       PostRepositoryImpl(PostLocalDatasourceImpl(), PostRemoteDatasourceImpl());
-  void getAllPost() {
-    _postRepositoryImpl.getAllPost();
+  getAllPost() async {
+    await _postRepositoryImpl.getAllPost();
   }
 
-  void uploadPost(String token, String described) {
-    _postRepositoryImpl.uploadPost(token, described);
+  uploadPost(String token, String described) async {
+    await _postRepositoryImpl.uploadPost(token, described);
   }
 
-  Future<bool> likePost(String postID) {
-    return _postRepositoryImpl.likePost(postID);
+  Future<bool> likePost(String postID) async {
+    await _postRepositoryImpl.likePost(postID);
   }
 
-  Future<bool> unlikePost(String postID) {
-    return _postRepositoryImpl.unlikePost(postID);
+  Future<bool> unlikePost(String postID) async {
+    await _postRepositoryImpl.unlikePost(postID);
   }
 }

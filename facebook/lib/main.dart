@@ -1,6 +1,8 @@
 import 'package:facebook/Screens/Home/nav_screen.dart';
 import 'package:facebook/Screens/Login/login_screen.dart';
+import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:facebook/bloc/local_bloc.dart';
+import 'package:facebook/bloc/post_bloc.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/Screens/Welcome/welcome_screen.dart';
@@ -22,10 +24,14 @@ void main() async {
     print(currentUser.avatar);
     print(currentUser.id);
     print(token);
-    PostRemoteDatasourceImpl test = PostRemoteDatasourceImpl();
-    FriendRemotedatasourceImpl check = FriendRemotedatasourceImpl();
-    check.apiGetFreindRequest();
-    await test.apiGetAllPost();
+    PostBloc postBloc = PostBloc();
+    await postBloc.getAllPost();
+    // Friend_Bloc friend_bloc = Friend_Bloc();
+    // await friend_bloc.apiGetRequestFriend();
+    // PostRemoteDatasourceImpl test = PostRemoteDatasourceImpl();
+    // FriendRemotedatasourceImpl check = FriendRemotedatasourceImpl();
+    // await check.apiGetFreindRequest();
+    // await test.apiGetAllPost();
   }
   runApp(MyApp());
 }

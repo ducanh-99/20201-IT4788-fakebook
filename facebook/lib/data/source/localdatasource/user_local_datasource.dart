@@ -35,5 +35,6 @@ class UserLocalDatasourceImpl implements UserLocalDatasource {
     // TODO: implement logOut
     DatabaseProvider database = await DatabaseProvider.databaseProvider;
     await database.deleteDB();
+    currentUser = null;
   }
 }

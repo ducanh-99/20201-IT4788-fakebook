@@ -93,7 +93,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
             uuid: responseJson['data']['uuid'],
             firstname: responseJson['data']['firstname'],
             lastname: responseJson['data']['lastname'],
-            birthday: responseJson['data']['modified_date'],
+            birthday: responseJson['data']['birthday'],
             phone: responseJson['data']['phonenumber'],
             token: responseJson['data']['token'],
             avatar: avatar);

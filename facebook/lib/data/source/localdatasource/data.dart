@@ -36,4 +36,4 @@ List<Post> posts = [
       createDate: '2020-10-29T16:04:00.391+00:00')
 ];
 // final List<Post> posts = post_res;
-List<User> friends;
+List<User> listFriends;

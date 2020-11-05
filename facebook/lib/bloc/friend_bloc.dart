@@ -4,8 +4,10 @@ import 'dart:async';
 
 // ignore: camel_case_types
 class Friend_Bloc {
-  FriendRespository friendRespository;
-  apiGetRequestFriend() {
-    friendRespository.apiGetRequestFriend();
+  FriendRespository friendRespository =
+      FriendResposityImpl(FriendRemotedatasourceImpl());
+  apiGetRequestFriend() async {
+    print('a');
+    await friendRespository.apiGetRequestFriend();
   }
 }
