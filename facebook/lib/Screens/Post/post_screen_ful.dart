@@ -141,7 +141,7 @@ class _PostScreenState extends State<PostScreenFul> {
                     mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      child: Icon(Icons.unfold_more_rounded, color: Colors.grey),
+                      child: Icon(Icons.unfold_more, color: Colors.grey),
                     ),
                   ],
                 ),
@@ -202,7 +202,7 @@ class _PostScreenState extends State<PostScreenFul> {
                   children: [
                     Container(
                       margin: const EdgeInsets.only(left: 5.0, right: 10.0),
-                      child: Icon(Icons.emoji_emotions, color: Colors.yellowAccent),
+                      child: Icon(Icons.insert_emoticon, color: Colors.yellowAccent),
                     ),
                     Text("Cảm xúc/Hoạt động", style: TextStyle(fontSize: 20.0))
                   ],

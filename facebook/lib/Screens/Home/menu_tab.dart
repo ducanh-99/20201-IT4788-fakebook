@@ -27,7 +27,8 @@ class MenuTab extends StatelessWidget {
                 SizedBox(width: 15.0),
                 CircleAvatar(
                   radius: 25.0,
-                  backgroundImage: CachedNetworkImageProvider(avatar),
+                  backgroundImage:
+                      CachedNetworkImageProvider(currentUser.avatar),
                 ),
                 SizedBox(width: 20.0),
                 Column(

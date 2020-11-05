@@ -10,6 +10,8 @@ import '../../constants.dart';
 class ProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var birthday = DateTime.parse(currentUser.birthday);
+
     return SingleChildScrollView(
         child: Column(
       children: <Widget>[
@@ -37,7 +39,7 @@ class ProfileTab extends StatelessWidget {
                   CircleAvatar(
                     radius: 70.0,
                     backgroundColor: Colors.grey[200],
-                    backgroundImage: CachedNetworkImageProvider(avatar),
+                    backgroundImage: CachedNetworkImageProvider(currentUser.avatar),
                   ),
                   SizedBox(height: 20.0),
                   Text(currentUser.username,
@@ -54,7 +56,7 @@ class ProfileTab extends StatelessWidget {
                             color: Colors.blue,
                             borderRadius: BorderRadius.circular(5.0)),
                         child: Center(
-                            child: Text('Add to Story',
+                            child: Text('Thêm tin',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -85,17 +87,23 @@ class ProfileTab extends StatelessWidget {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  Icon(Icons.home, color: Colors.grey, size: 30.0),
+                  Icon(Icons.phone, color: Colors.grey, size: 30.0),
                   SizedBox(width: 10.0),
-                  Text('Lives in New York', style: TextStyle(fontSize: 16.0))
+                  Text(currentUser.phone, style: TextStyle(fontSize: 16.0))
                 ],
               ),
               SizedBox(height: 15.0),
               Row(
                 children: <Widget>[
-                  Icon(Icons.location_on, color: Colors.grey, size: 30.0),
+                  Icon(Icons.calendar_today, color: Colors.grey, size: 30.0),
                   SizedBox(width: 10.0),
-                  Text('From New York', style: TextStyle(fontSize: 16.0))
+                  Text(
+                      birthday.day.toString() +
+                          ' tháng ' +
+                          birthday.month.toString() +
+                          ', ' +
+                          birthday.year.toString(),
+                      style: TextStyle(fontSize: 16.0))
                 ],
               ),
               SizedBox(height: 15.0),
@@ -107,19 +115,24 @@ class ProfileTab extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 15.0),
-              Container(
-                height: 40.0,
-                decoration: BoxDecoration(
-                  color: Colors.lightBlueAccent.withOpacity(0.25),
-                  borderRadius: BorderRadius.circular(5.0),
+              InkWell(
+                child: Container(
+                  height: 40.0,
+                  decoration: BoxDecoration(
+                    color: Colors.lightBlueAccent.withOpacity(0.25),
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child: Center(
+                      child: Text('Chỉnh sửa thông tin',
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0))),
                 ),
-                child: Center(
-                    child: Text('Edit Public Details',
-                        style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0))),
-              ),
+                onTap: () {
+                  print("Edit Public Details");
+                },
+              )
             ],
           ),
         ),
@@ -135,7 +148,7 @@ class ProfileTab extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('Friends',
+                      Text('Bạn bè',
                           style: TextStyle(
                               fontSize: 22.0, fontWeight: FontWeight.bold)),
                       SizedBox(height: 6.0),
@@ -144,8 +157,13 @@ class ProfileTab extends StatelessWidget {
                               fontSize: 16.0, color: Colors.grey[800])),
                     ],
                   ),
-                  Text('Find Friends',
-                      style: TextStyle(fontSize: 16.0, color: Colors.blue)),
+                  InkWell(
+                    child: Text('Find Friends',
+                        style: TextStyle(fontSize: 16.0, color: Colors.blue)),
+                    onTap: () {
+                      print("Find friends");
+                    },
+                  )
                 ],
               ),
               Padding(
@@ -268,20 +286,23 @@ class ProfileTab extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 15.0),
-                height: 40.0,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(5.0),
+              InkWell(
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  height: 40.0,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child: Center(
+                      child: Text('Xem tất cả bạn bè',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0))),
                 ),
-                child: Center(
-                    child: Text('See All Friends',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0))),
-              ),
+                onTap: () => print("All friends"),
+              )
             ],
           ),
         ),
