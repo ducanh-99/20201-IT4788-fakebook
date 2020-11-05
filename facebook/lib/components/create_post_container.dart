@@ -1,5 +1,6 @@
 import 'package:facebook/Screens/Post/post_screen.dart';
 import 'package:facebook/Screens/Post/post_screen_ful.dart';
+import 'package:facebook/components/write_post.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/components/home_widget.dart';
@@ -29,19 +30,55 @@ class CreatePostContainer extends StatelessWidget {
               children: [
                 ProfileAvatar(avatar: currentUser.avatar),
                 const SizedBox(width: 8.0),
-                Expanded(
-                  child: TextField(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return PostScreenFul(post: post);
-                      }));
-                    },
-                    decoration: InputDecoration.collapsed(
-                      hintText: 'Bạn đang nghĩ gì?',
-                    ),
-                  ),
-                )
+                // Expanded(
+                //   child: TextField(
+                //     onTap: () {
+                //       Navigator.push(context,
+                //           MaterialPageRoute(builder: (context) {
+                //         return PostScreenFul(post: post);
+                //       }));
+                //     },
+                //     decoration: InputDecoration.collapsed(
+                //       hintText: 'Bạn đang nghĩ gì?',
+                //     ),
+                //   ),
+                // )
+                // Container(
+                //   padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                //   height: 40.0,
+                //   width: MediaQuery.of(context).size.width/1.4,
+                //   decoration: BoxDecoration(
+                //       border: Border.all(
+                //           width: 1.0,
+                //           color: Colors.grey[400]
+                //       ),
+                //       borderRadius: BorderRadius.circular(30.0)
+                //   ),
+                //   child: Text('Write something here...'),
+                // )
+                // InkWell(
+                //   child: Container(
+                //     padding:
+                //         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                //     height: 45.0,
+                //     width: MediaQuery.of(context).size.width / 1.4,
+                //     decoration: BoxDecoration(
+                //         border: Border.all(width: 1.0, color: Colors.grey[400]),
+                //         borderRadius: BorderRadius.circular(30.0)),
+                //     child: Text('Bạn đang nghĩ gì?',
+                //         style: TextStyle(color: Colors.black, fontSize: 16.0)),
+                //   ),
+                //   onTapDown: (_) {
+                //     print("Tap down");
+                //   },
+                //   onTap: () {
+                //     Navigator.push(context,
+                //         MaterialPageRoute(builder: (context) {
+                //       return PostScreenFul(post: post);
+                //     }));
+                //   },
+                // )
+                WritePost()
               ],
             ),
             const Divider(height: 10.0, thickness: 0.5),
