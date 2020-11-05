@@ -23,17 +23,6 @@ final User friendUser = User(
 // Future<List<Post>> posts = test.apiGetAllPost();
 // PostBloc postBloc = PostBloc();
 // postBloc.getAllPost();
-List<Post> posts = [
-  Post(
-      user: friendUser,
-      described: token,
-      username: 'Manh',
-      timeAgo: '',
-      imageUrl: '',
-      likes: 1203,
-      isliked: true,
-      comments: 184,
-      createDate: '2020-10-29T16:04:00.391+00:00')
-];
+List<Post> posts = [];
 // final List<Post> posts = post_res;
-List<User> listFriends;
+List<User> listFriends ;

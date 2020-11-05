@@ -79,17 +79,18 @@ class _PostHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var timeAgo = DateTime.parse(post.createDate);
+    var avt = 'http://fakebook-20201.herokuapp.com/api/get_avt/'+ post.userid;
     timeago.setLocaleMessages('vi', timeago.ViShortMessages());
     return Row(
       children: [
-        ProfileAvatar(avatar: post.user.avatar),
+        ProfileAvatar(avatar: avt),
         const SizedBox(width: 8.0),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                post.user.username,
+                post.username,
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                 ),
@@ -117,7 +118,7 @@ class _PostHeader extends StatelessWidget {
           icon: const Icon(Icons.more_horiz),
           onPressed: () => showModal(
               context,
-              post.user.id == currentUser.id
+              post.userid == currentUser.id
                   ? [
                       ListTile(
                         leading: Icon(Icons.edit),
