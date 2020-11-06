@@ -200,12 +200,13 @@ class _PostBodyState extends State<_PostBodyStateful> {
   PostBloc postBloc = PostBloc();
 
   _PostBodyState(this.post);
-
+  int comments;
   @override
   void initState() {
     super.initState();
     isLiked = post.isliked;
     likes = post.likes;
+    comments = post.comments;
   }
 
   void _like() {
@@ -230,6 +231,8 @@ class _PostBodyState extends State<_PostBodyStateful> {
       children: [
         Row(
           children: [
+            likes == 0 ?
+            Container() :
             Container(
               padding: const EdgeInsets.all(4.0),
               decoration: BoxDecoration(
@@ -243,23 +246,25 @@ class _PostBodyState extends State<_PostBodyStateful> {
               ),
             ),
             const SizedBox(width: 4.0),
+            likes == 0 ?
+            Container() :
             Expanded(
               child: isLiked
                   ? Text(
-                      'Bạn và ${likes - 1} người khác ',
+                likes - 1 == 0? currentUser.username : 'Bạn và ${likes - 1} người khác ',
                       style: TextStyle(
                         color: kColorButton,
                       ),
                     )
                   : Text(
-                      '${likes}',
+                      '$likes',
                       style: TextStyle(
                         color: kColorButton,
                       ),
                     ),
             ),
             Text(
-              '${post.comments} Bình luận',
+             comments == 0 ? '' : '${post.comments} Bình luận',
               style: TextStyle(
                 color: kColorButton,
               ),
