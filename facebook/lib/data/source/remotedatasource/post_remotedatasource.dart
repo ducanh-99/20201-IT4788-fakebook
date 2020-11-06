@@ -53,9 +53,10 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       print(responseJson);
       responseJson.map((post) {
         posts.add(Post(
-          user: friendUser,
+          // user: friendUser,
           described: post['described'],
-          username: 'Manh',
+          userid: post['owner']['user'],
+          username: post['owner']['username'],
           timeAgo: '',
           imageUrl: '',
           likes: post['like'],

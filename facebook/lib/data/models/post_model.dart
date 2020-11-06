@@ -3,7 +3,8 @@ import 'package:facebook/data/models/models.dart';
 
 class Post {
   final String id;
-  final User user;
+  // final User user;
+  final String userid;
   final String username;
   final String described;
   final String timeAgo;
@@ -15,7 +16,8 @@ class Post {
   final String createDate;
   Post({
     this.id,
-    this.user,
+    // this.user,
+    this.userid,
     this.username,
     this.described,
     this.timeAgo,

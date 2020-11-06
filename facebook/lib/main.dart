@@ -19,7 +19,6 @@ void main() async {
   // print('b');
   UserLocal_bloc userLocalBloc = UserLocal_bloc();
   await userLocalBloc.setCurrentUser();
-
   if (currentUser != null) {
     print(currentUser.avatar);
     print(currentUser.id);

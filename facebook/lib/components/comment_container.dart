@@ -76,7 +76,7 @@ class _CommentHeader extends StatelessWidget {
               ),
               Text(
                 '${comment.content}',
-                style: TextStyle(
+                style: TextStyle( 
                   color: kColorButton,
                   fontSize: 16.0,
                 ),

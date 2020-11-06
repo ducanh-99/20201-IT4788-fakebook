@@ -8,12 +8,12 @@ import 'package:facebook/data/source/localdatasource/user_local_datasource.dart'
 import 'package:facebook/data/source/localdatasource/local_data.dart';
 
 abstract class FriendRemotedatasource {
-  apiGetFreindRequest();
+  apiGetFriendRequest();
 }
 
 class FriendRemotedatasourceImpl implements FriendRemotedatasource {
   @override
-  apiGetFreindRequest() async {
+  apiGetFriendRequest() async {
     print(currentUser.id);
     var respose = await http.get(
       'https://fakebook-20201.herokuapp.com/api/friend/listrequest/' +
@@ -25,6 +25,7 @@ class FriendRemotedatasourceImpl implements FriendRemotedatasource {
       },
     ).then((value) {
       var responseJson = json.decode(value.body);
+      listFriends =null;
       responseJson.map((post) {
         listFriends.add(User(
           avatar: ('https://fakebook-20201.herokuapp.com/api/get_avt/' +
@@ -32,6 +33,7 @@ class FriendRemotedatasourceImpl implements FriendRemotedatasource {
           username: responseJson['data']['username'],
         ));
       }).toList();
+
       print(listFriends);
       print('Get thanh cong');
     }).catchError((error) {

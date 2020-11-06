@@ -61,12 +61,13 @@ class _NavScreenState extends State<NavScreen> {
                     icons: _icons,
                     selectedIndex: _selectedIndex,
                     onTap: (index) async {
+
+                      setState(() => _selectedIndex = index);
                       if (index == 1) {
                         Friend_Bloc friend_bloc = Friend_Bloc();
                         await friend_bloc.apiGetRequestFriend();
                         print(listFriends);
                       }
-                      setState(() => _selectedIndex = index);
                     }),
               )
             : const SizedBox.shrink(),

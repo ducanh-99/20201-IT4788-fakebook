@@ -1,3 +1,4 @@
+import 'package:facebook/bloc/post_bloc.dart';
 import 'package:facebook/components/home_widget.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
@@ -15,10 +16,11 @@ class PostScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController postContent = new TextEditingController();
-    postContent.text = post.caption != null ? post.caption : "";
+    postContent.text = post.described != null ? post.described : "";
     Size size = MediaQuery.of(context).size;
     var emojiHeart = parser.info('heart');
-
+    PostBloc postBloc =PostBloc();
+    var described = '';
     //
     // FocusNode textFieldFocus = FocusNode();
     // showKeyboard() => textFieldFocus.requestFocus();
@@ -50,7 +52,9 @@ class PostScreen extends StatelessWidget {
             style:
                 TextStyle(fontWeight: FontWeight.bold, color: kColorTextNormal),
           ),
-          onPressed: () => print('ĐĂNG'),
+          onPressed: () => {
+            postBloc.uploadPost(token, described)
+          },
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -102,6 +106,9 @@ class PostScreen extends StatelessWidget {
                 maxLines: 12,
                 keyboardType: TextInputType.multiline,
                 controller: postContent,
+                onChanged: (value) {
+                  described = value;
+                },
               )
             ],
           ),
