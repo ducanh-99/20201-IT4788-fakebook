@@ -15,9 +15,8 @@ class FriendRemotedatasourceImpl implements FriendRemotedatasource {
   @override
   apiGetFriendRequest() async {
     print(currentUser.id);
-    var respose = await http.get(
-      'https://fakebook-20201.herokuapp.com/api/friend/listrequest/' +
-          currentUser.id,
+    var response = await http.get(
+      'https://fakebook-20201.herokuapp.com/api/friend/listrequest',
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',

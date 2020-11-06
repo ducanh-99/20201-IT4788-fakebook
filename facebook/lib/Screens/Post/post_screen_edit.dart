@@ -1,4 +1,5 @@
 import 'package:emoji_picker/emoji_picker.dart';
+import 'package:facebook/bloc/post_bloc.dart';
 import 'package:facebook/components/home_widget.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
@@ -21,7 +22,8 @@ class PostScreenEdit extends StatefulWidget {
 class _PostScreenEditState extends State<PostScreenEdit> {
   TextEditingController textFieldController = TextEditingController();
   // FirebaseRepository _repository = FirebaseRepository();
-
+  PostBloc _postBloc = PostBloc();
+  var described ='';
   ScrollController _listScrollController = ScrollController();
 
   FocusNode textFieldFocus = FocusNode();
@@ -45,21 +47,20 @@ class _PostScreenEditState extends State<PostScreenEdit> {
       showEmojiPicker = true;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: BackAppbarButton(
-        text: Text('Tạo bài viết',
+        text: Text('Sửa bài viết',
             style: TextStyle(color: kColorTextNormal, fontSize: 16)),
         button: FlatButton(
           child: new Text(
-            "ĐĂNG",
+            "Cập nhật bài viết",
             style:
             TextStyle(fontWeight: FontWeight.bold, color: kColorTextNormal),
           ),
-          onPressed: () => print('ĐĂNG'),
+          onPressed: () => print("Sửa bài viết"),
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -132,6 +133,9 @@ class _PostScreenEditState extends State<PostScreenEdit> {
                     contentPadding:
                     EdgeInsets.only(left: 10, bottom: 0, top: 20, right: 0),
                     hintText: "Bạn đang nghĩ gì?"),
+                onChanged: (value) {
+                  described = value;
+                },
                 // controller: postContent,
               ),
               showEmojiPicker ? Container(child: emojiContainer()) : Container(),

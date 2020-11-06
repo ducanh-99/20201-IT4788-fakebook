@@ -44,16 +44,16 @@ class PostScreen extends StatelessWidget {
     return SafeArea(
         child: Scaffold(
       body: BackAppbarButton(
-        text: Text('Tạo bài viết',
+        text: Text('Sửa bài viết',
             style: TextStyle(color: kColorTextNormal, fontSize: 16)),
         button: FlatButton(
           child: new Text(
-            "ĐĂNG",
+            "Cập nhật bài viết",
             style:
                 TextStyle(fontWeight: FontWeight.bold, color: kColorTextNormal),
           ),
           onPressed: () => {
-            postBloc.uploadPost(token, described)
+            postBloc.updatePost(post.id, described)
           },
         ),
         child: SingleChildScrollView(

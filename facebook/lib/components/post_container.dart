@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook/Screens/Post/post_screen.dart';
+import 'package:facebook/Screens/Post/post_screen_edit.dart';
+import 'package:facebook/Screens/Post/post_screen_ful.dart';
 import 'package:facebook/components/comment_container.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
@@ -70,6 +72,7 @@ class PostContainer extends StatelessWidget {
 }
 
 class _PostHeader extends StatelessWidget {
+
   final Post post;
   const _PostHeader({
     Key key,
@@ -78,6 +81,7 @@ class _PostHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PostBloc _postBloc = PostBloc();
     var timeAgo = DateTime.parse(post.createDate);
     var avt = 'http://fakebook-20201.herokuapp.com/api/get_avt/'+ post.userid;
     timeago.setLocaleMessages('vi', timeago.ViShortMessages());
@@ -136,7 +140,9 @@ class _PostHeader extends StatelessWidget {
                       ListTile(
                         leading: Icon(Icons.delete),
                         title: Text('Xóa bài viết'),
-                        onTap: () => print('xóa bài viết'),
+                        onTap: () => {
+                          _postBloc.deletePost(post.id)
+                        },
                       ),
                     ]
                   : [

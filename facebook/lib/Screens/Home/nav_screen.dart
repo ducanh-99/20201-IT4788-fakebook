@@ -1,4 +1,5 @@
 import 'package:facebook/bloc/friend_bloc.dart';
+import 'package:facebook/bloc/post_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
 import 'package:facebook/data/models/models.dart';
@@ -67,6 +68,11 @@ class _NavScreenState extends State<NavScreen> {
                         Friend_Bloc friend_bloc = Friend_Bloc();
                         await friend_bloc.apiGetRequestFriend();
                         print(listFriends);
+                      }
+                      if( index ==0) {
+                        PostBloc postBloc = PostBloc();
+                        await postBloc.getAllPost();
+                        print("Cap nhat trang chu");
                       }
                     }),
               )

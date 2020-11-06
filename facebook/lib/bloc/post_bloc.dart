@@ -24,4 +24,10 @@ class PostBloc {
   Future<bool> unlikePost(String postID) async {
     await _postRepositoryImpl.unlikePost(postID);
   }
+  updatePost(String postId,String described) async {
+    await _postRepositoryImpl.updatePost(postId, described);
+  }
+  deletePost(String postId) async {
+    await _postRepositoryImpl.deletePost(postId);
+  }
 }
