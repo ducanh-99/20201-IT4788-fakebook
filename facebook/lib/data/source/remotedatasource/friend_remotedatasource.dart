@@ -28,13 +28,20 @@ class FriendRemotedatasourceImpl implements FriendRemotedatasource {
       listFriends =[];
       if(responseJson['data'].length > 0) {
         print('1');
-        responseJson.map((post) {
+        // responseJson['data'].map((info)  {
+
+        //   print(info['user']);
+        //   print(info['username']);
+
+        // });
+        var obj = responseJson['data'];
+        for( var info in obj){
+          var avt = 'https://fakebook-20201.herokuapp.com/api/get_avt/' + info['user'];
           listFriends.add(User(
-            avatar: ('https://fakebook-20201.herokuapp.com/api/get_avt/' +
-                responseJson['data']['user']),
-            username: responseJson['data']['username'],
+            avatar: avt,
+            username: info['username'],
           ));
-        });
+        }
       }
       print(listFriends);
       print('Get thanh cong');
