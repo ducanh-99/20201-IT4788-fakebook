@@ -8,151 +8,85 @@ class FriendsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text('Bạn bè', style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold)),
-            SizedBox(height: 15.0),
-            Row(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(30.0)
+          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text('Bạn bè',
+                  style:
+                      TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold)),
+              SizedBox(height: 15.0),
+              Row(
+                children: <Widget>[
+                  Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                    decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(30.0)),
+                    child: Text('Gợi ý',
+                        style: TextStyle(
+                            fontSize: 17.0, fontWeight: FontWeight.bold)),
                   ),
-                  child: Text('Gợi ý', style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold)),
-                ),
+                  SizedBox(width: 10.0),
+                  Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                    decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(30.0)),
+                    child: Text('Tất cả bạn bè',
+                        style: TextStyle(
+                            fontSize: 17.0, fontWeight: FontWeight.bold)),
+                  )
+                ],
+              ),
 
-                SizedBox(width: 10.0),
+              Divider(height: 30.0),
 
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(30.0)
-                  ),
-                  child: Text('Tất cả bạn bè', style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold)),
-                )
-              ],
-            ),
+              Row(
+                children: <Widget>[
+                  Text('Lời mời kết bạn',
+                      style: TextStyle(
+                          fontSize: 19.0, fontWeight: FontWeight.bold)),
+                  SizedBox(width: 10.0),
+                  Text(listFriendRequests.length.toString(),
+                      style: TextStyle(
+                          fontSize: 19.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red)),
+                ],
+              ),
 
-            Divider(height: 30.0),
+              // SizedBox(height: 20.0),
+              // FriendRequest(user: listFriendRequest[0],),
+              // Row(
+              //   children: [
+              //    Flexible(
+              //        child:  ListView.builder(itemBuilder: (context, index){
+              //          final User user = listFriendRequests[index];
+              //          return FriendRequest(user: user);
+              //        }),
+              //    )
+              //   ],
+              // ),
+              ListBody(
+                  children: List.generate(listFriendRequests.length, (index) {
+                final User user = listFriendRequests[index];
+                return FriendRequest(user: user);
+              })),
+              Divider(height: 30.0),
+              Text('Bạn bè có thể biết',
+                  style:
+                      TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
 
-            Row(
-              children: <Widget>[
-                Text('Lời mời kết bạn', style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
+              SizedBox(height: 20.0),
 
-                SizedBox(width: 10.0),
-                Text('listFriendRequest.length.toString()', style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold, color: Colors.red)),
-              ],
-            ),
-
-            // SizedBox(height: 20.0),
-            // FriendRequest(user: listFriendRequest[0],),
-            SizedBox(height: 20.0),
-            // ListView.builder(itemBuilder: (context, index){
-            //   final User user = listFriendRequest[index];
-            //   return FriendRequest(user: user);
-            // }),
-            // SliverList(
-            //   delegate: SliverChildBuilderDelegate(
-            //         (context, index) {
-            //       final User user = listFriendRequest[index];
-            //       return FriendRequest(user: user);
-            //     },
-            //     // childCount: posts.length,
-            //   ),
-            // ),
-            Row(
-              children: <Widget>[
-                CircleAvatar(
-                  backgroundImage: AssetImage('assets/chris.jpg'),
-                  radius: 40.0,
-                ),
-                SizedBox(width: 20.0),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text('Chris', style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 15.0),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 10.0),
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(5.0)
-                          ),
-                          child: Text('Confirm', style: TextStyle(color: Colors.white, fontSize: 15.0)),
-                        ),
-                        SizedBox(width: 10.0),
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 10.0),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(5.0)
-                          ),
-                          child: Text('Delete', style: TextStyle(color: Colors.black, fontSize: 15.0)),
-                        ),
-                      ],
-                    )
-                  ],
-                )
-              ],
-            ),
-
-            Divider(height: 30.0),
-
-            Text('Bạn bè có thể biết', style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
-
-            SizedBox(height: 20.0),
-
-            Row(
-              children: <Widget>[
-                CircleAvatar(
-                  backgroundImage: AssetImage('assets/tanya.jpg'),
-                  radius: 40.0,
-                ),
-                SizedBox(width: 20.0),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text('Tanya', style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 15.0),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 10.0),
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(5.0)
-                          ),
-                          child: Text('Confirm', style: TextStyle(color: Colors.white, fontSize: 15.0)),
-                        ),
-                        SizedBox(width: 10.0),
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 10.0),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(5.0)
-                          ),
-                          child: Text('Delete', style: TextStyle(color: Colors.black, fontSize: 15.0)),
-                        ),
-                      ],
-                    )
-                  ],
-                )
-              ],
-            ),
-            SizedBox(height: 20.0)
-          ],
-        )
-      ),
+              FriendRequest(user: listFriendRequests[0]),
+              SizedBox(height: 20.0)
+            ],
+          )),
     );
   }
 }

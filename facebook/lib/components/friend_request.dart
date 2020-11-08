@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
@@ -45,7 +46,7 @@ class _FriendRequestState extends State<FriendRequest> {
     return Row(
       children: <Widget>[
         CircleAvatar(
-          backgroundImage: AssetImage('assets/images/fb.png'),
+          backgroundImage: CachedNetworkImageProvider(user.avatar),
           radius: 30.0,
         ),
         SizedBox(width: 20.0),
@@ -55,7 +56,7 @@ class _FriendRequestState extends State<FriendRequest> {
           children: <Widget>[
             Text(user.username,
                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-            SizedBox(height: 15.0),
+            SizedBox(height: 10.0),
             isAccept == 0
                 ? Row(
                     children: <Widget>[
@@ -109,8 +110,10 @@ class _FriendRequestState extends State<FriendRequest> {
                                   TextStyle(fontSize: 16, color: kColorButton))
                         ],
                       ),
+            SizedBox(height: 15.0),
           ],
-        )
+        ),
+        // SizedBox(height: 20.0),
       ],
     );
   }
