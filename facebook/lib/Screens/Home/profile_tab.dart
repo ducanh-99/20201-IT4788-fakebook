@@ -1,17 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:date_time_picker/date_time_picker.dart';
+import 'package:facebook/components/create_post_container.dart';
+import 'package:facebook/components/post_container.dart';
 import 'package:facebook/components/separator_widget.dart';
+import 'package:facebook/data/models/post_model.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
 
 // import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:flutter/material.dart';
+import 'package:jiffy/jiffy.dart';
 
 import '../../constants.dart';
 
 class ProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var birthday = DateTime.parse(currentUser.birthday);
-
+    var dateTime = Jiffy("1999/03/09", "yyyy/dd/MM").format("dd 'tháng' MM, yyyy");
+    // var dateTime = Jiffy(currentUser.birthday, "yyyy/dd/MM").format("dd 'tháng' MM, yyyy");
     return SingleChildScrollView(
         child: Column(
       children: <Widget>[
@@ -98,11 +103,7 @@ class ProfileTab extends StatelessWidget {
                   Icon(Icons.calendar_today, color: Colors.grey, size: 30.0),
                   SizedBox(width: 10.0),
                   Text(
-                      birthday.day.toString() +
-                          ' tháng ' +
-                          birthday.month.toString() +
-                          ', ' +
-                          birthday.year.toString(),
+                    dateTime,
                       style: TextStyle(fontSize: 16.0))
                 ],
               ),
@@ -130,7 +131,7 @@ class ProfileTab extends StatelessWidget {
                               fontSize: 16.0))),
                 ),
                 onTap: () {
-                  print("Edit Public Details");
+                  print(currentUser.toJSON());
                 },
               )
             ],
@@ -306,7 +307,35 @@ class ProfileTab extends StatelessWidget {
             ],
           ),
         ),
-        SeparatorWidget()
+        SeparatorWidget(),
+        Container(
+          child: CreatePostContainer(currentUser: currentUser),
+        ),
+        // Column(
+        //   children: [
+        //     ListView.builder(itemBuilder: (context, index){
+        //       final Post post = posts[index];
+        //       return PostContainer(post: post);
+        //     }),
+        //   ],
+        // )
+        // ListView.builder(itemBuilder: (context, index){
+        //   final Post post = posts[index];
+        //   return PostContainer(post: post);
+        // }),
+        // CustomScrollView(
+        //     slivers: [
+        //       SliverList(
+        //         delegate: SliverChildBuilderDelegate(
+        //               (context, index) {
+        //             final Post post = posts[index];
+        //             return PostContainer(post: post);
+        //           },
+        //           childCount: posts.length,
+        //         ),
+        //       ),
+        //     ]
+        // )
       ],
     ));
   }

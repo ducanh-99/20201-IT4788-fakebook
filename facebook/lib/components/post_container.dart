@@ -93,12 +93,21 @@ class _PostHeader extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                post.username,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
+              InkWell(
+                child: Text(
+                  post.username,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) {
+                        return Profile();
+                      }));
+                },
               ),
+
               Row(
                 children: [
                   Text(

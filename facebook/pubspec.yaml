@@ -35,6 +35,7 @@ dependencies:
   material_design_icons_flutter: ^4.0.5345
   flutter_emoji: ">= 2.0.0"
   timeago: ^2.0.27
+  jiffy: ^3.0.1
   flutter:
     sdk: flutter
 

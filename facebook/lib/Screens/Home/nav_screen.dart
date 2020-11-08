@@ -67,7 +67,7 @@ class _NavScreenState extends State<NavScreen> {
                       if (index == 1) {
                         Friend_Bloc friend_bloc = Friend_Bloc();
                         await friend_bloc.apiGetRequestFriend();
-                        print(listFriends);
+                        print(listFriendRequests);
                       }
                       if( index ==0) {
                         PostBloc postBloc = PostBloc();

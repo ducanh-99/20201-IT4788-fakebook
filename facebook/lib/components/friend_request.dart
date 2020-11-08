@@ -3,18 +3,21 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 
 class FriendRequest extends StatefulWidget {
-  // User user;
+  final User user;
+
+  const FriendRequest({Key key, this.user}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _FriendRequestState();
+    return _FriendRequestState(user);
   }
 }
 
 class _FriendRequestState extends State<FriendRequest> {
   int isAccept;
+  final User user;
 
-  User user;
+  _FriendRequestState(this.user);
 
   @override
   void initState() {
@@ -50,7 +53,7 @@ class _FriendRequestState extends State<FriendRequest> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('Dương',
+            Text(user.username,
                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
             SizedBox(height: 15.0),
             isAccept == 0

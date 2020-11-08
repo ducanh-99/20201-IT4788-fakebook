@@ -1,4 +1,6 @@
 import 'package:facebook/components/friend_request.dart';
+import 'package:facebook/data/models/models.dart';
+import 'package:facebook/data/source/localdatasource/data.dart';
 import 'package:flutter/material.dart';
 
 class FriendsTab extends StatelessWidget {
@@ -44,15 +46,26 @@ class FriendsTab extends StatelessWidget {
                 Text('Lời mời kết bạn', style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
 
                 SizedBox(width: 10.0),
-
-                Text('8', style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold, color: Colors.red)),
+                Text('listFriendRequest.length.toString()', style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold, color: Colors.red)),
               ],
             ),
 
+            // SizedBox(height: 20.0),
+            // FriendRequest(user: listFriendRequest[0],),
             SizedBox(height: 20.0),
-            FriendRequest(),
-            SizedBox(height: 20.0),
-
+            // ListView.builder(itemBuilder: (context, index){
+            //   final User user = listFriendRequest[index];
+            //   return FriendRequest(user: user);
+            // }),
+            // SliverList(
+            //   delegate: SliverChildBuilderDelegate(
+            //         (context, index) {
+            //       final User user = listFriendRequest[index];
+            //       return FriendRequest(user: user);
+            //     },
+            //     // childCount: posts.length,
+            //   ),
+            // ),
             Row(
               children: <Widget>[
                 CircleAvatar(
@@ -94,7 +107,7 @@ class FriendsTab extends StatelessWidget {
 
             Divider(height: 30.0),
 
-            Text('People You May Know', style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold)),
+            Text('Bạn bè có thể biết', style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
 
             SizedBox(height: 20.0),
 
