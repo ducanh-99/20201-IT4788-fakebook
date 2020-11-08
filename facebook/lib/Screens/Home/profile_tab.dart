@@ -15,8 +15,7 @@ import '../../constants.dart';
 class ProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var dateTime = Jiffy("1999/03/09", "yyyy/dd/MM").format("dd 'tháng' MM, yyyy");
-    // var dateTime = Jiffy(currentUser.birthday, "yyyy/dd/MM").format("dd 'tháng' MM, yyyy");
+    var dateTime = Jiffy(currentUser.birthday, "yyyy/dd/MM").format("dd 'tháng' MM, yyyy");
     return SingleChildScrollView(
         child: Column(
       children: <Widget>[
