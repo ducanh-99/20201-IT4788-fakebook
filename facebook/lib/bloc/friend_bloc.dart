@@ -7,7 +7,11 @@ class Friend_Bloc {
   FriendRespository friendRespository =
       FriendResposityImpl(FriendRemotedatasourceImpl());
   apiGetRequestFriend() async {
-    print('a');
+    print('get friend request');
     await friendRespository.apiGetRequestFriend();
+  }
+  getListFriend(String userId) async {
+    print('get list friend');
+    await friendRespository.getListFriend(userId);
   }
 }

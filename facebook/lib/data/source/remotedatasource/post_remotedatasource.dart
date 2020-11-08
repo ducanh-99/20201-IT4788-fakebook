@@ -17,6 +17,7 @@ List<Post> post_res;
 
 abstract class PostRemoteDatasource {
   apiGetAllPost();
+  apiGetAllPostOfUser(String userId);
   apiUploadPost(String token, String described);
   apiUpdatePost(String postId, String described);
   apiDeletePost(String postId);
@@ -36,28 +37,35 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       },
     ).then((value) async {
       print('success');
+      print(token);
       var responseJson = json.decode(value.body);
       print(responseJson);
-      posts=[];
-      responseJson.map((post) {
-
-        posts.add(Post(
-          // user: friendUser,
-          described: post['described'],
-          userid: post['owner']['user'],
-          username: post['owner']['username'],
-          timeAgo: '',
-          imageUrl: '',
-          likes: post['like'],
-          isliked: post['is_liked'],
-          comments: post['comment'],
-          createDate: post['creation_date'],
-          id: post['id'],
-        ));
-      }).toList();
-      print('Get thanh cong');
+      if(responseJson.length >0) {
+        posts=[];
+        for(var post in responseJson){
+          posts.add(
+            Post(
+              id: post['id'],
+              isliked: post['is_liked'],
+              described: post['described'],
+              userid: post['owner']['user'],
+              username: post['owner']['username'],
+              likes: post['like'],
+              comments: post['comment'],
+              createDate: post['creation_date'],
+              imageUrl: '',
+              timeAgo: ''
+            )
+          );
+        }
+        print(posts);
+        print('Get thanh cong');
+      }else{
+        posts = [];
+      }
       // return posts;
     }).catchError((error) {
+      print(error);
       print('Error');
       // return List<Post>();
     });
@@ -169,6 +177,50 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       }
       print(responseJson);
     }).catchError((error) {
+      print('Error');
+    });
+  }
+
+  @override
+  apiGetAllPostOfUser(String userId) async {
+    var response = await http.get(
+      "https://fakebook-20201.herokuapp.com/api/post/user/"+userId,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    ).then((value) async {
+      print('success');
+      print(token);
+      var responseJson = json.decode(value.body);
+      print(responseJson);
+      if(responseJson.length >0) {
+        userPosts=[];
+        for(var post in responseJson){
+          userPosts.add(
+              Post(
+                  id: post['id'],
+                  isliked: post['is_liked'],
+                  described: post['described'],
+                  userid: post['owner']['user'],
+                  username: post['owner']['username'],
+                  likes: post['like'],
+                  comments: post['comment'],
+                  createDate: post['creation_date'],
+                  imageUrl: '',
+                  timeAgo: ''
+              )
+          );
+        }
+        print(userPosts);
+        print('Get thanh cong');
+      }else{
+        userPosts = [];
+      }
+      // return posts;
+    }).catchError((error) {
+      print(error);
       print('Error');
     });
   }

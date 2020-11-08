@@ -11,6 +11,7 @@ import 'package:facebook/data/source/remotedatasource/post_remotedatasource.dart
 
 abstract class PostRepository {
   getAllPost();
+  getAllPostOfUser(String userId);
   uploadPost(String token, String described);
   updatePost(String postId,String described);
   deletePost(String postId);
@@ -35,25 +36,27 @@ class PostRepositoryImpl extends PostRepository {
 
   @override
   Future<bool> likePost(String postID) async {
-    // TODO: implement likePostR
     await _postRemoteDatasource.apiLikePost(postID);
   }
 
   @override
   Future<bool> unlikePost(String postID) async {
-    // TODO: implement unlikePost
     await _postRemoteDatasource.apiUnlikePost(postID);
   }
 
   @override
   deletePost(String postId) async {
-    // TODO: implement deletePost
     await _postRemoteDatasource.apiDeletePost(postId);
   }
 
   @override
   updatePost(String postId, String described) async {
-    // TODO: implement updatePost
     await _postRemoteDatasource.apiUpdatePost(postId, described);
   }
+
+  @override
+  getAllPostOfUser(String userId) async {
+    await _postRemoteDatasource.apiGetAllPostOfUser(userId);
+  }
+
 }

@@ -19,10 +19,7 @@ final User friendUser = User(
   // imageUrl: https://images.unsplash.com/photo-1525253086316-d0c936c814f8
   // 'https://images.unsplash.com/photo-1578133671540-edad0b3d689e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80',
 );
-// PostRemoteDatasourceImpl test = PostRemoteDatasourceImpl();
-// Future<List<Post>> posts = test.apiGetAllPost();
-// PostBloc postBloc = PostBloc();
-// postBloc.getAllPost();
 List<Post> posts = [];
-// final List<Post> posts = post_res;
-List<User> listFriends ;
+List<Post> userPosts = [];
+List<User> listFriends = [] ;
+List<User> listFriendRequests = [] ;

@@ -25,12 +25,9 @@ void main() async {
     print(token);
     PostBloc postBloc = PostBloc();
     await postBloc.getAllPost();
-    // Friend_Bloc friend_bloc = Friend_Bloc();
-    // await friend_bloc.apiGetRequestFriend();
-    // PostRemoteDatasourceImpl test = PostRemoteDatasourceImpl();
-    // FriendRemotedatasourceImpl check = FriendRemotedatasourceImpl();
-    // await check.apiGetFreindRequest();
-    // await test.apiGetAllPost();
+    await postBloc.getAllPostOfUser(currentUser.id);
+    Friend_Bloc friend_bloc = Friend_Bloc();
+    await friend_bloc.getListFriend(currentUser.id);
   }
   runApp(MyApp());
 }

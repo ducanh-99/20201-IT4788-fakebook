@@ -2,6 +2,7 @@ import 'package:facebook/data/source/remotedatasource/friend_remotedatasource.da
 
 abstract class FriendRespository {
   apiGetRequestFriend();
+  getListFriend(String userId);
 }
 
 class FriendResposityImpl implements FriendRespository {
@@ -11,5 +12,10 @@ class FriendResposityImpl implements FriendRespository {
   apiGetRequestFriend() async {
 
     await _friendRemotedatasource.apiGetFriendRequest();
+  }
+
+  @override
+  getListFriend(String userId) async {
+    await _friendRemotedatasource.apiGetListFriend(userId);
   }
 }

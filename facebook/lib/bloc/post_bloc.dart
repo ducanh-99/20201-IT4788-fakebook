@@ -10,9 +10,13 @@ class PostBloc {
   PostRepository _postRepositoryImpl =
       PostRepositoryImpl(PostLocalDatasourceImpl(), PostRemoteDatasourceImpl());
   getAllPost() async {
+    print("get all post ");
     await _postRepositoryImpl.getAllPost();
   }
-
+  getAllPostOfUser(String userId) async {
+    print("get post of user");
+    await _postRepositoryImpl.getAllPostOfUser(userId);
+  }
   uploadPost(String token, String described) async {
     await _postRepositoryImpl.uploadPost(token, described);
   }
