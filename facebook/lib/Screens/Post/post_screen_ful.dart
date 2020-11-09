@@ -53,8 +53,11 @@ class _PostScreenState extends State<PostScreenFul> {
 
   //Image
   File image;
-  selectImage() async {
+  void selectImage() async {
     image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      
+    });
   }
   //End Image
 
@@ -69,6 +72,7 @@ class _PostScreenState extends State<PostScreenFul> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    // rebuildAllChildren(context);
     return Scaffold(
       body: BackAppbarButton(
         text: Text('Tạo bài viết',
@@ -157,9 +161,6 @@ class _PostScreenState extends State<PostScreenFul> {
                     hintText: "Bạn đang nghĩ gì?"),
                 onChanged: (value) {
                   described = value;
-                  setState(() {
-
-                  });
                 },
                 // controller: postContent,
               ),
@@ -210,7 +211,9 @@ class _PostScreenState extends State<PostScreenFul> {
               new GestureDetector(
                   onTap: (){
                     selectImage();
-                    showImage();
+                    setState(() {
+
+                    });
                   },
                   child: new Container(
                     height: 40.0,
@@ -307,6 +310,14 @@ class _PostScreenState extends State<PostScreenFul> {
     //     ],
     //   ),
     // );
+  }
+  //Rebuild
+  void rebuildAllChildren(BuildContext context) {
+    void rebuild(Element el) {
+      el.markNeedsBuild();
+      el.visitChildren(rebuild);
+    }
+    (context as Element).visitChildren(rebuild);
   }
 
   emojiContainer() {
