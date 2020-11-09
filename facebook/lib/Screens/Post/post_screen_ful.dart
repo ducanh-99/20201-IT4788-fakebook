@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:emoji_picker/emoji_picker.dart';
 import 'package:facebook/bloc/post_bloc.dart';
 import 'package:facebook/components/home_widget.dart';
@@ -6,6 +8,7 @@ import 'package:facebook/data/source/localdatasource/local_data.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
 import 'package:facebook/components/components.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter_emoji/flutter_emoji.dart';
 
 class PostScreenFul extends StatefulWidget {
@@ -46,6 +49,21 @@ class _PostScreenState extends State<PostScreenFul> {
     setState(() {
       showEmojiPicker = true;
     });
+  }
+
+  //Image
+  File image;
+  selectImage() async {
+    image = await ImagePicker.pickImage(source: ImageSource.gallery);
+  }
+  //End Image
+
+  Widget showImage() {
+    if(image != null)
+    return Image.file(
+      image
+    );
+    return Text("");
   }
 
   @override
@@ -124,6 +142,7 @@ class _PostScreenState extends State<PostScreenFul> {
                 ],
               ),
               TextField(
+                // minLines: 1,
                 maxLines: 12,
                 keyboardType: TextInputType.multiline,
                 decoration: new InputDecoration(
@@ -138,9 +157,14 @@ class _PostScreenState extends State<PostScreenFul> {
                     hintText: "Bạn đang nghĩ gì?"),
                 onChanged: (value) {
                   described = value;
+                  setState(() {
+
+                  });
                 },
                 // controller: postContent,
               ),
+              // Image.file(image),
+              showImage(),
               showEmojiPicker ? Container(child: emojiContainer()) : Container(),
               Container(
                 height: 30.0,
@@ -168,20 +192,41 @@ class _PostScreenState extends State<PostScreenFul> {
                   ],
                 ),
               ),
-              Container(
-                height: 40.0,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey)
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(left: 5.0, right: 10.0),
-                      child: Icon(Icons.photo_library , color: Colors.green),
+              // Container(
+              //   height: 40.0,
+              //   decoration: BoxDecoration(
+              //       border: Border.all(color: Colors.grey)
+              //   ),
+              //   child: Row(
+              //     children: [
+              //       Container(
+              //         margin: const EdgeInsets.only(left: 5.0, right: 10.0),
+              //         child: Icon(Icons.photo_library , color: Colors.green),
+              //       ),
+              //       Text("Ảnh/Video", style: TextStyle(fontSize: 20.0))
+              //     ],
+              //   ),
+              // ),
+              new GestureDetector(
+                  onTap: (){
+                    selectImage();
+                    showImage();
+                  },
+                  child: new Container(
+                    height: 40.0,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey)
                     ),
-                    Text("Ảnh/Video", style: TextStyle(fontSize: 20.0))
-                  ],
-                ),
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(left: 5.0, right: 10.0),
+                          child: Icon(Icons.photo_library , color: Colors.green),
+                        ),
+                        Text("Ảnh/Video", style: TextStyle(fontSize: 20.0))
+                      ],
+                    ),
+                  ),
               ),
 
               Container(
@@ -247,6 +292,7 @@ class _PostScreenState extends State<PostScreenFul> {
                   ],
                 )
               ),
+
             ],
           ),
         ),
