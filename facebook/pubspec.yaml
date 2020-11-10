@@ -36,6 +36,7 @@ dependencies:
   flutter_emoji: ">= 2.0.0"
   timeago: ^2.0.27
   jiffy: ^3.0.1
+  loading_gifs: ^0.2.3
   flutter:
     sdk: flutter
 

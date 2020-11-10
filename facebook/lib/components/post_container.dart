@@ -241,7 +241,7 @@ class _PostBodyState extends State<_PostBodyStateful> {
         Row(
           children: [
             likes == 0 ?
-            Container() :
+            SizedBox.shrink() :
             Container(
               padding: const EdgeInsets.all(4.0),
               decoration: BoxDecoration(
@@ -256,7 +256,7 @@ class _PostBodyState extends State<_PostBodyStateful> {
             ),
             const SizedBox(width: 4.0),
             likes == 0 ?
-            Container() :
+            SizedBox.shrink() :
             Expanded(
               child: isLiked
                   ? Text(

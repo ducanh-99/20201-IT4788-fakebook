@@ -65,9 +65,15 @@ class _NavScreenState extends State<NavScreen> {
 
                       setState(() => _selectedIndex = index);
                       if (index == 1) {
-                        Friend_Bloc friend_bloc = Friend_Bloc();
-                        await friend_bloc.apiGetRequestFriend();
+                        Friend_Bloc friendBloc = Friend_Bloc();
+                        await friendBloc.apiGetRequestFriend();
                         print(listFriendRequests);
+                        // FriendRequestContainer friendRequestContainer = FriendRequestContainer();
+                        // FriendRequestContainer().createState().didUpdateWidget(friendRequestContainer);
+                        // FriendRequestContainerState friendRequestContainerState = FriendRequestContainerState(listFriendRequests.length);
+                        context.visitChildElements((element) {FriendRequestContainer friendRequestContainer = FriendRequestContainer();
+                        friendRequestContainer.createState().didUpdateWidget(friendRequestContainer);});
+                        // FriendRequestContainer friendRequestContainer = Fr
                       }
                       if( index ==0) {
                         PostBloc postBloc = PostBloc();

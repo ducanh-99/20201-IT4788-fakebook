@@ -3,6 +3,8 @@ import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/source/localdatasource/data.dart';
 import 'package:flutter/material.dart';
 
+import '../../constants.dart';
+
 class FriendsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -45,19 +47,20 @@ class FriendsTab extends StatelessWidget {
 
               Divider(height: 30.0),
 
-              Row(
-                children: <Widget>[
-                  Text('Lời mời kết bạn',
-                      style: TextStyle(
-                          fontSize: 19.0, fontWeight: FontWeight.bold)),
-                  SizedBox(width: 10.0),
-                  Text(listFriendRequests.length.toString(),
-                      style: TextStyle(
-                          fontSize: 19.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red)),
-                ],
-              ),
+              // Row(
+              //   children: <Widget>[
+              //     Text('Lời mời kết bạn',
+              //         style: TextStyle(
+              //             fontSize: 19.0, fontWeight: FontWeight.bold)),
+              //     SizedBox(width: 10.0),
+              //     Text(listFriendRequests.isEmpty ? '0' : listFriendRequests
+              //         .length.toString(),
+              //         style: TextStyle(
+              //             fontSize: 19.0,
+              //             fontWeight: FontWeight.bold,
+              //             color: Colors.red)),
+              //   ],
+              // ),
 
               // SizedBox(height: 20.0),
               // FriendRequest(user: listFriendRequest[0],),
@@ -71,11 +74,18 @@ class FriendsTab extends StatelessWidget {
               //    )
               //   ],
               // ),
-              ListBody(
-                  children: List.generate(listFriendRequests.length, (index) {
-                final User user = listFriendRequests[index];
-                return FriendRequest(user: user);
-              })),
+              // FadeInImage.assetNetwork(
+              //     placeholder: circularProgressIndicator,
+              //     image: listFriendRequests[0].avatar),
+              // listFriendRequests.isEmpty
+              //     ? SizedBox.shrink()
+              //     : ListBody(
+              //     children:
+              //     List.generate(listFriendRequests.length, (index) {
+              //       final User user = listFriendRequests[index];
+              //       return FriendRequest(user: user);
+              //     })),
+              FriendRequestContainer(),
               Divider(height: 30.0),
               Text('Bạn bè có thể biết',
                   style:
@@ -83,10 +93,116 @@ class FriendsTab extends StatelessWidget {
 
               SizedBox(height: 20.0),
 
-              FriendRequest(user: listFriendRequests[0]),
+              // FriendRequest(user: listFriendRequests[0]),
               SizedBox(height: 20.0)
             ],
           )),
+    );
+  }
+}
+
+class FriendRequestContainer extends StatefulWidget {
+  // final int friendRequest;
+  //
+  // const FriendRequestContainer({Key key, this.friendRequest}) : super(key: key);
+  @override
+  State<StatefulWidget> createState() {
+    return FriendRequestContainerState();
+  }
+}
+
+class FriendRequestContainerState extends State<FriendRequestContainer> {
+  int friendRequest;
+
+  // FriendRequestContainerState(this.friendRequest);
+
+  @override
+  void initState() {
+    friendRequest = listFriendRequests.length;
+    print("initState");
+    super.initState();
+
+  }
+
+  // void update(){
+  //   Future.delayed(Duration)
+  // }
+
+  void updateStateFriendRequestContainer() {
+    print("updateStateFriendRequestContainer");
+    setState(() {
+      friendRequest = listFriendRequests.length;
+    });
+  }
+  @override
+  void didUpdateWidget(FriendRequestContainer oldWidget) {
+    // setState(() {
+    //   friendRequest = listFriendRequests.length;
+    // });
+    // updateStateFriendRequestContainer();
+    print("update");
+    friendRequest = listFriendRequests.length;
+    build(context);
+    super.didUpdateWidget(oldWidget);
+    // setState(() {
+    //     friendRequest = listFriendRequests.length;
+    //   });
+    // build(context);
+    // friendRequest = listFriendRequests.length;
+  }
+
+  @override
+  void didChangeDependencies() {
+    updateStateFriendRequestContainer();
+    print("change");
+    super.didChangeDependencies();
+
+  }
+  //
+  // void _delete() {
+  //   setState(() {
+  //     isAccept = 2;
+  //     print('increment: $isAccept');
+  //   });
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    // updateStateFriendRequestContainer();
+    print(friendRequest);
+    print(listFriendRequests);
+    friendRequest = listFriendRequests.length;
+    return Container(
+      child: Column(
+        children: [
+          Row(
+            children: <Widget>[
+              InkWell(
+                child: Text('Lời mời kết bạn',
+                    style:
+                    TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
+                  onTap: (){
+                  // updateStateFriendRequestContainer();
+                  // print("tap");
+                  },
+              ),
+              SizedBox(width: 10.0),
+              Text(friendRequest == 0 ? '0' : friendRequest.toString(),
+                  style: TextStyle(
+                      fontSize: 19.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red)),
+            ],
+          ),
+          friendRequest == 0
+              ? SizedBox(height: 10)
+              : ListBody(
+                  children: List.generate(friendRequest, (index) {
+                  final User user = listFriendRequests[index];
+                  return FriendRequest(user: user);
+                })),
+        ],
+      ),
     );
   }
 }
