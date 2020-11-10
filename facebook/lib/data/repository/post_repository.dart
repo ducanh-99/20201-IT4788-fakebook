@@ -13,8 +13,8 @@ abstract class PostRepository {
   getAllPost();
   getAllPostOfUser(String userId);
   uploadPost(String token, String described);
-  updatePost(String postId,String described);
-  deletePost(String postId);
+  updatePost(Post post, String described, Function onSuccess);
+  deletePost(Post postId, Function onSuccess);
   Future<bool> likePost(String postID);
   Future<bool> unlikePost(String postID);
 }
@@ -45,18 +45,17 @@ class PostRepositoryImpl extends PostRepository {
   }
 
   @override
-  deletePost(String postId) async {
-    await _postRemoteDatasource.apiDeletePost(postId);
+  deletePost(Post postId, Function onSuccess) async {
+    await _postRemoteDatasource.apiDeletePost(postId, onSuccess);
   }
 
   @override
-  updatePost(String postId, String described) async {
-    await _postRemoteDatasource.apiUpdatePost(postId, described);
+  updatePost(Post post, String described, Function onSuccess) async {
+    await _postRemoteDatasource.apiUpdatePost(post, described, onSuccess);
   }
 
   @override
   getAllPostOfUser(String userId) async {
     await _postRemoteDatasource.apiGetAllPostOfUser(userId);
   }
-
 }

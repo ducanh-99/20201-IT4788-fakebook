@@ -6,7 +6,7 @@ class Post {
   // final User user;
   final String userid;
   final String username;
-  final String described;
+  String described;
   final String timeAgo;
   final String imageUrl;
   final bool isliked;

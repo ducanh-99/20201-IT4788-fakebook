@@ -13,10 +13,12 @@ class PostBloc {
     print("get all post ");
     await _postRepositoryImpl.getAllPost();
   }
+
   getAllPostOfUser(String userId) async {
     print("get post of user");
     await _postRepositoryImpl.getAllPostOfUser(userId);
   }
+
   uploadPost(String token, String described) async {
     await _postRepositoryImpl.uploadPost(token, described);
   }
@@ -28,10 +30,12 @@ class PostBloc {
   Future<bool> unlikePost(String postID) async {
     await _postRepositoryImpl.unlikePost(postID);
   }
-  updatePost(String postId,String described) async {
-    await _postRepositoryImpl.updatePost(postId, described);
+
+  updatePost(Post post, String described, Function onSuccess) async {
+    await _postRepositoryImpl.updatePost(post, described, onSuccess);
   }
-  deletePost(String postId) async {
-    await _postRepositoryImpl.deletePost(postId);
+
+  deletePost(Post postId, Function onSuccess) async {
+    await _postRepositoryImpl.deletePost(postId, onSuccess);
   }
 }

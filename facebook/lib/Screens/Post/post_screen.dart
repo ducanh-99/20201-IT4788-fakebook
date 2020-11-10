@@ -1,3 +1,4 @@
+import 'package:facebook/Screens/Home/home_screen.dart';
 import 'package:facebook/bloc/post_bloc.dart';
 import 'package:facebook/components/home_widget.dart';
 import 'package:facebook/data/models/models.dart';
@@ -19,8 +20,8 @@ class PostScreen extends StatelessWidget {
     postContent.text = post.described != null ? post.described : "";
     Size size = MediaQuery.of(context).size;
     var emojiHeart = parser.info('heart');
-    PostBloc postBloc =PostBloc();
-    var described = '';
+    PostBloc postBloc = PostBloc();
+    var described = post.described;
     //
     // FocusNode textFieldFocus = FocusNode();
     // showKeyboard() => textFieldFocus.requestFocus();
@@ -52,8 +53,23 @@ class PostScreen extends StatelessWidget {
             style:
                 TextStyle(fontWeight: FontWeight.bold, color: kColorTextNormal),
           ),
-          onPressed: () => {
-            postBloc.updatePost(post.id, described)
+          onPressed: () async {
+            if (post.described != described) {
+              await postBloc.updatePost(post, described, () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return HomeScreen();
+                    },
+                  ),
+                );
+              });
+            } else {
+              print('bai viet chua duoc chinh sua');
+            }
+
+            //
           },
         ),
         child: SingleChildScrollView(

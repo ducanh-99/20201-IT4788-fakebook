@@ -19,8 +19,8 @@ abstract class PostRemoteDatasource {
   apiGetAllPost();
   apiGetAllPostOfUser(String userId);
   apiUploadPost(String token, String described);
-  apiUpdatePost(String postId, String described);
-  apiDeletePost(String postId);
+  apiUpdatePost(Post post, String described, Function onSuccess);
+  apiDeletePost(Post postId, Function onSuccess);
   Future<bool> apiLikePost(String post_id);
   Future<bool> apiUnlikePost(String post_id);
 }
@@ -40,27 +40,26 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       print(token);
       var responseJson = json.decode(value.body);
       print(responseJson);
-      if(responseJson.length >0) {
-        posts=[];
-        for(var post in responseJson){
-          posts.add(
-            Post(
-              id: post['id'],
-              isliked: post['is_liked'],
-              described: post['described'],
-              userid: post['owner']['user'],
-              username: post['owner']['username'],
-              likes: post['like'],
-              comments: post['comment'],
-              createDate: post['creation_date'],
-              imageUrl: '',
-              timeAgo: ''
-            )
-          );
+      if (responseJson.length > 0) {
+        posts = [];
+        for (var post in responseJson) {
+          posts.insert(
+              0,
+              Post(
+                  id: post['id'],
+                  isliked: post['is_liked'],
+                  described: post['described'],
+                  userid: post['owner']['user'],
+                  username: post['owner']['username'],
+                  likes: post['like'],
+                  comments: post['comment'],
+                  createDate: post['creation_date'],
+                  imageUrl: '',
+                  timeAgo: ''));
         }
         print(posts);
         print('Get thanh cong');
-      }else{
+      } else {
         posts = [];
       }
       // return posts;
@@ -73,23 +72,38 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
 
   @override
   apiUploadPost(String token, String described) async {
-    var response = http
-        .post(
-      "https://fakebook-20201.herokuapp.com/api/post",
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-      body: jsonEncode({'described': described}),
-    )
-        .then((value) async {
-      print('success');
-      var responseJson = json.decode(value.body);
-      print(responseJson);
-    }).catchError((error) {
-      print('Error');
-    });
+    if (described.isNotEmpty) {
+      var response = await http
+          .post(
+        "https://fakebook-20201.herokuapp.com/api/post",
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({'described': described}),
+      )
+          .then((value) async {
+        print('success');
+        var responseJson = json.decode(value.body);
+        print(responseJson);
+        posts.insert(
+            0,
+            Post(
+                id: responseJson['id'],
+                isliked: responseJson['is_liked'],
+                described: responseJson['described'],
+                userid: responseJson['owner']['user'],
+                username: responseJson['owner']['username'],
+                likes: responseJson['like'],
+                comments: responseJson['comment'],
+                createDate: responseJson['creation_date'],
+                imageUrl: '',
+                timeAgo: ''));
+      }).catchError((error) {
+        print('Error');
+      });
+    } else {}
   }
 
   @override
@@ -137,17 +151,17 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   }
 
   @override
-  apiDeletePost( String postId) async {
-    var response = http
-        .delete(
-      "https://fakebook-20201.herokuapp.com/api/post/"+postId,
+  apiDeletePost(Post postId, Function onSuccess) async {
+    var response = await http.delete(
+      "https://fakebook-20201.herokuapp.com/api/post/" + postId.id,
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       },
-    )
-        .then((value) async {
+    ).then((value) async {
+      posts.remove(postId);
+      onSuccess();
       print('success');
       var responseJson = json.decode(value.body);
       print(responseJson);
@@ -157,10 +171,12 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   }
 
   @override
-  apiUpdatePost(String postId, String described) async {
-    var response = http
+  apiUpdatePost(Post post, String described, Function onSuccess) async {
+    post.described = described;
+    print(post.described);
+    var response = await http
         .put(
-      "https://fakebook-20201.herokuapp.com/api/post/"+postId,
+      "https://fakebook-20201.herokuapp.com/api/post/" + post.id,
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
@@ -170,8 +186,9 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     )
         .then((value) async {
       var responseJson = json.decode(value.body);
-      if(responseJson['code']==1000){
-          print('Update bai viet thanh cong');
+      if (responseJson['code'] == 1000) {
+        print('Update bai viet thanh cong');
+        onSuccess();
       } else {
         print('Loi cap nhat');
       }
@@ -184,7 +201,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   @override
   apiGetAllPostOfUser(String userId) async {
     var response = await http.get(
-      "https://fakebook-20201.herokuapp.com/api/post/user/"+userId,
+      "https://fakebook-20201.herokuapp.com/api/post/user/" + userId,
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
@@ -195,27 +212,24 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       print(token);
       var responseJson = json.decode(value.body);
       print(responseJson);
-      if(responseJson.length >0) {
-        userPosts=[];
-        for(var post in responseJson){
-          userPosts.add(
-              Post(
-                  id: post['id'],
-                  isliked: post['is_liked'],
-                  described: post['described'],
-                  userid: post['owner']['user'],
-                  username: post['owner']['username'],
-                  likes: post['like'],
-                  comments: post['comment'],
-                  createDate: post['creation_date'],
-                  imageUrl: '',
-                  timeAgo: ''
-              )
-          );
+      if (responseJson.length > 0) {
+        userPosts = [];
+        for (var post in responseJson) {
+          userPosts.add(Post(
+              id: post['id'],
+              isliked: post['is_liked'],
+              described: post['described'],
+              userid: post['owner']['user'],
+              username: post['owner']['username'],
+              likes: post['like'],
+              comments: post['comment'],
+              createDate: post['creation_date'],
+              imageUrl: '',
+              timeAgo: ''));
         }
         print(userPosts);
         print('Get thanh cong');
-      }else{
+      } else {
         userPosts = [];
       }
       // return posts;

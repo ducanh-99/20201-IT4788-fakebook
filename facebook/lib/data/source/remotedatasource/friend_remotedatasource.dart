@@ -26,11 +26,12 @@ class FriendRemotedatasourceImpl implements FriendRemotedatasource {
     ).then((value) {
       var responseJson = json.decode(value.body);
       print(responseJson);
-      listFriendRequests =[];
-      if(responseJson['data'].length > 0) {
+      listFriendRequests = [];
+      if (responseJson['data'].length > 0) {
         var obj = responseJson['data'];
-        for( var info in obj){
-          var avt = 'https://fakebook-20201.herokuapp.com/api/get_avt/' + info['user'];
+        for (var info in obj) {
+          var avt = 'https://fakebook-20201.herokuapp.com/api/get_avt/' +
+              info['user'];
           listFriendRequests.add(User(
             avatar: avt,
             username: info['username'],
@@ -38,11 +39,9 @@ class FriendRemotedatasourceImpl implements FriendRemotedatasource {
           ));
         }
       }
-      print(listFriendRequests);
       print('Get thanh cong');
     }).catchError((error) {
       print('Error');
-      print(error);
     });
   }
 
@@ -50,7 +49,7 @@ class FriendRemotedatasourceImpl implements FriendRemotedatasource {
   apiGetListFriend(String userId) async {
     print(currentUser.id);
     var response = await http.get(
-      'https://fakebook-20201.herokuapp.com/api/friend/list_friend/' +userId,
+      'https://fakebook-20201.herokuapp.com/api/friend/list_friend/' + userId,
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
@@ -59,16 +58,19 @@ class FriendRemotedatasourceImpl implements FriendRemotedatasource {
     ).then((value) {
       var responseJson = json.decode(value.body);
       print(responseJson);
-      listFriends =[];
-      if(responseJson['data'].length > 0) {
+      listFriends = [];
+      if (responseJson['data'].length > 0) {
         var obj = responseJson['data'];
-        for( var info in obj){
-          var avt = 'https://fakebook-20201.herokuapp.com/api/get_avt/' + info['user'];
-          listFriends.add(User(
-            avatar: avt,
-            username: info['username'],
-            id: info['user'],
-          ));
+        for (var info in obj) {
+          var avt = 'https://fakebook-20201.herokuapp.com/api/get_avt/' +
+              info['user'];
+          listFriends.insert(
+              0,
+              User(
+                avatar: avt,
+                username: info['username'],
+                id: info['user'],
+              ));
         }
       }
       print(listFriends);

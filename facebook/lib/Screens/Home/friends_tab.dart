@@ -121,7 +121,6 @@ class FriendRequestContainerState extends State<FriendRequestContainer> {
     friendRequest = listFriendRequests.length;
     print("initState");
     super.initState();
-
   }
 
   // void update(){
@@ -134,6 +133,7 @@ class FriendRequestContainerState extends State<FriendRequestContainer> {
       friendRequest = listFriendRequests.length;
     });
   }
+
   @override
   void didUpdateWidget(FriendRequestContainer oldWidget) {
     // setState(() {
@@ -156,7 +156,6 @@ class FriendRequestContainerState extends State<FriendRequestContainer> {
     updateStateFriendRequestContainer();
     print("change");
     super.didChangeDependencies();
-
   }
   //
   // void _delete() {
@@ -180,14 +179,17 @@ class FriendRequestContainerState extends State<FriendRequestContainer> {
               InkWell(
                 child: Text('Lời mời kết bạn',
                     style:
-                    TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
-                  onTap: (){
+                        TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
+                onTap: () {
                   // updateStateFriendRequestContainer();
                   // print("tap");
-                  },
+                },
               ),
               SizedBox(width: 10.0),
-              Text(friendRequest == 0 ? '0' : friendRequest.toString(),
+              Text(
+                  friendRequest == 0
+                      ? '0'
+                      : listFriendRequests.length.toString(),
                   style: TextStyle(
                       fontSize: 19.0,
                       fontWeight: FontWeight.bold,

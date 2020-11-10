@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:emoji_picker/emoji_picker.dart';
+import 'package:facebook/Screens/Home/home_screen.dart';
 import 'package:facebook/bloc/post_bloc.dart';
 import 'package:facebook/components/home_widget.dart';
 import 'package:facebook/data/models/models.dart';
@@ -19,13 +20,12 @@ class PostScreenFul extends StatefulWidget {
 
   @override
   _PostScreenState createState() => _PostScreenState();
-
 }
 
 class _PostScreenState extends State<PostScreenFul> {
   TextEditingController textFieldController = TextEditingController();
   // FirebaseRepository _repository = FirebaseRepository();
-  PostBloc postBloc =PostBloc();
+  PostBloc postBloc = PostBloc();
   var described = '';
   ScrollController _listScrollController = ScrollController();
 
@@ -55,17 +55,12 @@ class _PostScreenState extends State<PostScreenFul> {
   File image;
   void selectImage() async {
     image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      
-    });
+    setState(() {});
   }
   //End Image
 
   Widget showImage() {
-    if(image != null)
-    return Image.file(
-      image
-    );
+    if (image != null) return Image.file(image);
     return Text("");
   }
 
@@ -81,10 +76,18 @@ class _PostScreenState extends State<PostScreenFul> {
           child: new Text(
             "ĐĂNG",
             style:
-            TextStyle(fontWeight: FontWeight.bold, color: kColorTextNormal),
+                TextStyle(fontWeight: FontWeight.bold, color: kColorTextNormal),
           ),
-          onPressed: () => {
-            postBloc.uploadPost(token, described)
+          onPressed: () async {
+            await postBloc.uploadPost(token, described);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return HomeScreen();
+                },
+              ),
+            );
           },
         ),
         child: SingleChildScrollView(
@@ -157,7 +160,7 @@ class _PostScreenState extends State<PostScreenFul> {
                     errorBorder: InputBorder.none,
                     disabledBorder: InputBorder.none,
                     contentPadding:
-                    EdgeInsets.only(left: 10, bottom: 0, top: 20, right: 0),
+                        EdgeInsets.only(left: 10, bottom: 0, top: 20, right: 0),
                     hintText: "Bạn đang nghĩ gì?"),
                 onChanged: (value) {
                   described = value;
@@ -166,11 +169,13 @@ class _PostScreenState extends State<PostScreenFul> {
               ),
               // Image.file(image),
               showImage(),
-              showEmojiPicker ? Container(child: emojiContainer()) : Container(),
+              showEmojiPicker
+                  ? Container(child: emojiContainer())
+                  : Container(),
               Container(
                 height: 30.0,
                 child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       child: Icon(Icons.unfold_more, color: Colors.grey),
@@ -180,9 +185,8 @@ class _PostScreenState extends State<PostScreenFul> {
               ),
               Container(
                 height: 40.0,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey)
-                ),
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.grey)),
                 child: Row(
                   children: [
                     Container(
@@ -209,34 +213,30 @@ class _PostScreenState extends State<PostScreenFul> {
               //   ),
               // ),
               new GestureDetector(
-                  onTap: (){
-                    selectImage();
-                    setState(() {
-
-                    });
-                  },
-                  child: new Container(
-                    height: 40.0,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey)
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(left: 5.0, right: 10.0),
-                          child: Icon(Icons.photo_library , color: Colors.green),
-                        ),
-                        Text("Ảnh/Video", style: TextStyle(fontSize: 20.0))
-                      ],
-                    ),
+                onTap: () {
+                  selectImage();
+                  setState(() {});
+                },
+                child: new Container(
+                  height: 40.0,
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.grey)),
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 5.0, right: 10.0),
+                        child: Icon(Icons.photo_library, color: Colors.green),
+                      ),
+                      Text("Ảnh/Video", style: TextStyle(fontSize: 20.0))
+                    ],
                   ),
+                ),
               ),
 
               Container(
                 height: 40.0,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey)
-                ),
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.grey)),
                 child: Row(
                   children: [
                     Container(
@@ -250,14 +250,14 @@ class _PostScreenState extends State<PostScreenFul> {
 
               Container(
                 height: 40.0,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey)
-                ),
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.grey)),
                 child: Row(
                   children: [
                     Container(
                       margin: const EdgeInsets.only(left: 5.0, right: 10.0),
-                      child: Icon(Icons.insert_emoticon, color: Colors.yellowAccent),
+                      child: Icon(Icons.insert_emoticon,
+                          color: Colors.yellowAccent),
                     ),
                     Text("Cảm xúc/Hoạt động", style: TextStyle(fontSize: 20.0))
                   ],
@@ -266,9 +266,8 @@ class _PostScreenState extends State<PostScreenFul> {
 
               Container(
                 height: 40.0,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey)
-                ),
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.grey)),
                 child: Row(
                   children: [
                     Container(
@@ -281,21 +280,18 @@ class _PostScreenState extends State<PostScreenFul> {
               ),
 
               Container(
-                height: 40.0,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey)
-                  ),
-                child: Row(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(left: 5.0, right: 10.0),
-                      child: Icon(Icons.videocam, color: Colors.red),
-                    ),
-                    Text("Phát trực tiếp", style: TextStyle(fontSize: 20.0))
-                  ],
-                )
-              ),
-
+                  height: 40.0,
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.grey)),
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 5.0, right: 10.0),
+                        child: Icon(Icons.videocam, color: Colors.red),
+                      ),
+                      Text("Phát trực tiếp", style: TextStyle(fontSize: 20.0))
+                    ],
+                  )),
             ],
           ),
         ),
@@ -311,12 +307,14 @@ class _PostScreenState extends State<PostScreenFul> {
     //   ),
     // );
   }
+
   //Rebuild
   void rebuildAllChildren(BuildContext context) {
     void rebuild(Element el) {
       el.markNeedsBuild();
       el.visitChildren(rebuild);
     }
+
     (context as Element).visitChildren(rebuild);
   }
 

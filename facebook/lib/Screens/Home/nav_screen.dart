@@ -42,11 +42,13 @@ class _NavScreenState extends State<NavScreen> {
             ? PreferredSize(
                 preferredSize: Size(screenSize.width, 100.0),
                 child: CustomAppBar(
-                  currentUser: currentUser,
-                  icons: _icons,
-                  selectedIndex: _selectedIndex,
-                  onTap: (index) => setState(() => _selectedIndex = index),
-                ),
+                    currentUser: currentUser,
+                    icons: _icons,
+                    selectedIndex: _selectedIndex,
+                    onTap: (index) {
+                      setState(() => _selectedIndex = index);
+                      print('tap tap');
+                    }),
               )
             : null,
         // appBar: null,
@@ -62,20 +64,33 @@ class _NavScreenState extends State<NavScreen> {
                     icons: _icons,
                     selectedIndex: _selectedIndex,
                     onTap: (index) async {
-
                       setState(() => _selectedIndex = index);
                       if (index == 1) {
                         Friend_Bloc friendBloc = Friend_Bloc();
                         await friendBloc.apiGetRequestFriend();
-                        print(listFriendRequests);
+                        print(listFriendRequests.length);
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) {
+                        //       return FriendsTab();
+                        //     },
+                        //   ),
+                        // );
                         // FriendRequestContainer friendRequestContainer = FriendRequestContainer();
                         // FriendRequestContainer().createState().didUpdateWidget(friendRequestContainer);
                         // FriendRequestContainerState friendRequestContainerState = FriendRequestContainerState(listFriendRequests.length);
-                        context.visitChildElements((element) {FriendRequestContainer friendRequestContainer = FriendRequestContainer();
-                        friendRequestContainer.createState().didUpdateWidget(friendRequestContainer);});
+                        // context.visitChildElements((element) {
+                        //   FriendRequestContainer friendRequestContainer =
+                        //       FriendRequestContainer();
+                        //   friendRequestContainer
+                        //       .createState()
+                        //       .didUpdateWidget(friendRequestContainer);
+                        // });
                         // FriendRequestContainer friendRequestContainer = Fr
                       }
-                      if( index ==0) {
+
+                      if (index == 0) {
                         PostBloc postBloc = PostBloc();
                         await postBloc.getAllPost();
                         print("Cap nhat trang chu");

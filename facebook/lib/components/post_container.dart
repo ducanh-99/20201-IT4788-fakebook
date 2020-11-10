@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:facebook/Screens/Home/home_screen.dart';
 import 'package:facebook/Screens/Post/post_screen.dart';
 import 'package:facebook/Screens/Post/post_screen_edit.dart';
 import 'package:facebook/Screens/Post/post_screen_ful.dart';
@@ -72,7 +73,6 @@ class PostContainer extends StatelessWidget {
 }
 
 class _PostHeader extends StatelessWidget {
-
   final Post post;
   const _PostHeader({
     Key key,
@@ -83,7 +83,7 @@ class _PostHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     PostBloc _postBloc = PostBloc();
     var timeAgo = DateTime.parse(post.createDate);
-    var avt = 'http://fakebook-20201.herokuapp.com/api/get_avt/'+ post.userid;
+    var avt = 'http://fakebook-20201.herokuapp.com/api/get_avt/' + post.userid;
     timeago.setLocaleMessages('vi', timeago.ViShortMessages());
     return Row(
       children: [
@@ -101,13 +101,11 @@ class _PostHeader extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) {
-                        return Profile();
-                      }));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return Profile();
+                  }));
                 },
               ),
-
               Row(
                 children: [
                   Text(
@@ -150,7 +148,16 @@ class _PostHeader extends StatelessWidget {
                         leading: Icon(Icons.delete),
                         title: Text('Xóa bài viết'),
                         onTap: () => {
-                          _postBloc.deletePost(post.id)
+                          _postBloc.deletePost(post, () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return HomeScreen();
+                                },
+                              ),
+                            );
+                          })
                         },
                       ),
                     ]
@@ -240,40 +247,42 @@ class _PostBodyState extends State<_PostBodyStateful> {
       children: [
         Row(
           children: [
-            likes == 0 ?
-            SizedBox.shrink() :
-            Container(
-              padding: const EdgeInsets.all(4.0),
-              decoration: BoxDecoration(
-                color: kPrimaryColor,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.thumb_up,
-                size: 10.0,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(width: 4.0),
-            likes == 0 ?
-            SizedBox.shrink() :
-            Expanded(
-              child: isLiked
-                  ? Text(
-                likes - 1 == 0? currentUser.username : 'Bạn và ${likes - 1} người khác ',
-                      style: TextStyle(
-                        color: kColorButton,
-                      ),
-                    )
-                  : Text(
-                      '$likes',
-                      style: TextStyle(
-                        color: kColorButton,
-                      ),
+            likes == 0
+                ? SizedBox.shrink()
+                : Container(
+                    padding: const EdgeInsets.all(4.0),
+                    decoration: BoxDecoration(
+                      color: kPrimaryColor,
+                      shape: BoxShape.circle,
                     ),
-            ),
+                    child: const Icon(
+                      Icons.thumb_up,
+                      size: 10.0,
+                      color: Colors.white,
+                    ),
+                  ),
+            const SizedBox(width: 4.0),
+            likes == 0
+                ? SizedBox.shrink()
+                : Expanded(
+                    child: isLiked
+                        ? Text(
+                            likes - 1 == 0
+                                ? currentUser.username
+                                : 'Bạn và ${likes - 1} người khác ',
+                            style: TextStyle(
+                              color: kColorButton,
+                            ),
+                          )
+                        : Text(
+                            '$likes',
+                            style: TextStyle(
+                              color: kColorButton,
+                            ),
+                          ),
+                  ),
             Text(
-             comments == 0 ? '' : '${post.comments} Bình luận',
+              comments == 0 ? '' : '${post.comments} Bình luận',
               style: TextStyle(
                 color: kColorButton,
               ),
