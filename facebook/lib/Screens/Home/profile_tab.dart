@@ -15,7 +15,8 @@ import '../../constants.dart';
 class ProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var dateTime = Jiffy(currentUser.birthday, "yyyy/dd/MM").format("dd 'tháng' MM, yyyy");
+    var dateTime =
+        Jiffy(currentUser.birthday, "yyyy/dd/MM").format("dd 'tháng' MM, yyyy");
     return SingleChildScrollView(
         child: Column(
       children: <Widget>[
@@ -43,7 +44,8 @@ class ProfileTab extends StatelessWidget {
                   CircleAvatar(
                     radius: 70.0,
                     backgroundColor: Colors.grey[200],
-                    backgroundImage: CachedNetworkImageProvider(currentUser.avatar),
+                    backgroundImage:
+                        CachedNetworkImageProvider(currentUser.avatar),
                   ),
                   SizedBox(height: 20.0),
                   Text(currentUser.username,
@@ -101,9 +103,7 @@ class ProfileTab extends StatelessWidget {
                 children: <Widget>[
                   Icon(Icons.calendar_today, color: Colors.grey, size: 30.0),
                   SizedBox(width: 10.0),
-                  Text(
-                    dateTime,
-                      style: TextStyle(fontSize: 16.0))
+                  Text(dateTime, style: TextStyle(fontSize: 16.0))
                 ],
               ),
               SizedBox(height: 15.0),
@@ -301,7 +301,7 @@ class ProfileTab extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               fontSize: 16.0))),
                 ),
-                onTap: () => print("All friends"),
+                onTap: () => print(listFriends.length),
               )
             ],
           ),
@@ -312,7 +312,7 @@ class ProfileTab extends StatelessWidget {
         ),
         // Column(
         //   children: [
-        //     ListView.builder(itemBuilder: (context, index){
+        //     ListView.builder(itemBuilder: (context, index) {
         //       final Post post = posts[index];
         //       return PostContainer(post: post);
         //     }),

@@ -2,17 +2,17 @@ import 'package:meta/meta.dart';
 import 'package:facebook/data/models/models.dart';
 
 class Post {
-  final String id;
+  String id;
   // final User user;
-  final String userid;
-  final String username;
+  String userid;
+  String username;
   String described;
-  final String timeAgo;
-  final String imageUrl;
-  final bool isliked;
-  final int likes;
-  final int comments;
-  final String createDate;
+  String timeAgo;
+  String imageUrl;
+  bool isliked;
+  int likes;
+  int comments;
+  String createDate;
   Post({
     this.id,
     // this.user,
@@ -36,4 +36,32 @@ class Post {
         'comment': comments,
         'createDate': createDate,
       };
+
+  Map<String, dynamic> toMap(Post user) {
+    return Map<String, dynamic>()
+      ..["id"] = user.id
+      ..["userid"] = user.userid
+      ..["username"] = user.username
+      ..["described"] = user.described
+      ..["timeAgo"] = user.timeAgo
+      ..["imageUrl"] = user.imageUrl
+      ..["isliked"] = user.isliked.toString()
+      ..["likes"] = user.likes
+      ..["comments"] = user.comments
+      ..["createDate"] = user.createDate;
+  }
+
+  static Post formJson(Map<String, dynamic> json) {
+    return Post()
+      ..id = json['id']
+      ..userid = json["userid"]
+      ..username = json["username"]
+      ..described = json["described"]
+      ..timeAgo = json["timeAgo"]
+      ..imageUrl = json["imageUrl"]
+      ..isliked = json["isliked"] == 'true' ? true : false
+      ..likes = json["likes"]
+      ..comments = json["comments"]
+      ..createDate = json["createDate"];
+  }
 }

@@ -38,4 +38,8 @@ class PostBloc {
   deletePost(Post postId, Function onSuccess) async {
     await _postRepositoryImpl.deletePost(postId, onSuccess);
   }
+
+  setLocalPost() async {
+    await _postRepositoryImpl.setLocalPost();
+  }
 }

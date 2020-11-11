@@ -8,6 +8,7 @@ import 'package:facebook/data/source/localdatasource/post_local_datasource.dart'
 import 'package:facebook/data/source/localdatasource/user_local_datasource.dart';
 import 'package:facebook/data/source/remotedatasource/user_remotedatasource.dart';
 import 'package:facebook/data/source/remotedatasource/post_remotedatasource.dart';
+import 'package:flutter/rendering.dart';
 
 abstract class PostRepository {
   getAllPost();
@@ -17,6 +18,7 @@ abstract class PostRepository {
   deletePost(Post postId, Function onSuccess);
   Future<bool> likePost(String postID);
   Future<bool> unlikePost(String postID);
+  setLocalPost();
 }
 
 class PostRepositoryImpl extends PostRepository {
@@ -57,5 +59,11 @@ class PostRepositoryImpl extends PostRepository {
   @override
   getAllPostOfUser(String userId) async {
     await _postRemoteDatasource.apiGetAllPostOfUser(userId);
+  }
+
+  @override
+  setLocalPost() async {
+    // TODO: implement setLocalPost
+    await _postLocalDatasource.setLocalPost();
   }
 }

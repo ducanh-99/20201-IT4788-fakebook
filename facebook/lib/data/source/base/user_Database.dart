@@ -24,6 +24,19 @@ class DatabaseProvider {
       join(await getDatabasesPath(), DB_NAME),
       version: 1,
       onCreate: (db, version) {
+        print('init database');
+        db.execute(" CREATE TABLE postnf ("
+            "id TEXT,"
+            "userid TEXT,"
+            "username TEXT,"
+            "described TEXT,"
+            "timeAgo TEXT,"
+            "imageUrl TEXT,"
+            "isliked TEXT,"
+            "likes INTEGER,"
+            "comments INTEGER,"
+            "createDate TEXT"
+            ")");
         return db.execute(
           " CREATE TABLE user(userId TEXT, username TEXT, uuid TEXT,firstname TEXT,lastname TEXT,birthday TEXT, phone TEXT,token TEXT,avatar TEXT)",
           // "CREATE TABLE user(
@@ -47,7 +60,8 @@ class DatabaseProvider {
   //delete the database
   Future deleteDB() async {
     final db = await database;
-    return db.execute('DELETE FROM user');
+    // return db.execute('DELETE FROM user');
+    return await deleteDatabase(join(await getDatabasesPath(), DB_NAME));
   }
 
   Future<int> addUser(UserModels user, String avatar) async {
@@ -65,9 +79,11 @@ class DatabaseProvider {
 
   Future<bool> deleteUser(UserModels user) async {
     final db = await database;
-    final result = await db
-        .delete(TABLE_USER, where: "userId = ?", whereArgs: [user.userId]);
-    return result >= 0;
+    db.execute('DELETE FROM user');
+    return true;
+    // final result = await db
+    //     .delete(TABLE_USER, where: "userId = ?", whereArgs: [user.userId]);
+    //   return result >= 0;
   }
 
   Future<UserModels> getUser() async {

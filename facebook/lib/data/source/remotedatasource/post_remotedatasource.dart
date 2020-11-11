@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:facebook/bloc/local_bloc.dart';
 import 'package:facebook/data/models/post_model.dart';
 import 'package:facebook/data/models/user.dart';
+import 'package:facebook/data/source/base/post_Database.dart';
 import 'package:facebook/data/source/base/user_database.dart';
 import 'package:facebook/data/source/base/user_models.dart';
 import 'package:facebook/data/source/localdatasource/data_personal.dart';
@@ -36,26 +37,42 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
         'Authorization': 'Bearer $token',
       },
     ).then((value) async {
-      print('success');
-      print(token);
       var responseJson = json.decode(value.body);
-      print(responseJson);
       if (responseJson.length > 0) {
+        PostDatabaseProvider postDatabase =
+            await PostDatabaseProvider.databaseProvider;
+        await postDatabase.deleteDB();
         posts = [];
+        int amountLocalPost = 0;
         for (var post in responseJson) {
-          posts.insert(
-              0,
-              Post(
-                  id: post['id'],
-                  isliked: post['is_liked'],
-                  described: post['described'],
-                  userid: post['owner']['user'],
-                  username: post['owner']['username'],
-                  likes: post['like'],
-                  comments: post['comment'],
-                  createDate: post['creation_date'],
-                  imageUrl: '',
-                  timeAgo: ''));
+          Post newpost = Post(
+              id: post['id'],
+              isliked: post['is_liked'],
+              described: post['described'],
+              userid: post['owner']['user'],
+              username: post['owner']['username'],
+              likes: post['like'],
+              comments: post['comment'],
+              createDate: post['creation_date'],
+              imageUrl: '',
+              timeAgo: '');
+          if (amountLocalPost < 11) {
+            Post newpostlocal = Post(
+                id: post['id'],
+                isliked: post['is_liked'],
+                described: post['described'],
+                userid: post['owner']['user'],
+                username: post['owner']['username'],
+                likes: post['like'],
+                comments: post['comment'],
+                createDate: post['creation_date'],
+                imageUrl: '',
+                timeAgo: '');
+            postDatabase.addPost(newpost);
+            amountLocalPost = amountLocalPost + 1;
+          }
+
+          posts.insert(0, newpost);
         }
         print(posts);
         print('Get thanh cong');

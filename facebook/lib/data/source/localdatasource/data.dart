@@ -21,5 +21,6 @@ final User friendUser = User(
 );
 List<Post> posts = [];
 List<Post> userPosts = [];
-List<User> listFriends = [] ;
-List<User> listFriendRequests = [] ;
+List<User> listFriends = [];
+List<User> listFriendRequests = [];
+List<Post> localPosts = [];

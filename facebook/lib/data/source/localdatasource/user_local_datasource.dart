@@ -1,4 +1,5 @@
 import 'package:facebook/data/models/models.dart';
+import 'package:facebook/data/source/base/post_Database.dart';
 import 'package:facebook/data/source/base/user_database.dart';
 import 'package:facebook/data/source/base/user_models.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
@@ -34,7 +35,11 @@ class UserLocalDatasourceImpl implements UserLocalDatasource {
   logOut() async {
     // TODO: implement logOut
     DatabaseProvider database = await DatabaseProvider.databaseProvider;
-    await database.deleteDB();
+    PostDatabaseProvider postDatabaseProvider =
+        PostDatabaseProvider.databaseProvider;
+    await postDatabaseProvider.deleteDB();
+    UserModels _userModels = await database.getUser();
+    await database.deleteUser(_userModels);
     currentUser = null;
   }
 }
