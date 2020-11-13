@@ -22,7 +22,7 @@ void main() async {
   await postBloc.setLocalPost();
 
   if (currentUser != null) {
-    // await postBloc.getAllPost();
+    await postBloc.getAllPost();
 
     await postBloc.getAllPostOfUser(currentUser.id);
     Friend_Bloc friendBloc = Friend_Bloc();
