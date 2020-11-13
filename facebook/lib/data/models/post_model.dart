@@ -9,23 +9,32 @@ class Post {
   String described;
   String timeAgo;
   String imageUrl;
+  String image1;
+  String image2;
+  String image3;
+  String image4;
+  String video;
   bool isliked;
   int likes;
   int comments;
   String createDate;
-  Post({
-    this.id,
-    // this.user,
-    this.userid,
-    this.username,
-    this.described,
-    this.timeAgo,
-    this.imageUrl,
-    this.isliked,
-    this.likes,
-    this.comments,
-    this.createDate,
-  });
+  Post(
+      {this.id,
+      // this.user,
+      this.userid,
+      this.username,
+      this.described,
+      this.timeAgo,
+      this.imageUrl,
+      this.isliked,
+      this.likes,
+      this.comments,
+      this.createDate,
+      this.image1,
+      this.image2,
+      this.image3,
+      this.image4,
+      this.video});
   Map<String, dynamic> toJSON() => {
         'username': username,
         'described': described,
@@ -48,7 +57,12 @@ class Post {
       ..["isliked"] = user.isliked.toString()
       ..["likes"] = user.likes
       ..["comments"] = user.comments
-      ..["createDate"] = user.createDate;
+      ..["createDate"] = user.createDate
+      ..["image1"] = user.image1
+      ..["image2"] = user.image2
+      ..["image3"] = user.image3
+      ..["image4"] = user.image4
+      ..["video"] = user.video;
   }
 
   static Post formJson(Map<String, dynamic> json) {
@@ -62,6 +76,11 @@ class Post {
       ..isliked = json["isliked"] == 'true' ? true : false
       ..likes = json["likes"]
       ..comments = json["comments"]
-      ..createDate = json["createDate"];
+      ..createDate = json["createDate"]
+      ..image1 = json["image1"]
+      ..image2 = json["image2"]
+      ..image3 = json["image3"]
+      ..image4 = json["image4"]
+      ..video = json["video"];
   }
 }

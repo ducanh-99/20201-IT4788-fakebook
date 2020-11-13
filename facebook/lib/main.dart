@@ -16,19 +16,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // DatabaseProvider database = await DatabaseProvider.databaseProvider;
   // await database.deleteDB();
-  // print('b');
   UserLocal_bloc userLocalBloc = UserLocal_bloc();
   PostBloc postBloc = PostBloc();
   await userLocalBloc.setCurrentUser();
-  // DatabaseProvider database = await DatabaseProvider.databaseProvider;
-  // await database.deleteDB();
   await postBloc.setLocalPost();
 
   if (currentUser != null) {
-    print(currentUser.avatar);
-    print(currentUser.id);
-    print(token);
-    await postBloc.getAllPost();
+    // await postBloc.getAllPost();
 
     await postBloc.getAllPostOfUser(currentUser.id);
     Friend_Bloc friendBloc = Friend_Bloc();

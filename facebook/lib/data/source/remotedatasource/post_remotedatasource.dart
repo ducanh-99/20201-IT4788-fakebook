@@ -55,24 +55,39 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
               likes: post['like'],
               comments: post['comment'],
               createDate: post['creation_date'],
+              image1: post['images']['image1'] != null
+                  ? 'https://fakebook-20201.herokuapp.com/api/post/' +
+                      post['id'] +
+                      '/image1'
+                  : '',
+              image2: post['images']['image2'] != null
+                  ? 'https://fakebook-20201.herokuapp.com/api/post/' +
+                      post['id'] +
+                      '/image2'
+                  : '',
+              image3: post['images']['image3'] != null
+                  ? 'https://fakebook-20201.herokuapp.com/api/post/' +
+                      post['id'] +
+                      '/image3'
+                  : '',
+              image4: post['images']['image4'] != null
+                  ? 'https://fakebook-20201.herokuapp.com/api/post/' +
+                      post['id'] +
+                      '/image4'
+                  : '',
+              video: post['video'] != null
+                  ? 'https://fakebook-20201.herokuapp.com/api/video/' +
+                      post['id']
+                  : '',
               imageUrl: '',
               timeAgo: '');
           if (amountLocalPost < 11) {
-            Post newpostlocal = Post(
-                id: post['id'],
-                isliked: post['is_liked'],
-                described: post['described'],
-                userid: post['owner']['user'],
-                username: post['owner']['username'],
-                likes: post['like'],
-                comments: post['comment'],
-                createDate: post['creation_date'],
-                imageUrl: '',
-                timeAgo: '');
             postDatabase.addPost(newpost);
             amountLocalPost = amountLocalPost + 1;
           }
-          print(post['is_liked']);
+          print(newpost.image1);
+          print(newpost.image4);
+          print(newpost.video);
           posts.add(newpost);
         }
       } else {
