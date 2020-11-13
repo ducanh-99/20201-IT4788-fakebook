@@ -17,7 +17,7 @@ class PostLocalDatasourceImpl implements PostLocalDatasource {
       print('local post not empty');
       for (var post in postData) {
         Post postData = Post.formJson(post);
-        localPosts.insert(0, postData);
+        localPosts.add(postData);
       }
       posts = localPosts;
     } else {}

@@ -42,6 +42,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
         PostDatabaseProvider postDatabase =
             await PostDatabaseProvider.databaseProvider;
         await postDatabase.deleteDB();
+        print(responseJson);
         posts = [];
         int amountLocalPost = 0;
         for (var post in responseJson) {
@@ -71,11 +72,9 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
             postDatabase.addPost(newpost);
             amountLocalPost = amountLocalPost + 1;
           }
-
-          posts.insert(0, newpost);
+          print(post['is_liked']);
+          posts.add(newpost);
         }
-        print(posts);
-        print('Get thanh cong');
       } else {
         posts = [];
       }
@@ -177,11 +176,12 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
         'Authorization': 'Bearer $token',
       },
     ).then((value) async {
+      PostDatabaseProvider postDatabase =
+          await PostDatabaseProvider.databaseProvider;
+      await postDatabase.deletePost(postId);
       posts.remove(postId);
       onSuccess();
-      print('success');
       var responseJson = json.decode(value.body);
-      print(responseJson);
     }).catchError((error) {
       print('Error');
     });
@@ -225,9 +225,8 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
         'Authorization': 'Bearer $token',
       },
     ).then((value) async {
-      print('success');
-      print(token);
       var responseJson = json.decode(value.body);
+
       print(responseJson);
       if (responseJson.length > 0) {
         userPosts = [];
@@ -244,8 +243,6 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
               imageUrl: '',
               timeAgo: ''));
         }
-        print(userPosts);
-        print('Get thanh cong');
       } else {
         userPosts = [];
       }
