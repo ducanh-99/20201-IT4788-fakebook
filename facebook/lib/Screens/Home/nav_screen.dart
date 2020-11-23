@@ -64,22 +64,26 @@ class _NavScreenState extends State<NavScreen> {
                     icons: _icons,
                     selectedIndex: _selectedIndex,
                     onTap: (index) async {
+                      print('set state');
                       setState(() => _selectedIndex = index);
                       if (index == 1) {
                         Friend_Bloc friendBloc = Friend_Bloc();
                         await friendBloc.apiGetRequestFriend();
                         print(listFriendRequests.length);
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) {
-                        //       return FriendsTab();
-                        //     },
-                        //   ),
-                        // );
-                        // FriendRequestContainer friendRequestContainer = FriendRequestContainer();
-                        // FriendRequestContainer().createState().didUpdateWidget(friendRequestContainer);
-                        // FriendRequestContainerState friendRequestContainerState = FriendRequestContainerState(listFriendRequests.length);
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FriendRequestContainer()),
+                        );
+                        // FriendRequestContainer friendRequestContainer =
+                        //     FriendRequestContainer();
+                        // FriendRequestContainer()
+                        //     .createState()
+                        //     .didUpdateWidget(friendRequestContainer);
+                        // FriendRequestContainerState
+                        //     friendRequestContainerState =
+                        //     FriendRequestContainerState();
                         // context.visitChildElements((element) {
                         //   FriendRequestContainer friendRequestContainer =
                         //       FriendRequestContainer();

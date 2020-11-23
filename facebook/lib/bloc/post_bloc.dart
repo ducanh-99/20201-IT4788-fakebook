@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:facebook/data/repository/post_repository.dart';
 import 'package:facebook/data/source/localdatasource/post_local_datasource.dart';
 import 'package:facebook/data/source/localdatasource/user_local_datasource.dart';
@@ -19,8 +20,8 @@ class PostBloc {
     await _postRepositoryImpl.getAllPostOfUser(userId);
   }
 
-  uploadPost(String token, String described) async {
-    await _postRepositoryImpl.uploadPost(token, described);
+  uploadPost(String token, String described, File image) async {
+    await _postRepositoryImpl.uploadPost(token, described, image);
   }
 
   Future<bool> likePost(String postID) async {

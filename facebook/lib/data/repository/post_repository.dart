@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:facebook/data/models/post_model.dart';
 import 'package:facebook/data/models/user.dart';
 import 'package:facebook/data/source/base/user_database.dart';
@@ -13,7 +15,7 @@ import 'package:flutter/rendering.dart';
 abstract class PostRepository {
   getAllPost();
   getAllPostOfUser(String userId);
-  uploadPost(String token, String described);
+  uploadPost(String token, String described, File image);
   updatePost(Post post, String described, Function onSuccess);
   deletePost(Post postId, Function onSuccess);
   Future<bool> likePost(String postID);
@@ -32,8 +34,8 @@ class PostRepositoryImpl extends PostRepository {
   }
 
   @override
-  uploadPost(String token, String described) async {
-    await _postRemoteDatasource.apiUploadPost(token, described);
+  uploadPost(String token, String described, File image) async {
+    await _postRemoteDatasource.apiUploadPost(token, described, image);
   }
 
   @override

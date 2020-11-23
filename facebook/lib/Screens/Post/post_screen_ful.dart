@@ -79,7 +79,7 @@ class _PostScreenState extends State<PostScreenFul> {
                 TextStyle(fontWeight: FontWeight.bold, color: kColorTextNormal),
           ),
           onPressed: () async {
-            await postBloc.uploadPost(token, described);
+            await postBloc.uploadPost(token, described, image);
             Navigator.push(
               context,
               MaterialPageRoute(

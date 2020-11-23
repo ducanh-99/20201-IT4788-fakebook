@@ -64,17 +64,13 @@ class FriendRemotedatasourceImpl implements FriendRemotedatasource {
         for (var info in obj) {
           var avt = 'https://fakebook-20201.herokuapp.com/api/get_avt/' +
               info['user'];
-          listFriends.insert(
-              0,
-              User(
-                avatar: avt,
-                username: info['username'],
-                id: info['user'],
-              ));
+          listFriends.add(User(
+            avatar: avt,
+            username: info['username'],
+            id: info['user'],
+          ));
         }
       }
-      print(listFriends);
-      print('Get thanh cong');
     }).catchError((error) {
       print('Error');
       print(error);

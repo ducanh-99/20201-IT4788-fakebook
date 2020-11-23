@@ -10,6 +10,7 @@ class Friend_Bloc {
     print('get friend request');
     await friendRespository.apiGetRequestFriend();
   }
+
   getListFriend(String userId) async {
     print('get list friend');
     await friendRespository.getListFriend(userId);

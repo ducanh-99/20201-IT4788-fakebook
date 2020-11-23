@@ -37,6 +37,8 @@ dependencies:
   timeago: ^2.0.27
   jiffy: ^3.0.1
   loading_gifs: ^0.2.3
+  line_icons: ^0.2.0
+  dio: ^3.0.10
   flutter:
     sdk: flutter
 

@@ -115,65 +115,61 @@ class FriendRequestContainerState extends State<FriendRequestContainer> {
   int friendRequest;
 
   // FriendRequestContainerState(this.friendRequest);
-
   @override
   void initState() {
-    friendRequest = listFriendRequests.length;
-    print("initState");
     super.initState();
+    friendRequest = listFriendRequests.length;
   }
-
-  // void update(){
-  //   Future.delayed(Duration)
+  // @override
+  // void initState() {
+  //   friendRequest = listFriendRequests.length;
+  //   print("initState");
+  //   super.initState();
   // }
 
-  void updateStateFriendRequestContainer() {
-    print("updateStateFriendRequestContainer");
-    setState(() {
-      friendRequest = listFriendRequests.length;
-    });
-  }
+  // // void update(){
+  // //   Future.delayed(Duration)
+  // // }
 
-  @override
-  void didUpdateWidget(FriendRequestContainer oldWidget) {
-    // setState(() {
-    //   friendRequest = listFriendRequests.length;
-    // });
-    // updateStateFriendRequestContainer();
-    print("update");
-    friendRequest = listFriendRequests.length;
-    build(context);
-    super.didUpdateWidget(oldWidget);
-    // setState(() {
-    //     friendRequest = listFriendRequests.length;
-    //   });
-    // build(context);
-    // friendRequest = listFriendRequests.length;
-  }
-
-  @override
-  void didChangeDependencies() {
-    updateStateFriendRequestContainer();
-    print("change");
-    super.didChangeDependencies();
-  }
-  //
-  // void _delete() {
+  // void updateStateFriendRequestContainer() {
+  //   print("updateStateFriendRequestContainer");
   //   setState(() {
-  //     isAccept = 2;
-  //     print('increment: $isAccept');
+  //     friendRequest = listFriendRequests.length;
   //   });
+  // }
+
+  // @override
+  // void didUpdateWidget(FriendRequestContainer oldWidget) {
+  //   // setState(() {
+  //   //   friendRequest = listFriendRequests.length;
+  //   // });
+  //   // updateStateFriendRequestContainer();
+  //   print("update");
+  //   friendRequest = listFriendRequests.length;
+  //   build(context);
+  //   super.didUpdateWidget(oldWidget);
+  //   // setState(() {
+  //   //     friendRequest = listFriendRequests.length;
+  //   //   });
+  //   // build(context);
+  //   // friendRequest = listFriendRequests.length;
+  // }
+
+  // @override
+  // void didChangeDependencies() {
+  //   updateStateFriendRequestContainer();
+  //   print("change");
+  //   super.didChangeDependencies();
   // }
 
   @override
   Widget build(BuildContext context) {
     // updateStateFriendRequestContainer();
-    print(friendRequest);
-    print(listFriendRequests);
     friendRequest = listFriendRequests.length;
     return Container(
       child: Column(
         children: [
+          Divider(height: 30.0),
           Row(
             children: <Widget>[
               InkWell(
@@ -199,7 +195,7 @@ class FriendRequestContainerState extends State<FriendRequestContainer> {
           friendRequest == 0
               ? SizedBox(height: 10)
               : ListBody(
-                  children: List.generate(friendRequest, (index) {
+                  children: List.generate(listFriendRequests.length, (index) {
                   final User user = listFriendRequests[index];
                   return FriendRequest(user: user);
                 })),

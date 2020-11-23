@@ -27,7 +27,7 @@ void main() async {
     await postBloc.getAllPostOfUser(currentUser.id);
     Friend_Bloc friendBloc = Friend_Bloc();
     await friendBloc.getListFriend(currentUser.id);
-    await friendBloc.apiGetRequestFriend();
+    // await friendBloc.apiGetRequestFriend();
   }
   runApp(MyApp());
 }

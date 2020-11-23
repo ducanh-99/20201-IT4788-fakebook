@@ -6,6 +6,7 @@ import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
 import 'package:facebook/components/home_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:facebook/Screens/Messenger/messenger_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -76,7 +77,16 @@ class _HomeScreenMobile extends StatelessWidget {
             CircleButton(
               icon: MdiIcons.facebookMessenger,
               iconSize: 30.0,
-              onPressed: () => print('Messenger'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return MessengerScreen();
+                    },
+                  ),
+                );
+              },
             ),
           ],
           // bottom: TabBar(
