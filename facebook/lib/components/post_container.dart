@@ -1,5 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook/Screens/Home/home_screen.dart';
+import 'package:facebook/Screens/Post/card_comment.dart';
+import 'package:facebook/Screens/Post/comment.dart';
+import 'package:facebook/Screens/Post/list_comment.dart';
 import 'package:facebook/Screens/Post/post_screen.dart';
 import 'package:facebook/Screens/Post/post_screen_edit.dart';
 import 'package:facebook/Screens/Post/post_screen_ful.dart';
@@ -102,7 +105,7 @@ class _PostHeader extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return Profile();
+                    return ProfileUser();
                   }));
                 },
               ),
@@ -319,8 +322,13 @@ class _PostBodyState extends State<_PostBodyStateful> {
                 ),
                 label: Text('Bình luận'),
                 onTap: () {
-                  print(isLiked);
-                  showCommentSheet(context, [CommentContainer()]);
+                  // print(isLiked);
+                  // showCommentSheet(context, [CommentContainer()]);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return CommentScreen();
+                    // return CardComment(comment_profile_pic: '',comment_text: 'Cômment',comment_username: 'Hoa Xuân Dương',);
+                    // return ListCommentScreen();
+                  }));
                 }),
           ],
         ),
