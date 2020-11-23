@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
+
 class CustomTabBar extends StatelessWidget {
   final List<IconData> icons;
   final int selectedIndex;
@@ -17,6 +18,7 @@ class CustomTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TabBar(
+      onTap: onTap,
       indicatorPadding: EdgeInsets.zero,
       indicator: BoxDecoration(
         border: isBottomIndicator
@@ -40,16 +42,13 @@ class CustomTabBar extends StatelessWidget {
                 Tab(
                   icon: Icon(
                     e,
-                    color: i == selectedIndex
-                        ? kPrimaryColor
-                        : Colors.black45,
+                    color: i == selectedIndex ? kPrimaryColor : Colors.black45,
                     size: 30.0,
                   ),
                 ),
               ))
           .values
           .toList(),
-      onTap: onTap,
     );
   }
 }

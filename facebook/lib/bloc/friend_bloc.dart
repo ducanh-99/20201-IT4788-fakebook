@@ -6,9 +6,8 @@ import 'dart:async';
 class Friend_Bloc {
   FriendRespository friendRespository =
       FriendResposityImpl(FriendRemotedatasourceImpl());
-  apiGetRequestFriend() async {
-    print('get friend request');
-    await friendRespository.apiGetRequestFriend();
+  apiGetRequestFriend(Function onSuccess) async {
+    await friendRespository.apiGetRequestFriend(onSuccess);
   }
 
   getListFriend(String userId) async {

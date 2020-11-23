@@ -14,6 +14,7 @@ class NavScreen extends StatefulWidget {
 }
 
 class _NavScreenState extends State<NavScreen> {
+  int _selectedIndex = indexState;
   final List<Widget> _screens = [
     HomeScreen(),
     FriendsTab(),
@@ -30,7 +31,6 @@ class _NavScreenState extends State<NavScreen> {
     MdiIcons.bellOutline,
     Icons.menu,
   ];
-  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,6 @@ class _NavScreenState extends State<NavScreen> {
                     selectedIndex: _selectedIndex,
                     onTap: (index) {
                       setState(() => _selectedIndex = index);
-                      print('tap tap');
                     }),
               )
             : null,
@@ -61,45 +60,36 @@ class _NavScreenState extends State<NavScreen> {
                 padding: const EdgeInsets.only(bottom: 12.0),
                 color: Colors.white,
                 child: CustomTabBar(
-                    icons: _icons,
-                    selectedIndex: _selectedIndex,
-                    onTap: (index) async {
-                      print('set state');
-                      setState(() => _selectedIndex = index);
-                      if (index == 1) {
-                        Friend_Bloc friendBloc = Friend_Bloc();
-                        await friendBloc.apiGetRequestFriend();
-                        print(listFriendRequests.length);
-
+                  icons: _icons,
+                  onTap: (index) async {
+                    setState(() => _selectedIndex = index);
+                    if (index == 1) {
+                      Friend_Bloc friendBloc = Friend_Bloc();
+                      await friendBloc.apiGetRequestFriend(() {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => FriendRequestContainer()),
+                            builder: (context) {
+                              indexState = 1;
+                              NavScreen navScreen = new NavScreen();
+                              return navScreen;
+                            },
+                          ),
                         );
-                        // FriendRequestContainer friendRequestContainer =
-                        //     FriendRequestContainer();
-                        // FriendRequestContainer()
-                        //     .createState()
-                        //     .didUpdateWidget(friendRequestContainer);
-                        // FriendRequestContainerState
-                        //     friendRequestContainerState =
-                        //     FriendRequestContainerState();
-                        // context.visitChildElements((element) {
-                        //   FriendRequestContainer friendRequestContainer =
-                        //       FriendRequestContainer();
-                        //   friendRequestContainer
-                        //       .createState()
-                        //       .didUpdateWidget(friendRequestContainer);
-                        // });
-                        // FriendRequestContainer friendRequestContainer = Fr
-                      }
-
-                      if (index == 0) {
-                        PostBloc postBloc = PostBloc();
-                        await postBloc.getAllPost();
-                        print("Cap nhat trang chu");
-                      }
-                    }),
+                      });
+                    }
+                    if (index == 0) {
+                      indexState = 0;
+                      PostBloc postBloc = PostBloc();
+                      await postBloc.getAllPost();
+                      print("Cap nhat trang chu");
+                    }
+                    if (index == 2) {
+                      indexState = 2;
+                    }
+                  },
+                  selectedIndex: _selectedIndex,
+                ),
               )
             : const SizedBox.shrink(),
       ),

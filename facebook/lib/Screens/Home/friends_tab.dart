@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../../constants.dart';
 
 class FriendsTab extends StatelessWidget {
+  FriendRequestContainer friendRequestContainer = new FriendRequestContainer();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -45,7 +46,7 @@ class FriendsTab extends StatelessWidget {
                 ],
               ),
 
-              Divider(height: 30.0),
+              // Divider(height: 30.0),
 
               // Row(
               //   children: <Widget>[
@@ -53,8 +54,10 @@ class FriendsTab extends StatelessWidget {
               //         style: TextStyle(
               //             fontSize: 19.0, fontWeight: FontWeight.bold)),
               //     SizedBox(width: 10.0),
-              //     Text(listFriendRequests.isEmpty ? '0' : listFriendRequests
-              //         .length.toString(),
+              //     Text(
+              //         listFriendRequests.isEmpty
+              //             ? '0'
+              //             : listFriendRequests.length.toString(),
               //         style: TextStyle(
               //             fontSize: 19.0,
               //             fontWeight: FontWeight.bold,
@@ -63,15 +66,17 @@ class FriendsTab extends StatelessWidget {
               // ),
 
               // SizedBox(height: 20.0),
-              // FriendRequest(user: listFriendRequest[0],),
+              // // FriendRequest(
+              // //   user: listFriendRequest[0],
+              // // ),
               // Row(
               //   children: [
-              //    Flexible(
-              //        child:  ListView.builder(itemBuilder: (context, index){
-              //          final User user = listFriendRequests[index];
-              //          return FriendRequest(user: user);
-              //        }),
-              //    )
+              //     Flexible(
+              //       child: ListView.builder(itemBuilder: (context, index) {
+              //         final User user = listFriendRequests[index];
+              //         return FriendRequest(user: user);
+              //       }),
+              //     )
               //   ],
               // ),
               // FadeInImage.assetNetwork(
@@ -80,12 +85,12 @@ class FriendsTab extends StatelessWidget {
               // listFriendRequests.isEmpty
               //     ? SizedBox.shrink()
               //     : ListBody(
-              //     children:
-              //     List.generate(listFriendRequests.length, (index) {
-              //       final User user = listFriendRequests[index];
-              //       return FriendRequest(user: user);
-              //     })),
-              FriendRequestContainer(),
+              //         children:
+              //             List.generate(listFriendRequests.length, (index) {
+              //         final User user = listFriendRequests[index];
+              //         return FriendRequest(user: user);
+              //       })),
+              friendRequestContainer,
               Divider(height: 30.0),
               Text('Bạn bè có thể biết',
                   style:
@@ -105,21 +110,16 @@ class FriendRequestContainer extends StatefulWidget {
   // final int friendRequest;
   //
   // const FriendRequestContainer({Key key, this.friendRequest}) : super(key: key);
+  int friendRequest = 1;
   @override
   State<StatefulWidget> createState() {
-    return FriendRequestContainerState();
+    return new FriendRequestContainerState();
   }
 }
 
 class FriendRequestContainerState extends State<FriendRequestContainer> {
-  int friendRequest;
-
+  int friendRequest = listFriendRequests.length;
   // FriendRequestContainerState(this.friendRequest);
-  @override
-  void initState() {
-    super.initState();
-    friendRequest = listFriendRequests.length;
-  }
   // @override
   // void initState() {
   //   friendRequest = listFriendRequests.length;
@@ -127,9 +127,9 @@ class FriendRequestContainerState extends State<FriendRequestContainer> {
   //   super.initState();
   // }
 
-  // // void update(){
-  // //   Future.delayed(Duration)
-  // // }
+  // void update(){
+  //   Future.delayed(Duration)
+  // }
 
   // void updateStateFriendRequestContainer() {
   //   print("updateStateFriendRequestContainer");
@@ -148,11 +148,9 @@ class FriendRequestContainerState extends State<FriendRequestContainer> {
   //   friendRequest = listFriendRequests.length;
   //   build(context);
   //   super.didUpdateWidget(oldWidget);
-  //   // setState(() {
-  //   //     friendRequest = listFriendRequests.length;
-  //   //   });
-  //   // build(context);
-  //   // friendRequest = listFriendRequests.length;
+  //   setState(() {
+  //     friendRequest = listFriendRequests.length;
+  //   });
   // }
 
   // @override
@@ -166,6 +164,7 @@ class FriendRequestContainerState extends State<FriendRequestContainer> {
   Widget build(BuildContext context) {
     // updateStateFriendRequestContainer();
     friendRequest = listFriendRequests.length;
+    print('friendRequest=' + friendRequest.toString());
     return Container(
       child: Column(
         children: [

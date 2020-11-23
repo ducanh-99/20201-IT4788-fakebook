@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:facebook/Screens/Home/nav_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'package:facebook/bloc/friend_bloc.dart';
@@ -8,13 +10,13 @@ import 'package:facebook/data/source/localdatasource/user_local_datasource.dart'
 import 'package:facebook/data/source/localdatasource/local_data.dart';
 
 abstract class FriendRemotedatasource {
-  apiGetFriendRequest();
+  apiGetFriendRequest(Function onSuccess);
   apiGetListFriend(String userId);
 }
 
 class FriendRemotedatasourceImpl implements FriendRemotedatasource {
   @override
-  apiGetFriendRequest() async {
+  apiGetFriendRequest(Function onSuccess) async {
     print(currentUser.id);
     var response = await http.get(
       'https://fakebook-20201.herokuapp.com/api/friend/listrequest',
@@ -40,6 +42,7 @@ class FriendRemotedatasourceImpl implements FriendRemotedatasource {
         }
       }
       print('Get thanh cong');
+      onSuccess();
     }).catchError((error) {
       print('Error');
     });

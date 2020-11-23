@@ -24,3 +24,4 @@ List<Post> userPosts = [];
 List<User> listFriends = [];
 List<User> listFriendRequests = [];
 List<Post> localPosts = [];
+int indexState = 0;

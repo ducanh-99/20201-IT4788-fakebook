@@ -123,7 +123,6 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
         request.files
             .add(await http.MultipartFile.fromPath('image1', image.path));
       }
-      print(image.path);
       var response = await request.send().then((value) async {
         final respStr = await value.stream.bytesToString();
         var responseJson = json.decode(respStr);
