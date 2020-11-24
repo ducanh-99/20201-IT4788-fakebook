@@ -39,6 +39,7 @@ dependencies:
   loading_gifs: ^0.2.3
   line_icons: ^0.2.0
   dio: ^3.0.10
+  pull_to_refresh: ^1.6.3
   flutter:
     sdk: flutter
 

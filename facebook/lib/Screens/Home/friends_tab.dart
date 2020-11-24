@@ -3,6 +3,7 @@ import 'package:facebook/components/friend_request.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/source/localdatasource/data.dart';
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../constants.dart';
 
@@ -17,6 +18,32 @@ class _FriendsTabState extends State<FriendsTab>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+  void _onRefresh() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000), () async {
+      Friend_Bloc friendBloc = Friend_Bloc();
+      await friendBloc.apiGetRequestFriend(() {});
+      return 'Data Loaded';
+    });
+    // if failed,use refreshFailed()
+    print('down');
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000), () async {
+      Friend_Bloc friendBloc = Friend_Bloc();
+      await friendBloc.apiGetRequestFriend(() {});
+    });
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    if (mounted) setState(() {});
+    print('up');
+    _refreshController.loadComplete();
+  }
 
   Future<String> _calculation = Future<String>.delayed(
     Duration(seconds: 2),
@@ -37,136 +64,147 @@ class _FriendsTabState extends State<FriendsTab>
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: FutureBuilder<String>(
-        future: _calculation,
-        builder: (context, snapshot) {
-          List<Widget> children;
-          if (snapshot.hasData) {
-            children = <Widget>[
-              Text('Bạn bè',
-                  style:
-                      TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold)),
-              SizedBox(height: 15.0),
-              Row(
-                children: <Widget>[
-                  Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                    decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(30.0)),
-                    child: Text('Gợi ý',
-                        style: TextStyle(
-                            fontSize: 17.0, fontWeight: FontWeight.bold)),
+    return Scaffold(
+      body: SmartRefresher(
+        controller: _refreshController,
+        onRefresh: _onRefresh,
+        onLoading: _onLoading,
+        header: MaterialClassicHeader(),
+        footer: ClassicFooter(),
+        enablePullDown: true,
+        enablePullUp: true,
+        child: SingleChildScrollView(
+          child: FutureBuilder<String>(
+            future: _calculation,
+            builder: (context, snapshot) {
+              List<Widget> children;
+              if (snapshot.hasData) {
+                children = <Widget>[
+                  Text('Bạn bè',
+                      style: TextStyle(
+                          fontSize: 21.0, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 15.0),
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 15.0, vertical: 10.0),
+                        decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(30.0)),
+                        child: Text('Gợi ý',
+                            style: TextStyle(
+                                fontSize: 17.0, fontWeight: FontWeight.bold)),
+                      ),
+                      SizedBox(width: 10.0),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 15.0, vertical: 10.0),
+                        decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(30.0)),
+                        child: Text('Tất cả bạn bè',
+                            style: TextStyle(
+                                fontSize: 17.0, fontWeight: FontWeight.bold)),
+                      )
+                    ],
                   ),
-                  SizedBox(width: 10.0),
-                  Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                    decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(30.0)),
-                    child: Text('Tất cả bạn bè',
-                        style: TextStyle(
-                            fontSize: 17.0, fontWeight: FontWeight.bold)),
+                  friendRequestContainer,
+                  Divider(height: 30.0),
+                  Text('Bạn bè có thể biết',
+                      style: TextStyle(
+                          fontSize: 19.0, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 20.0),
+                  SizedBox(height: 20.0)
+                ];
+              } else if (snapshot.hasError) {
+                children = <Widget>[
+                  Text('Bạn bè',
+                      style: TextStyle(
+                          fontSize: 21.0, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 15.0),
+                  Icon(
+                    Icons.error_outline,
+                    color: Colors.red,
+                    size: 60,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Text('Error: ${snapshot.error}'),
                   )
-                ],
-              ),
-              friendRequestContainer,
-              Divider(height: 30.0),
-              Text('Bạn bè có thể biết',
-                  style:
-                      TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
-              SizedBox(height: 20.0),
-              SizedBox(height: 20.0)
-            ];
-          } else if (snapshot.hasError) {
-            children = <Widget>[
-              Text('Bạn bè',
-                  style:
-                      TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold)),
-              SizedBox(height: 15.0),
-              Icon(
-                Icons.error_outline,
-                color: Colors.red,
-                size: 60,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Text('Error: ${snapshot.error}'),
-              )
-            ];
-          } else {
-            children = <Widget>[
-              Text('Bạn bè',
-                  style:
-                      TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold)),
-              SizedBox(height: 15.0),
-              SizedBox(
-                child: CircularProgressIndicator(),
-                width: 60,
-                height: 60,
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 16),
-              )
-            ];
-          }
-          return Container(
-            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: children,
-            ),
-          );
-        },
+                ];
+              } else {
+                children = <Widget>[
+                  Text('Bạn bè',
+                      style: TextStyle(
+                          fontSize: 21.0, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 15.0),
+                  SizedBox(
+                    child: CircularProgressIndicator(),
+                    width: 60,
+                    height: 60,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 16),
+                  )
+                ];
+              }
+              return Container(
+                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: children,
+                ),
+              );
+            },
+          ),
+          // child: Container(
+          //     padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+          //     child: Column(
+          //       mainAxisAlignment: MainAxisAlignment.start,
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: <Widget>[
+          //         Text('Bạn bè',
+          //             style:
+          //                 TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold)),
+          //         SizedBox(height: 15.0),
+          //         Row(
+          //           children: <Widget>[
+          //             Container(
+          //               padding:
+          //                   EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+          //               decoration: BoxDecoration(
+          //                   color: Colors.grey[300],
+          //                   borderRadius: BorderRadius.circular(30.0)),
+          //               child: Text('Gợi ý',
+          //                   style: TextStyle(
+          //                       fontSize: 17.0, fontWeight: FontWeight.bold)),
+          //             ),
+          //             SizedBox(width: 10.0),
+          //             Container(
+          //               padding:
+          //                   EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+          //               decoration: BoxDecoration(
+          //                   color: Colors.grey[300],
+          //                   borderRadius: BorderRadius.circular(30.0)),
+          //               child: Text('Tất cả bạn bè',
+          //                   style: TextStyle(
+          //                       fontSize: 17.0, fontWeight: FontWeight.bold)),
+          //             )
+          //           ],
+          //         ),
+          //         friendRequestContainer,
+          //         Divider(height: 30.0),
+          //         Text('Bạn bè có thể biết',
+          //             style:
+          //                 TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
+          //         SizedBox(height: 20.0),
+          //         SizedBox(height: 20.0)
+          //       ],
+          //     )),
+        ),
       ),
-      // child: Container(
-      //     padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-      //     child: Column(
-      //       mainAxisAlignment: MainAxisAlignment.start,
-      //       crossAxisAlignment: CrossAxisAlignment.start,
-      //       children: <Widget>[
-      //         Text('Bạn bè',
-      //             style:
-      //                 TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold)),
-      //         SizedBox(height: 15.0),
-      //         Row(
-      //           children: <Widget>[
-      //             Container(
-      //               padding:
-      //                   EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-      //               decoration: BoxDecoration(
-      //                   color: Colors.grey[300],
-      //                   borderRadius: BorderRadius.circular(30.0)),
-      //               child: Text('Gợi ý',
-      //                   style: TextStyle(
-      //                       fontSize: 17.0, fontWeight: FontWeight.bold)),
-      //             ),
-      //             SizedBox(width: 10.0),
-      //             Container(
-      //               padding:
-      //                   EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-      //               decoration: BoxDecoration(
-      //                   color: Colors.grey[300],
-      //                   borderRadius: BorderRadius.circular(30.0)),
-      //               child: Text('Tất cả bạn bè',
-      //                   style: TextStyle(
-      //                       fontSize: 17.0, fontWeight: FontWeight.bold)),
-      //             )
-      //           ],
-      //         ),
-      //         friendRequestContainer,
-      //         Divider(height: 30.0),
-      //         Text('Bạn bè có thể biết',
-      //             style:
-      //                 TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
-      //         SizedBox(height: 20.0),
-      //         SizedBox(height: 20.0)
-      //       ],
-      //     )),
     );
   }
 }

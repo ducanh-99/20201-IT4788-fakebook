@@ -1,4 +1,5 @@
 import 'package:facebook/Screens/Home/home_screen.dart';
+import 'package:facebook/Screens/Home/nav_screen.dart';
 import 'package:facebook/bloc/post_bloc.dart';
 import 'package:facebook/components/home_widget.dart';
 import 'package:facebook/data/models/models.dart';
@@ -60,7 +61,7 @@ class PostScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return HomeScreen();
+                      return NavScreen();
                     },
                   ),
                 );

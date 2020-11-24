@@ -8,139 +8,225 @@ import 'package:facebook/data/source/localdatasource/local_data.dart';
 import 'package:facebook/components/home_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:facebook/Screens/Messenger/messenger_screen.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreenMobile extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomeScreenMobile createState() => _HomeScreenMobile();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  final TrackingScrollController _trackingScrollController =
-      TrackingScrollController();
+class _HomeScreenMobile extends State<HomeScreenMobile> {
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+  void _onRefresh() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use refreshFailed()
+    print('down');
+    _refreshController.refreshCompleted();
+  }
 
-  @override
-  void dispose() {
-    _trackingScrollController.dispose();
-    super.dispose();
+  void _onLoading() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    if (mounted) setState(() {});
+    print('up');
+    _refreshController.loadComplete();
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        body: Responsive(
-          mobile:
-              _HomeScreenMobile(scrollController: _trackingScrollController),
-          // desktop:
-          //     _HomeScreenDesktop(scrollController: _trackingScrollController),
-        ),
-      ),
-    );
-  }
-}
-
-class _HomeScreenMobile extends StatelessWidget {
-  final TrackingScrollController scrollController;
-
-  const _HomeScreenMobile({
-    Key key,
-    @required this.scrollController,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    TabController _tabController;
-    return CustomScrollView(
-      controller: scrollController,
-      slivers: [
-        SliverAppBar(
-          brightness: Brightness.light,
-          backgroundColor: backgroundColor,
-          title: Text(
-            'facebook',
-            style: const TextStyle(
-              color: kPrimaryColor,
-              fontSize: 28.0,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -1.2,
+    return Scaffold(
+      body: SmartRefresher(
+        controller: _refreshController,
+        onRefresh: _onRefresh,
+        onLoading: _onLoading,
+        header: MaterialClassicHeader(),
+        footer: ClassicFooter(),
+        enablePullDown: true,
+        enablePullUp: true,
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              brightness: Brightness.light,
+              backgroundColor: backgroundColor,
+              title: Text(
+                'facebook',
+                style: const TextStyle(
+                  color: kPrimaryColor,
+                  fontSize: 28.0,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: -1.2,
+                ),
+              ),
+              centerTitle: false,
+              floating: true,
+              actions: [
+                CircleButton(
+                  icon: Icons.search,
+                  iconSize: 30.0,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return SearchScreen();
+                        },
+                      ),
+                    );
+                  },
+                ),
+                CircleButton(
+                  icon: MdiIcons.facebookMessenger,
+                  iconSize: 30.0,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return MessengerScreen();
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ],
+              // bottom: TabBar(
+              //           //   indicatorColor: Colors.blueAccent,
+              //           //   controller: _tabController,
+              //           //   unselectedLabelColor: Colors.grey,
+              //           //   labelColor: Colors.blueAccent,
+              //           //   tabs: [
+              //           //     Tab(icon: Icon(Icons.home, size: 30.0)),
+              //           //     Tab(icon: Icon(Icons.people, size: 30.0)),
+              //           //     Tab(icon: Icon(Icons.ondemand_video, size: 30.0)),
+              //           //     Tab(icon: Icon(Icons.account_circle, size: 30.0)),
+              //           //     Tab(icon: Icon(Icons.notifications, size: 30.0)),
+              //           //     Tab(icon: Icon(Icons.menu, size: 30.0))
+              //           //   ],
+              //           // ),
             ),
-          ),
-          centerTitle: false,
-          floating: true,
-          actions: [
-            CircleButton(
-              icon: Icons.search,
-              iconSize: 30.0,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return SearchScreen();
-                    },
-                  ),
-                );
-              },
+            SliverToBoxAdapter(
+              child: CreatePostContainer(currentUser: currentUser),
             ),
-            CircleButton(
-              icon: MdiIcons.facebookMessenger,
-              iconSize: 30.0,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return MessengerScreen();
-                    },
-                  ),
-                );
-              },
+            // SliverPadding(
+            //   padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
+            //   sliver: SliverToBoxAdapter(
+            //     child: Rooms(onlineUsers: onlineUsers),
+            //   ),
+            // ),
+            // SliverPadding(
+            //   padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+            //   sliver: SliverToBoxAdapter(
+            //     child: Stories(
+            //       currentUser: currentUser,
+            //       stories: stories,
+            //     ),
+            //   ),
+            // ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final Post post = posts[index];
+                  return PostContainer(post: post);
+                },
+                childCount: posts.length,
+              ),
             ),
           ],
-          // bottom: TabBar(
-          //           //   indicatorColor: Colors.blueAccent,
-          //           //   controller: _tabController,
-          //           //   unselectedLabelColor: Colors.grey,
-          //           //   labelColor: Colors.blueAccent,
-          //           //   tabs: [
-          //           //     Tab(icon: Icon(Icons.home, size: 30.0)),
-          //           //     Tab(icon: Icon(Icons.people, size: 30.0)),
-          //           //     Tab(icon: Icon(Icons.ondemand_video, size: 30.0)),
-          //           //     Tab(icon: Icon(Icons.account_circle, size: 30.0)),
-          //           //     Tab(icon: Icon(Icons.notifications, size: 30.0)),
-          //           //     Tab(icon: Icon(Icons.menu, size: 30.0))
-          //           //   ],
-          //           // ),
         ),
-        SliverToBoxAdapter(
-          child: CreatePostContainer(currentUser: currentUser),
-        ),
-        // SliverPadding(
-        //   padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
-        //   sliver: SliverToBoxAdapter(
-        //     child: Rooms(onlineUsers: onlineUsers),
-        //   ),
-        // ),
-        // SliverPadding(
-        //   padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
-        //   sliver: SliverToBoxAdapter(
-        //     child: Stories(
-        //       currentUser: currentUser,
-        //       stories: stories,
-        //     ),
-        //   ),
-        // ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              final Post post = posts[index];
-              return PostContainer(post: post);
-            },
-            childCount: posts.length,
-          ),
-        ),
-      ],
+      ),
+      // body: CustomScrollView(
+      //   slivers: [
+      //     SliverAppBar(
+      //       brightness: Brightness.light,
+      //       backgroundColor: backgroundColor,
+      //       title: Text(
+      //         'facebook',
+      //         style: const TextStyle(
+      //           color: kPrimaryColor,
+      //           fontSize: 28.0,
+      //           fontWeight: FontWeight.bold,
+      //           letterSpacing: -1.2,
+      //         ),
+      //       ),
+      //       centerTitle: false,
+      //       floating: true,
+      //       actions: [
+      //         CircleButton(
+      //           icon: Icons.search,
+      //           iconSize: 30.0,
+      //           onPressed: () {
+      //             Navigator.push(
+      //               context,
+      //               MaterialPageRoute(
+      //                 builder: (context) {
+      //                   return SearchScreen();
+      //                 },
+      //               ),
+      //             );
+      //           },
+      //         ),
+      //         CircleButton(
+      //           icon: MdiIcons.facebookMessenger,
+      //           iconSize: 30.0,
+      //           onPressed: () {
+      //             Navigator.push(
+      //               context,
+      //               MaterialPageRoute(
+      //                 builder: (context) {
+      //                   return MessengerScreen();
+      //                 },
+      //               ),
+      //             );
+      //           },
+      //         ),
+      //       ],
+      //       // bottom: TabBar(
+      //       //           //   indicatorColor: Colors.blueAccent,
+      //       //           //   controller: _tabController,
+      //       //           //   unselectedLabelColor: Colors.grey,
+      //       //           //   labelColor: Colors.blueAccent,
+      //       //           //   tabs: [
+      //       //           //     Tab(icon: Icon(Icons.home, size: 30.0)),
+      //       //           //     Tab(icon: Icon(Icons.people, size: 30.0)),
+      //       //           //     Tab(icon: Icon(Icons.ondemand_video, size: 30.0)),
+      //       //           //     Tab(icon: Icon(Icons.account_circle, size: 30.0)),
+      //       //           //     Tab(icon: Icon(Icons.notifications, size: 30.0)),
+      //       //           //     Tab(icon: Icon(Icons.menu, size: 30.0))
+      //       //           //   ],
+      //       //           // ),
+      //     ),
+      //     SliverToBoxAdapter(
+      //       child: CreatePostContainer(currentUser: currentUser),
+      //     ),
+      //     // SliverPadding(
+      //     //   padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
+      //     //   sliver: SliverToBoxAdapter(
+      //     //     child: Rooms(onlineUsers: onlineUsers),
+      //     //   ),
+      //     // ),
+      //     // SliverPadding(
+      //     //   padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+      //     //   sliver: SliverToBoxAdapter(
+      //     //     child: Stories(
+      //     //       currentUser: currentUser,
+      //     //       stories: stories,
+      //     //     ),
+      //     //   ),
+      //     // ),
+      //     SliverList(
+      //       delegate: SliverChildBuilderDelegate(
+      //         (context, index) {
+      //           final Post post = posts[index];
+      //           return PostContainer(post: post);
+      //         },
+      //         childCount: posts.length,
+      //       ),
+      //     ),
+      //   ],
+      // ),
     );
   }
 }

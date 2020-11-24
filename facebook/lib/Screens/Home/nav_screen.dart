@@ -16,7 +16,7 @@ class NavScreen extends StatefulWidget {
 class _NavScreenState extends State<NavScreen> {
   int _selectedIndex = indexState;
   final List<Widget> _screens = [
-    HomeScreen(),
+    HomeScreenMobile(),
     FriendsTab(),
     Scaffold(),
     ProfileTab(),
@@ -31,10 +31,6 @@ class _NavScreenState extends State<NavScreen> {
     MdiIcons.bellOutline,
     Icons.menu,
   ];
-
-  waitTab() async {
-    await Future.delayed(Duration(seconds: 5));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +52,7 @@ class _NavScreenState extends State<NavScreen> {
             : null,
         // appBar: null,
         body: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
           children: _screens,
         ),
         bottomNavigationBar: !Responsive.isDesktop(context)
