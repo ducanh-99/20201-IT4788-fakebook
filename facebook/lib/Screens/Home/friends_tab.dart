@@ -1,3 +1,4 @@
+import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:facebook/components/friend_request.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/source/localdatasource/data.dart';
@@ -5,34 +6,53 @@ import 'package:flutter/material.dart';
 
 import '../../constants.dart';
 
-class FriendsTab extends StatefulWidget{
+class FriendsTab extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-   return _FriendsTabState();
+    return _FriendsTabState();
   }
-
 }
 
-class _FriendsTabState extends State<FriendsTab>{
+class _FriendsTabState extends State<FriendsTab>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  Future<String> _calculation = Future<String>.delayed(
+    Duration(seconds: 2),
+    () async {
+      Friend_Bloc friendBloc = Friend_Bloc();
+      await friendBloc.apiGetRequestFriend(() {});
+      return 'Data Loaded';
+    },
+  );
+
+  Future<String> _listRequets() async {
+    Future.delayed(Duration(seconds: 2));
+    return 'Data Loaded';
+  }
+
+  @override
   FriendRequestContainer friendRequestContainer = new FriendRequestContainer();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+      child: FutureBuilder<String>(
+        future: _calculation,
+        builder: (context, snapshot) {
+          List<Widget> children;
+          if (snapshot.hasData) {
+            children = <Widget>[
               Text('Bạn bè',
                   style:
-                  TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold)),
+                      TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold)),
               SizedBox(height: 15.0),
               Row(
                 children: <Widget>[
                   Container(
                     padding:
-                    EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                        EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
                     decoration: BoxDecoration(
                         color: Colors.grey[300],
                         borderRadius: BorderRadius.circular(30.0)),
@@ -43,7 +63,7 @@ class _FriendsTabState extends State<FriendsTab>{
                   SizedBox(width: 10.0),
                   Container(
                     padding:
-                    EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                        EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
                     decoration: BoxDecoration(
                         color: Colors.grey[300],
                         borderRadius: BorderRadius.circular(30.0)),
@@ -53,66 +73,102 @@ class _FriendsTabState extends State<FriendsTab>{
                   )
                 ],
               ),
-
-              // Divider(height: 30.0),
-
-              // Row(
-              //   children: <Widget>[
-              //     Text('Lời mời kết bạn',
-              //         style: TextStyle(
-              //             fontSize: 19.0, fontWeight: FontWeight.bold)),
-              //     SizedBox(width: 10.0),
-              //     Text(
-              //         listFriendRequests.isEmpty
-              //             ? '0'
-              //             : listFriendRequests.length.toString(),
-              //         style: TextStyle(
-              //             fontSize: 19.0,
-              //             fontWeight: FontWeight.bold,
-              //             color: Colors.red)),
-              //   ],
-              // ),
-
-              // SizedBox(height: 20.0),
-              // // FriendRequest(
-              // //   user: listFriendRequest[0],
-              // // ),
-              // Row(
-              //   children: [
-              //     Flexible(
-              //       child: ListView.builder(itemBuilder: (context, index) {
-              //         final User user = listFriendRequests[index];
-              //         return FriendRequest(user: user);
-              //       }),
-              //     )
-              //   ],
-              // ),
-              // FadeInImage.assetNetwork(
-              //     placeholder: circularProgressIndicator,
-              //     image: listFriendRequests[0].avatar),
-              // listFriendRequests.isEmpty
-              //     ? SizedBox.shrink()
-              //     : ListBody(
-              //         children:
-              //             List.generate(listFriendRequests.length, (index) {
-              //         final User user = listFriendRequests[index];
-              //         return FriendRequest(user: user);
-              //       })),
               friendRequestContainer,
               Divider(height: 30.0),
               Text('Bạn bè có thể biết',
                   style:
-                  TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
-
+                      TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
               SizedBox(height: 20.0),
-
-              // FriendRequest(user: listFriendRequests[0]),
               SizedBox(height: 20.0)
-            ],
-          )),
+            ];
+          } else if (snapshot.hasError) {
+            children = <Widget>[
+              Text('Bạn bè',
+                  style:
+                      TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold)),
+              SizedBox(height: 15.0),
+              Icon(
+                Icons.error_outline,
+                color: Colors.red,
+                size: 60,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Text('Error: ${snapshot.error}'),
+              )
+            ];
+          } else {
+            children = <Widget>[
+              Text('Bạn bè',
+                  style:
+                      TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold)),
+              SizedBox(height: 15.0),
+              SizedBox(
+                child: CircularProgressIndicator(),
+                width: 60,
+                height: 60,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 16),
+              )
+            ];
+          }
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: children,
+            ),
+          );
+        },
+      ),
+      // child: Container(
+      //     padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+      //     child: Column(
+      //       mainAxisAlignment: MainAxisAlignment.start,
+      //       crossAxisAlignment: CrossAxisAlignment.start,
+      //       children: <Widget>[
+      //         Text('Bạn bè',
+      //             style:
+      //                 TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold)),
+      //         SizedBox(height: 15.0),
+      //         Row(
+      //           children: <Widget>[
+      //             Container(
+      //               padding:
+      //                   EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+      //               decoration: BoxDecoration(
+      //                   color: Colors.grey[300],
+      //                   borderRadius: BorderRadius.circular(30.0)),
+      //               child: Text('Gợi ý',
+      //                   style: TextStyle(
+      //                       fontSize: 17.0, fontWeight: FontWeight.bold)),
+      //             ),
+      //             SizedBox(width: 10.0),
+      //             Container(
+      //               padding:
+      //                   EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+      //               decoration: BoxDecoration(
+      //                   color: Colors.grey[300],
+      //                   borderRadius: BorderRadius.circular(30.0)),
+      //               child: Text('Tất cả bạn bè',
+      //                   style: TextStyle(
+      //                       fontSize: 17.0, fontWeight: FontWeight.bold)),
+      //             )
+      //           ],
+      //         ),
+      //         friendRequestContainer,
+      //         Divider(height: 30.0),
+      //         Text('Bạn bè có thể biết',
+      //             style:
+      //                 TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
+      //         SizedBox(height: 20.0),
+      //         SizedBox(height: 20.0)
+      //       ],
+      //     )),
     );
   }
-
 }
 // ignore: must_be_immutable
 // class FriendsTab extends StatelessWidget {

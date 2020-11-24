@@ -51,7 +51,6 @@ class _HomeScreenMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TabController _tabController;
-
     return CustomScrollView(
       controller: scrollController,
       slivers: [

@@ -32,6 +32,10 @@ class _NavScreenState extends State<NavScreen> {
     Icons.menu,
   ];
 
+  waitTab() async {
+    await Future.delayed(Duration(seconds: 5));
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -51,8 +55,7 @@ class _NavScreenState extends State<NavScreen> {
               )
             : null,
         // appBar: null,
-        body: IndexedStack(
-          index: _selectedIndex,
+        body: TabBarView(
           children: _screens,
         ),
         bottomNavigationBar: !Responsive.isDesktop(context)
@@ -62,31 +65,20 @@ class _NavScreenState extends State<NavScreen> {
                 child: CustomTabBar(
                   icons: _icons,
                   onTap: (index) async {
+                    // if (index == 1) {
+                    //   Friend_Bloc friendBloc = Friend_Bloc();
+                    //   await friendBloc.apiGetRequestFriend(() {});
+                    // }
+                    // if (index == 0) {
+                    //   indexState = 0;
+                    //   PostBloc postBloc = PostBloc();
+                    //   await postBloc.getAllPost();
+                    //   print("Cap nhat trang chu");
+                    // }
+                    // if (index == 2) {
+                    //   indexState = 2;
+                    // }
                     setState(() => _selectedIndex = index);
-                    if (index == 1) {
-                      Friend_Bloc friendBloc = Friend_Bloc();
-                      await friendBloc.apiGetRequestFriend(() {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              indexState = 1;
-                              NavScreen navScreen = new NavScreen();
-                              return navScreen;
-                            },
-                          ),
-                        );
-                      });
-                    }
-                    if (index == 0) {
-                      indexState = 0;
-                      PostBloc postBloc = PostBloc();
-                      await postBloc.getAllPost();
-                      print("Cap nhat trang chu");
-                    }
-                    if (index == 2) {
-                      indexState = 2;
-                    }
                   },
                   selectedIndex: _selectedIndex,
                 ),
