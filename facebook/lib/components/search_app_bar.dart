@@ -6,8 +6,9 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class SearchScreen extends StatefulWidget {
   final Widget body;
+  final TextEditingController searchText;
 
-  const SearchScreen({Key key, this.body}) : super(key: key);
+  const SearchScreen({Key key, this.body, this.searchText}) : super(key: key);
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -15,7 +16,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   int sum = 20;
-
+  TextEditingController searchText;
   @override
   Widget build(BuildContext context) {
     return SearchBackGround(
@@ -35,24 +36,27 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
               onTap: () {
+                searchText.text =  "searchText";
                 sum = 15;
                 print("this.build(context)");
               },
             ),
         ],
       ),
+      searchText: searchText,
     );
   }
 }
 
 class SearchBackGround extends StatelessWidget {
   final Widget body;
-
-  const SearchBackGround({Key key, this.body}) : super(key: key);
+  final TextEditingController searchText;
+  const SearchBackGround({Key key, this.body, this.searchText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _searchController = new TextEditingController();
+    TextEditingController searchController = new TextEditingController();
+    searchController.text = searchText == null ? "": searchText.toString();
     // Function search(searchController){
     //   print(searchController);
     //   return searchController;
@@ -103,12 +107,12 @@ class SearchBackGround extends StatelessWidget {
                               padding: EdgeInsets.only(bottom: 5.0),
                               icon: Icon(Icons.close),
                               onPressed: () {
-                                _searchController.text = "";
+                                searchController.text = "";
                                 print('press');
                               },
                             ),
                           ),
-                          controller: _searchController,
+                          controller: searchController,
                           // onChanged: (){
                           //   print(_searchController);
                           // },
