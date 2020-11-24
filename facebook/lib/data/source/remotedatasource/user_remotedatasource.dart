@@ -86,6 +86,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
         avatar = ('https://fakebook-20201.herokuapp.com/api/get_avt/' +
             responseJson['data']['id']);
         print(avatar);
+        print(responseJson);
         DatabaseProvider database = await DatabaseProvider.databaseProvider;
         UserLocalDatasource _userLocalDatasource;
         UserModels userModel = UserModels(
