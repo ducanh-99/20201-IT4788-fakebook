@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:facebook/components/search_app_bar.dart';
 import 'package:facebook/components/separator_widget.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
 
@@ -327,8 +328,7 @@ class ProfileUser extends StatefulWidget {
 class _ProfileUser extends State<ProfileUser> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: new AppBar(backgroundColor: new Color(0xFF26C6DA)),
+    return SearchBackGround(
         body: Padding(
           padding: const EdgeInsets.all(4.0),
           child: ListView(

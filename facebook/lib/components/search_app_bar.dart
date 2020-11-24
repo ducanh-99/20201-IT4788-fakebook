@@ -4,80 +4,129 @@ import 'package:facebook/data/models/models.dart';
 import 'package:facebook/components/home_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class SearchAppBar extends StatelessWidget {
-  final User currentUser;
-  final List<IconData> icons;
-  final int selectedIndex;
-  final Function(int) onTap;
+class SearchScreen extends StatefulWidget {
+  final Widget body;
 
-  const SearchAppBar({
-    Key key,
-    @required this.currentUser,
-    @required this.icons,
-    @required this.selectedIndex,
-    @required this.onTap,
-  }) : super(key: key);
+  const SearchScreen({Key key, this.body}) : super(key: key);
+
+  @override
+  _SearchScreenState createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  int sum = 20;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      height: 65.0,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            offset: Offset(0, 2),
-            blurRadius: 4.0,
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SearchBackGround(
+      body: ListView(
         children: [
-          Expanded(
-            child: Text(
-              'facebook',
-              style: const TextStyle(
-                color: kPrimaryColor,
-                fontSize: 32.0,
-                fontWeight: FontWeight.bold,
-                letterSpacing: -1.2,
+          for (int count in List.generate(sum, (index) => index + 1))
+            InkWell(
+              child: ListTile(
+                title: Text('Search $count'),
+                leading: Icon(Icons.search),
+                trailing: IconButton(
+                  padding: EdgeInsets.only(bottom: 5.0),
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    print('press');
+                  },
+                ),
               ),
+              onTap: () {
+                sum = 15;
+                print("this.build(context)");
+              },
             ),
-          ),
-          Container(
-            height: double.infinity,
-            width: 600.0,
-            child: CustomTabBar(
-              icons: icons,
-              selectedIndex: selectedIndex,
-              onTap: onTap,
-              isBottomIndicator: true,
-            ),
-          ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                UserCard(user: currentUser),
-                const SizedBox(width: 12.0),
-                CircleButton(
-                  icon: Icons.search,
-                  iconSize: 30.0,
-                  onPressed: () => print('search'),
-                ),
-                CircleButton(
-                  icon: MdiIcons.facebookMessenger,
-                  iconSize: 30.0,
-                  onPressed: () => print('Messenger'),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
+    );
+  }
+}
+
+class SearchBackGround extends StatelessWidget {
+  final Widget body;
+
+  const SearchBackGround({Key key, this.body}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController _searchController = new TextEditingController();
+    // Function search(searchController){
+    //   print(searchController);
+    //   return searchController;
+    // }
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: kBackgroundGrey.withOpacity(0.2),
+        elevation: 0,
+        leading: FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: kPrimaryColor,
+            )),
+        title: Row(
+          children: <Widget>[
+            Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0),
+                child: Row(
+                  children: [
+                    InkWell(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 10.0),
+                        // EdgeInsets.all(10.0),
+                        height: 45.0,
+                        width: MediaQuery.of(context).size.width * 0.65,
+                        decoration: BoxDecoration(
+                            // border:
+                            //     Border.all(width: 1.0, color: Colors.grey[400]),
+                            color: kBackgroundGrey,
+                            borderRadius: BorderRadius.circular(30.0)),
+                        child: TextField(
+                          // autofocus: true,
+                          decoration: InputDecoration(
+                            prefixIcon: IconButton(
+                              padding: EdgeInsets.only(bottom: 5.0),
+                              icon: Icon(Icons.search),
+                              onPressed: () {
+                                print('press');
+                              },
+                            ),
+                            isCollapsed: true,
+                            border: InputBorder.none,
+                            hintText: 'Tìm kiếm',
+                            suffixIcon: IconButton(
+                              padding: EdgeInsets.only(bottom: 5.0),
+                              icon: Icon(Icons.close),
+                              onPressed: () {
+                                _searchController.text = "";
+                                print('press');
+                              },
+                            ),
+                          ),
+                          controller: _searchController,
+                          // onChanged: (){
+                          //   print(_searchController);
+                          // },
+                          // onChanged: search(_searchController),
+                          // autofocus: true,
+                        ),
+                      ),
+                      onTap: () {
+                        print("comment");
+                      },
+                    ),
+                  ],
+                ))
+          ],
+        ),
+        // actions: <Widget>[],
+      ),
+      body: body,
     );
   }
 }

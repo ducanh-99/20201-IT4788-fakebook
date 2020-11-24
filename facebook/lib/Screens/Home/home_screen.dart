@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:facebook/components/search_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
 import 'package:facebook/data/models/models.dart';
@@ -72,7 +73,16 @@ class _HomeScreenMobile extends StatelessWidget {
             CircleButton(
               icon: Icons.search,
               iconSize: 30.0,
-              onPressed: () => print('a'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return SearchScreen();
+                    },
+                  ),
+                );
+              },
             ),
             CircleButton(
               icon: MdiIcons.facebookMessenger,
