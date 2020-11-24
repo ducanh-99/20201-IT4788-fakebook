@@ -20,7 +20,7 @@ void main() async {
   PostBloc postBloc = PostBloc();
   await userLocalBloc.setCurrentUser();
   await postBloc.setLocalPost();
-
+  print(token);
   if (currentUser != null) {
     await postBloc.getAllPost();
 
