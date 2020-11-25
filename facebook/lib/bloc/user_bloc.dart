@@ -5,15 +5,12 @@ import 'package:facebook/data/source/localdatasource/user_local_datasource.dart'
 import 'package:facebook/data/source/remotedatasource/user_remotedatasource.dart';
 
 // ignore: camel_case_types
-class UserLocal_bloc {
+class UserBloc {
   UserRepository _userRepositoryImpl =
-      UserRepositoryImpl(UserLocalDatasourceImpl(), UserRemoteDatasourceImpl());
-  setCurrentUser() async {
-    await _userRepositoryImpl.setCurrentUser();
-  }
+  UserRepositoryImpl(UserLocalDatasourceImpl(), UserRemoteDatasourceImpl());
 
-  logOut() async {
-    await _userRepositoryImpl.logOut();
+  getProfileUser(String userId) async {
+    print("get profile user");
+    _userRepositoryImpl.getProfileUser(userId);
   }
 }
-

@@ -5,6 +5,7 @@ import 'package:facebook/data/models/user.dart';
 import 'package:facebook/data/source/base/user_database.dart';
 import 'package:facebook/data/source/base/user_models.dart';
 import 'package:facebook/data/source/localdatasource/data_personal.dart';
+import 'package:facebook/data/source/localdatasource/data.dart';
 import 'package:facebook/data/source/localdatasource/user_local_datasource.dart';
 import 'package:facebook/data/source/remotedatasource/post_remotedatasource.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,6 +18,7 @@ abstract class UserRemoteDatasource {
   apiRegister(User user, Function onSuccess, Function(String) onError);
   apiSignin(String phone, String password, Function onSuccess,
       Function(String) onError);
+  apiGetUserProfilebyId(String userId);
 }
 
 class UserRemoteDatasourceImpl implements UserRemoteDatasource {
@@ -43,7 +45,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
         'lastname': user.lastName,
         'firtname': user.firstName,
         'birthday': user.birthday,
-        'codeverify': '123456',
+        'code_verify': 123456,
       }),
     )
         .then((value) {
@@ -107,10 +109,39 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
         await test.apiGetAllPost();
         onSuccess();
       } else {
+        print(responseJson);
         print('no login');
       }
     }).catchError((error) {
       onError(error.message);
     });
   }
-}
+
+  @override
+  apiGetUserProfilebyId(String userId) async {
+    var response = await http.get(
+      'https://fakebook-20201.herokuapp.com/api/profile/' + userId,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    ).then((value) {
+      var responseJson = json.decode(value.body);
+      print(responseJson);
+      userProfile = null;
+      userProfile = User (
+        id: responseJson['id'],
+        username: responseJson['username'],
+        firstName: responseJson['firstname'],
+        lastName: responseJson['lastname'],
+        birthday: responseJson['birthday'],
+        avatar: 'https://fakebook-20201.herokuapp.com/api/get_avt/' +responseJson['id'] ,
+      );
+      print(userProfile.username);
+    }).catchError((error) {
+      print('Error');
+      print(error);
+    });
+  }
+  }

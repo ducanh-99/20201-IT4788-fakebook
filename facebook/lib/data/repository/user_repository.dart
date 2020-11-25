@@ -12,6 +12,7 @@ abstract class UserRepository {
       Function(String) onError);
   setCurrentUser();
   logOut();
+  getProfileUser(String userId);
 }
 
 class UserRepositoryImpl extends UserRepository {
@@ -40,5 +41,10 @@ class UserRepositoryImpl extends UserRepository {
   logOut() async {
     // TODO: implement logOut
     await _userLocalDatasource.logOut();
+  }
+
+  @override
+  getProfileUser(String userId) async {
+    await _userRemoteDatasource.apiGetUserProfilebyId(userId);
   }
 }

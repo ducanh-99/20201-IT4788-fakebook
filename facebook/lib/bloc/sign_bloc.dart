@@ -89,21 +89,21 @@ class SignUpBloc {
   }
 
   void _onSignUpErr(String code) {
-    // switch (code) {
-    //   case "ERROR_INVALID_EMAIL":
-    //     _emailController.sink.addError("Email không hợp lệ");
-    //     break;
-    //   case "ERROR_WEAK_PASSWORD":
-    //     _passController.sink.addError("Mật khẩu quá ngắn");
-    //     break;
-    //   case "ERROR_EMAIL_ALREADY_IN_USE":
-    //     _emailController.sink.addError("Email đã tồn tại");
-    //     break;
-    //   case "ERROR_INVALID_CREDENTIAL":
-    //     _emailController.sink.addError("Email không hợp lệ");
-    //     break;
-    //   default:
-    // }
+    switch (code) {
+      case "ERROR_INVALID_EMAIL":
+        _emailController.sink.addError("Email không hợp lệ");
+        break;
+      case "ERROR_WEAK_PASSWORD":
+        _passController.sink.addError("Mật khẩu quá ngắn");
+        break;
+      case "ERROR_EMAIL_ALREADY_IN_USE":
+        _emailController.sink.addError("Email đã tồn tại");
+        break;
+      case "ERROR_INVALID_CREDENTIAL":
+        _emailController.sink.addError("Email không hợp lệ");
+        break;
+      default:
+    }
   }
 
   void dispose() {

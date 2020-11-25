@@ -24,4 +24,7 @@ List<Post> userPosts = [];
 List<User> listFriends = [];
 List<User> listFriendRequests = [];
 List<Post> localPosts = [];
+User userProfile = null ;
+List historySearch = [];
+List<Post> searchResult = [];
 int indexState = 0;

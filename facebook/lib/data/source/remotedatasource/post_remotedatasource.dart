@@ -180,67 +180,6 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     } catch (err) {
       print('ERROR  $err');
     }
-    // if (described.isNotEmpty) {
-    //   Map<String, String> requestBody = <String, String>{
-    //     'described': described
-    //   };
-    //   Map<String, String> headers = <String, String>{
-    //     'Authorization': 'Bearer $token'
-    //   };
-    //
-    //   var uri = Uri.parse('https://fakebook-20201.herokuapp.com/api/post');
-    //   var request = http.MultipartRequest('POST', uri)
-    //     ..headers.addAll(headers)
-    //     ..fields.addAll(requestBody);
-    //   if (image != null) {
-    //     print('image is not null');
-    //     request.files
-    //         .add(await http.MultipartFile.fromPath('image1', image.path));
-    //   }
-    //   var response = await request.send().then((value) async {
-    //     final respStr = await value.stream.bytesToString();
-    //     var responseJson = json.decode(respStr);
-    //     posts.insert(
-    //         0,
-    //         Post(
-    //             id: responseJson['id'],
-    //             isliked: false,
-    //             described: responseJson['described'],
-    //             userid: responseJson['owner']['user'],
-    //             username: responseJson['owner']['username'],
-    //             likes: responseJson['like'],
-    //             comments: responseJson['comment'],
-    //             createDate: responseJson['creation_date'],
-    //             image1: responseJson['images']['image1'] != null
-    //                 ? 'https://fakebook-20201.herokuapp.com/api/post/' +
-    //                     responseJson['id'] +
-    //                     '/image1'
-    //                 : '',
-    //             image2: responseJson['images']['image2'] != null
-    //                 ? 'https://fakebook-20201.herokuapp.com/api/post/' +
-    //                     responseJson['id'] +
-    //                     '/image2'
-    //                 : '',
-    //             image3: responseJson['images']['image3'] != null
-    //                 ? 'https://fakebook-20201.herokuapp.com/api/post/' +
-    //                     responseJson['id'] +
-    //                     '/image3'
-    //                 : '',
-    //             image4: responseJson['images']['image4'] != null
-    //                 ? 'https://fakebook-20201.herokuapp.com/api/post/' +
-    //                     responseJson['id'] +
-    //                     '/image4'
-    //                 : '',
-    //             video: responseJson['video'] != null
-    //                 ? 'https://fakebook-20201.herokuapp.com/api/video/' +
-    //                     responseJson['id']
-    //                 : '',
-    //             imageUrl: '',
-    //             timeAgo: ''));
-    //   }).catchError((onError) {
-    //     print('uploadpost' + onError);
-    //   });
-    // } else {}
   }
 
   @override
