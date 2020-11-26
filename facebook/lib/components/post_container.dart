@@ -3,6 +3,7 @@ import 'package:facebook/Screens/Home/home_screen.dart';
 import 'package:facebook/Screens/Post/card_comment.dart';
 import 'package:facebook/Screens/Post/comment.dart';
 import 'package:facebook/Screens/Post/list_comment.dart';
+import 'package:facebook/Screens/Post/post_detail.dart';
 import 'package:facebook/Screens/Post/post_screen.dart';
 import 'package:facebook/Screens/Post/post_screen_edit.dart';
 import 'package:facebook/Screens/Post/post_screen_ful.dart';
@@ -50,7 +51,18 @@ class PostContainer extends StatelessWidget {
                 children: [
                   _PostHeader(post: post),
                   const SizedBox(height: 4.0),
-                  Text(post.described),
+                  InkWell(
+                    child:  Text(post.described),
+                    onTap: (){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PostDetailScreen(
+                              post: post,
+                            ),
+                          ));
+                    },
+                  ),
                   post.imageUrl != null
                       ? const SizedBox.shrink()
                       : const SizedBox(height: 6.0),
@@ -332,6 +344,7 @@ class _PostBodyState extends State<_PostBodyStateful> {
                 }),
           ],
         ),
+        const Divider(),
       ],
     );
   }

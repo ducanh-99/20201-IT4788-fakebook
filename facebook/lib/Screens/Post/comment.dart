@@ -131,32 +131,69 @@ class _CommentScreen extends State<CommentScreen> {
             )),
         title: Row(
           children: <Widget>[
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"),
-                      fit: BoxFit.cover)),
+            InkWell(
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(4.0),
+                    decoration: BoxDecoration(
+                      color: kPrimaryColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.thumb_up,
+                      size: 20.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  InkWell(
+                    child: Text(
+                      " 11",
+                      style: TextStyle(color: kBlack, fontSize: 17),
+                    ),
+                  ),
+                ],
+              ),
+              onTap: () {
+                print("List like");
+              },
             ),
-            SizedBox(
-              width: 15,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Tyler Nix",
-                  style: TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold, color: kBlack),
-                )
-              ],
-            )
+
+            // Container(
+            //   width: 40,
+            //   height: 40,
+            //   decoration: BoxDecoration(
+            //       shape: BoxShape.circle,
+            //       image: DecorationImage(
+            //           image: NetworkImage(
+            //               "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"),
+            //           fit: BoxFit.cover)),
+            // ),
+            // SizedBox(
+            //   width: 15,
+            // ),
+            // Column(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: <Widget>[
+            //     Text(
+            //       "Tyler Nix",
+            //       style: TextStyle(
+            //           fontSize: 18, fontWeight: FontWeight.bold, color: kBlack),
+            //     )
+            //   ],
+            // )
           ],
         ),
-        actions: <Widget>[],
+        actions: <Widget>[
+          Icon(
+            Icons.thumb_up,
+            color: kPrimaryColor,
+            size: 30.0,
+          ),
+          SizedBox(
+            width: 15,
+          ),
+        ],
       ),
       body: ListView(
         children: [
@@ -174,13 +211,16 @@ class _CommentScreen extends State<CommentScreen> {
                   'Hãy đi làm một công việc mà nó giúp bạn tiếp cận với phần mềm,với coder,với khách hàng sử dụng phần mềm....hàng ngày để hiểu cách công ty người ta làm phần mềm,những kỹ năng cần thiết cho coder....'
                   'Và nghề hay mà bạn có thể bắt đầu để tìm hiểu trước khi dấn thân vào coder là:',
               'Hoa Xuân Dương',
-              'assets/images/fb.png')
+              'assets/images/fb.png'),
+          SizedBox(
+            height: 70.0,
+          ),
         ],
       ),
       resizeToAvoidBottomInset: true,
       bottomSheet: Padding(
           // padding: MediaQuery.of(context).viewInsets,
-          padding:EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
           child: Row(
             children: [
               // Column(
@@ -204,7 +244,6 @@ class _CommentScreen extends State<CommentScreen> {
               //   ),
               // )
               InkWell(
-
                 child: Container(
                   padding:
                       EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -234,8 +273,7 @@ class _CommentScreen extends State<CommentScreen> {
                       //   ],
                       //),
                       hintText: 'Viết bình luận...',
-                      suffixIcon:
-                      IconButton(
+                      suffixIcon: IconButton(
                         padding: EdgeInsets.only(bottom: 5.0),
                         icon: Icon(Icons.send),
                         onPressed: () {

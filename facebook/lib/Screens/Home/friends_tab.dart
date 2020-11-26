@@ -139,10 +139,41 @@ class _FriendsTabState extends State<FriendsTab>
                       style: TextStyle(
                           fontSize: 21.0, fontWeight: FontWeight.bold)),
                   SizedBox(height: 15.0),
-                  SizedBox(
-                    child: CircularProgressIndicator(),
-                    width: 60,
-                    height: 60,
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 15.0, vertical: 10.0),
+                        decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(30.0)),
+                        child: Text('Gợi ý',
+                            style: TextStyle(
+                                fontSize: 17.0, fontWeight: FontWeight.bold)),
+                      ),
+                      SizedBox(width: 10.0),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 15.0, vertical: 10.0),
+                        decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(30.0)),
+                        child: Text('Tất cả bạn bè',
+                            style: TextStyle(
+                                fontSize: 17.0, fontWeight: FontWeight.bold)),
+                      )
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        child: CircularProgressIndicator(),
+                        width: 40,
+                        height: 40,
+                      ),
+                    ],
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 16),

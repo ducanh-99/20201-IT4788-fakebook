@@ -1,5 +1,6 @@
 import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:facebook/bloc/post_bloc.dart';
+import 'package:facebook/components/error_connect.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
 import 'package:facebook/data/models/models.dart';
@@ -18,7 +19,7 @@ class _NavScreenState extends State<NavScreen> {
   final List<Widget> _screens = [
     HomeScreenMobile(),
     FriendsTab(),
-    Scaffold(),
+    ErrorConnect(appBar: AppBar(),),
     ProfileTab(),
     Scaffold(),
     MenuTab(),
