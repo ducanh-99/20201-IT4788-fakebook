@@ -3,6 +3,7 @@ import 'package:facebook/Screens/Login/login_screen.dart';
 import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:facebook/bloc/local_bloc.dart';
 import 'package:facebook/bloc/post_bloc.dart';
+import 'package:facebook/bloc/search_bloc.dart';
 import 'package:facebook/bloc/user_bloc.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +20,14 @@ void main() async {
   // await database.deleteDB();
   UserLocal_bloc userLocalBloc = UserLocal_bloc();
   UserBloc userBloc = UserBloc();
-  PostBloc postBloc = PostBloc();
   await userLocalBloc.setCurrentUser();
-  await postBloc.setLocalPost();
-  print(token);
   if (currentUser != null) {
+    SearchBloc searchBloc = SearchBloc();
+    await searchBloc.getHistorySearch();
+    print('history:');
+    print(historySearch);
+    PostBloc postBloc = PostBloc();
+    await postBloc.setLocalPost();
     await postBloc.getAllPost();
     await userBloc.getProfileUser(currentUser.id);
     await postBloc.getAllPostOfUser(currentUser.id);

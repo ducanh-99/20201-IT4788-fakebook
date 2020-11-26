@@ -34,12 +34,13 @@ class UserLocalDatasourceImpl implements UserLocalDatasource {
   @override
   logOut() async {
     // TODO: implement logOut
-    DatabaseProvider database = await DatabaseProvider.databaseProvider;
+    DatabaseProvider database = DatabaseProvider.databaseProvider;
     PostDatabaseProvider postDatabaseProvider =
         PostDatabaseProvider.databaseProvider;
     await postDatabaseProvider.deleteDB();
     UserModels _userModels = await database.getUser();
     await database.deleteUser(_userModels);
+    token = null;
     currentUser = null;
   }
 }

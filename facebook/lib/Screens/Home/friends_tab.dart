@@ -1,4 +1,5 @@
 import 'package:facebook/bloc/friend_bloc.dart';
+import 'package:facebook/components/error_connect.dart';
 import 'package:facebook/components/friend_request.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/source/localdatasource/data.dart';
@@ -25,7 +26,14 @@ class _FriendsTabState extends State<FriendsTab>
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000), () async {
       Friend_Bloc friendBloc = Friend_Bloc();
-      await friendBloc.apiGetRequestFriend(() {});
+      await friendBloc.apiGetRequestFriend(() {}, () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) {
+            return ErrorConnect();
+          }),
+        );
+      });
       return 'Data Loaded';
     });
     // if failed,use refreshFailed()
@@ -37,7 +45,14 @@ class _FriendsTabState extends State<FriendsTab>
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000), () async {
       Friend_Bloc friendBloc = Friend_Bloc();
-      await friendBloc.apiGetRequestFriend(() {});
+      await friendBloc.apiGetRequestFriend(() {}, () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) {
+            return ErrorConnect();
+          }),
+        );
+      });
     });
     // if failed,use loadFailed(),if no data return,use LoadNodata()
     if (mounted) setState(() {});
@@ -45,11 +60,34 @@ class _FriendsTabState extends State<FriendsTab>
     _refreshController.loadComplete();
   }
 
+  Future<String> waitApi() async {
+    Future<String> _calculation = Future<String>.delayed(
+      Duration(seconds: 2),
+      () async {
+        return 'Data Loaded';
+      },
+    );
+    Friend_Bloc friendBloc = Friend_Bloc();
+    await friendBloc.apiGetRequestFriend(() {}, () {
+      Future<String>.delayed(
+        Duration(seconds: 2),
+        () {
+          return 'Data Loaded';
+        },
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return ErrorConnect();
+        }),
+      );
+    });
+    return _calculation;
+  }
+
   Future<String> _calculation = Future<String>.delayed(
     Duration(seconds: 2),
     () async {
-      Friend_Bloc friendBloc = Friend_Bloc();
-      await friendBloc.apiGetRequestFriend(() {});
       return 'Data Loaded';
     },
   );
@@ -75,7 +113,7 @@ class _FriendsTabState extends State<FriendsTab>
         enablePullUp: true,
         child: SingleChildScrollView(
           child: FutureBuilder<String>(
-            future: _calculation,
+            future: waitApi(),
             builder: (context, snapshot) {
               List<Widget> children;
               if (snapshot.hasData) {

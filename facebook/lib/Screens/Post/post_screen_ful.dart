@@ -4,6 +4,7 @@ import 'package:emoji_picker/emoji_picker.dart';
 import 'package:facebook/Screens/Home/home_screen.dart';
 import 'package:facebook/Screens/Home/nav_screen.dart';
 import 'package:facebook/bloc/post_bloc.dart';
+import 'package:facebook/components/error_connect.dart';
 import 'package:facebook/components/home_widget.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
@@ -80,15 +81,23 @@ class _PostScreenState extends State<PostScreenFul> {
                 TextStyle(fontWeight: FontWeight.bold, color: kColorTextNormal),
           ),
           onPressed: () async {
-            await postBloc.uploadPost(token, described, image);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return NavScreen();
-                },
-              ),
-            );
+            await postBloc.uploadPost(token, described, image, () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return NavScreen();
+                  },
+                ),
+              );
+            }, () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  return ErrorConnect();
+                }),
+              );
+            });
           },
         ),
         child: SingleChildScrollView(

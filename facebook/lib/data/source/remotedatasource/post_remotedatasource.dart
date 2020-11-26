@@ -26,7 +26,8 @@ List<Post> post_res;
 abstract class PostRemoteDatasource {
   apiGetAllPost();
   apiGetAllPostOfUser(String userId);
-  apiUploadPost(String token, String described, File image);
+  apiUploadPost(String token, String described, File image, Function onSuccess,
+      Function onError);
   apiUpdatePost(Post post, String described, Function onSuccess);
   apiDeletePost(Post postId, Function onSuccess);
   Future<bool> apiLikePost(String post_id);
@@ -106,79 +107,84 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   }
 
   @override
-  apiUploadPost(String token, String described, File image) async {
-    try {
-      ///[1] CREATING INSTANCE
-      var dioRequest = dio.Dio();
-      dioRequest.options.baseUrl = 'https://fakebook-20201.herokuapp.com/api/post';
+  apiUploadPost(String token, String described, File image, Function onSuccess,
+      Function onError) async {
+    if (described != null) {
+      try {
+        ///[1] CREATING INSTANCE
+        var dioRequest = dio.Dio();
+        dioRequest.options.baseUrl =
+            'https://fakebook-20201.herokuapp.com/api/post';
 
-      //[2] ADDING TOKEN
-      dioRequest.options.headers = {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/x-www-form-urlencoded'
-      };
+        //[2] ADDING TOKEN
+        dioRequest.options.headers = {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        };
 
-      //[3] ADDING EXTRA INFO
-      var formData =
-      new dio.FormData.fromMap({'described': described});
+        //[3] ADDING EXTRA INFO
+        var formData = new dio.FormData.fromMap({'described': described});
 
-      //[4] ADD IMAGE TO UPLOAD
-      if(image != null){
-        print("image is not null");
-        var file = await dio.MultipartFile.fromFile(image.path,
-            filename: basename(image.path),
-            contentType: MediaType("image", basename(image.path)));
+        //[4] ADD IMAGE TO UPLOAD
+        if (image != null) {
+          print("image is not null");
+          var file = await dio.MultipartFile.fromFile(image.path,
+              filename: basename(image.path),
+              contentType: MediaType("image", basename(image.path)));
 
-        formData.files.add(MapEntry('image1', file));
+          formData.files.add(MapEntry('image1', file));
+        }
+
+        //[5] SEND TO SERVER
+        var response = await dioRequest.post(
+          'https://fakebook-20201.herokuapp.com/api/post',
+          data: formData,
+        );
+        final responseJson = json.decode(response.toString());
+        print(responseJson);
+        posts.insert(
+            0,
+            Post(
+                id: responseJson['id'],
+                isliked: false,
+                described: responseJson['described'],
+                userid: responseJson['owner']['user'],
+                username: responseJson['owner']['username'],
+                likes: responseJson['like'],
+                comments: responseJson['comment'],
+                createDate: responseJson['creation_date'],
+                image1: responseJson['images']['image1'] != null
+                    ? 'https://fakebook-20201.herokuapp.com/api/post/' +
+                        responseJson['id'] +
+                        '/image1'
+                    : '',
+                image2: responseJson['images']['image2'] != null
+                    ? 'https://fakebook-20201.herokuapp.com/api/post/' +
+                        responseJson['id'] +
+                        '/image2'
+                    : '',
+                image3: responseJson['images']['image3'] != null
+                    ? 'https://fakebook-20201.herokuapp.com/api/post/' +
+                        responseJson['id'] +
+                        '/image3'
+                    : '',
+                image4: responseJson['images']['image4'] != null
+                    ? 'https://fakebook-20201.herokuapp.com/api/post/' +
+                        responseJson['id'] +
+                        '/image4'
+                    : '',
+                video: responseJson['video'] != null
+                    ? 'https://fakebook-20201.herokuapp.com/api/video/' +
+                        responseJson['id']
+                    : '',
+                imageUrl: '',
+                timeAgo: ''));
+        onSuccess();
+        print("success");
+      } catch (err) {
+        onError();
+        print('ERROR  $err');
       }
-
-      //[5] SEND TO SERVER
-      var response = await dioRequest.post(
-        'https://fakebook-20201.herokuapp.com/api/post',
-        data: formData,
-      );
-      final responseJson = json.decode(response.toString());
-      print(responseJson);
-      posts.insert(
-          0,
-          Post(
-              id: responseJson['id'],
-              isliked: false,
-              described: responseJson['described'],
-              userid: responseJson['owner']['user'],
-              username: responseJson['owner']['username'],
-              likes: responseJson['like'],
-              comments: responseJson['comment'],
-              createDate: responseJson['creation_date'],
-              image1: responseJson['images']['image1'] != null
-                  ? 'https://fakebook-20201.herokuapp.com/api/post/' +
-                  responseJson['id'] +
-                  '/image1'
-                  : '',
-              image2: responseJson['images']['image2'] != null
-                  ? 'https://fakebook-20201.herokuapp.com/api/post/' +
-                  responseJson['id'] +
-                  '/image2'
-                  : '',
-              image3: responseJson['images']['image3'] != null
-                  ? 'https://fakebook-20201.herokuapp.com/api/post/' +
-                  responseJson['id'] +
-                  '/image3'
-                  : '',
-              image4: responseJson['images']['image4'] != null
-                  ? 'https://fakebook-20201.herokuapp.com/api/post/' +
-                  responseJson['id'] +
-                  '/image4'
-                  : '',
-              video: responseJson['video'] != null
-                  ? 'https://fakebook-20201.herokuapp.com/api/video/' +
-                  responseJson['id']
-                  : '',
-              imageUrl: '',
-              timeAgo: ''));
-      print("success");
-    } catch (err) {
-      print('ERROR  $err');
     }
   }
 

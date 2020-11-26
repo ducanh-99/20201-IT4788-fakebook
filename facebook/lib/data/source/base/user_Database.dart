@@ -42,6 +42,9 @@ class DatabaseProvider {
             "comments INTEGER,"
             "createDate TEXT"
             ")");
+        db.execute(" CREATE TABLE search ("
+            "data TEXT"
+            ")");
         return db.execute(
           " CREATE TABLE user(userId TEXT, username TEXT, uuid TEXT,firstname TEXT,lastname TEXT,birthday TEXT, phone TEXT,token TEXT,avatar TEXT)",
           // "CREATE TABLE user(

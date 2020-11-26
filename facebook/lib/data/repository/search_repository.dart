@@ -5,8 +5,10 @@ import 'package:facebook/data/source/remotedatasource/action_remotedataresource.
 abstract class SearchRepository {
   search(String keyword);
   getHistorySearch();
+  getHistorySearchLocal();
 }
-class SearchRepositoryImpl implements SearchRepository{
+
+class SearchRepositoryImpl implements SearchRepository {
   ActionRemoteDatasource _actionRemoteDatasource;
   SearchRepositoryImpl(this._actionRemoteDatasource);
   @override
@@ -19,4 +21,8 @@ class SearchRepositoryImpl implements SearchRepository{
     await _actionRemoteDatasource.apiSearch(keyword);
   }
 
+  @override
+  getHistorySearchLocal() async {
+    await _actionRemoteDatasource.getHistorySearchLocal();
+  }
 }

@@ -1,3 +1,5 @@
+import 'package:facebook/bloc/search_bloc.dart';
+import 'package:facebook/data/source/localdatasource/data.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
 import 'package:facebook/data/models/models.dart';
@@ -22,41 +24,62 @@ class _SearchScreenState extends State<SearchScreen> {
     return SearchBackGround(
       body: ListView(
         children: [
-          for (int count in List.generate(sum, (index) => index + 1))
+          for (var data in historySearch)
             InkWell(
               child: ListTile(
-                title: Text('Search $count'),
+                title: Text(data),
                 leading: Icon(Icons.search),
                 trailing: IconButton(
                   padding: EdgeInsets.only(bottom: 5.0),
                   icon: Icon(Icons.close),
-                  onPressed: () {
-                    print('press');
+                  onPressed: () async {
+                    SearchBloc searchBloc = SearchBloc();
+                    //api xoa history
+                    historySearch.remove(data);
+                    print(historySearch);
+                    setState(() {});
                   },
                 ),
               ),
               onTap: () {
-                searchText.text =  "searchText";
+                searchText.text = "searchText";
                 sum = 15;
                 print("this.build(context)");
               },
             ),
         ],
       ),
-      searchText: searchText,
     );
   }
 }
 
-class SearchBackGround extends StatelessWidget {
+class SearchBackGround extends StatefulWidget {
   final Widget body;
   final TextEditingController searchText;
-  const SearchBackGround({Key key, this.body, this.searchText}) : super(key: key);
+  const SearchBackGround({Key key, this.body, this.searchText})
+      : super(key: key);
+  @override
+  _SearchBackGround createState() => _SearchBackGround(
+        body: body,
+        searchText: searchText,
+      );
+}
+
+class _SearchBackGround extends State<SearchBackGround> {
+  final Widget body;
+  final TextEditingController searchText;
+  _SearchBackGround({Key key, this.body, this.searchText});
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     TextEditingController searchController = new TextEditingController();
-    searchController.text = searchText == null ? "": searchText.toString();
+    searchController.text = searchText == null ? "" : searchText.toString();
+    print('a');
     // Function search(searchController){
     //   print(searchController);
     //   return searchController;
@@ -112,7 +135,9 @@ class SearchBackGround extends StatelessWidget {
                               },
                             ),
                           ),
-                          controller: searchController,
+                          onChanged: (value) async {
+                            setState(() {});
+                          },
                           // onChanged: (){
                           //   print(_searchController);
                           // },

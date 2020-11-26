@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ErrorConnect extends StatefulWidget {
-  final AppBar appBar;
-
-  const ErrorConnect({Key key, this.appBar}) : super(key: key);
-
+  final AppBar appBar = new AppBar();
   @override
   State<StatefulWidget> createState() {
     return _ErrorConnectState(appBar);
@@ -37,11 +34,9 @@ class _ErrorConnectState extends State<ErrorConnect> {
             InkWell(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Đã xảy ra lỗi. Nhấp để thử lại")
-                ],
+                children: [Text("Đã xảy ra lỗi. Nhấp để thử lại")],
               ),
-              onTap: (){
+              onTap: () {
                 print(" Nhấp để thử lại");
               },
             )
