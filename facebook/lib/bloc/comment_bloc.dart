@@ -7,4 +7,15 @@ class CommentBloc {
     print("getcommentbypost id");
     await _commentRepositoryImpl.getCommentByPostId(postId);
   }
+  deleteComment(String postId, int index) async {
+    await _commentRepositoryImpl.deleteComment(postId, index);
+  }
+
+  updateComment(String postId, int index, String comment) async {
+    await _commentRepositoryImpl.updateComment(postId, index, comment);
+  }
+
+  uploadComment(String postId, String comment) async {
+    await _commentRepositoryImpl.uploadComment(postId, comment);
+  }
 }
