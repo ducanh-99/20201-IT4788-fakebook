@@ -6,6 +6,7 @@ import 'package:facebook/constants.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/components/home_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'notifications_tab.dart';
 import 'screens.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
 
@@ -21,7 +22,7 @@ class _NavScreenState extends State<NavScreen> {
     FriendsTab(),
     ErrorConnect(),
     ProfileTab(),
-    Scaffold(),
+    NotificationsTab(),
     MenuTab(),
   ];
   final List<IconData> _icons = const [
