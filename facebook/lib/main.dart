@@ -22,6 +22,7 @@ void main() async {
   UserBloc userBloc = UserBloc();
   await userLocalBloc.setCurrentUser();
   if (currentUser != null) {
+    print(token);
     SearchBloc searchBloc = SearchBloc();
     await searchBloc.getHistorySearch();
     print('history:');

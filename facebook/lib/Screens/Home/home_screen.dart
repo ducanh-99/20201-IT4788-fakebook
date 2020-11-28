@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:facebook/bloc/search_bloc.dart';
 import 'package:facebook/components/search_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
@@ -18,6 +19,7 @@ class HomeScreenMobile extends StatefulWidget {
 class _HomeScreenMobile extends State<HomeScreenMobile> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
+  SearchBloc searchBloc = SearchBloc();
   void _onRefresh() async {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
@@ -67,6 +69,7 @@ class _HomeScreenMobile extends State<HomeScreenMobile> {
                   icon: Icons.search,
                   iconSize: 30.0,
                   onPressed: () {
+                    searchBloc.getHistorySearch();
                     Navigator.push(
                       context,
                       MaterialPageRoute(

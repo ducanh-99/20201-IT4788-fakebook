@@ -9,6 +9,7 @@ class SearchBloc {
   }
 
   getHistorySearch() async {
+    print("get history search");
     await _searchRepositoryImpl.getHistorySearch();
   }
 

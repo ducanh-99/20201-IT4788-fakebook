@@ -26,6 +26,7 @@ class ActionRemoteDatasourceImpl implements ActionRemoteDatasource {
       SearchDatabaseProvider searchDatabaseProvider =
           await SearchDatabaseProvider.databaseProvider;
       await searchDatabaseProvider.deleteDB();
+      historySearch = [];
       for (var data in responseJson) {
         historySearch.insert(0, data.toString());
         await searchDatabaseProvider.addSearchData(data.toString());
