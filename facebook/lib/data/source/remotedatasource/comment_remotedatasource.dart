@@ -87,8 +87,22 @@ class CommentRemoteDatasourceImpl implements CommentRemoteDatasource {
       var responseJson = json.decode(value.body);
       if(responseJson['code']==1000){
         print('Sua comment thanh cong');
+        for (var comments in commentOfPost){
+          if(comments.index == index){
+            comments = Comment(
+              postid: comments.postid,
+              index: comments.index,
+              comment: comment,
+              createDate: comments.createDate,
+              commentid: comments.commentid,
+              userid: comments.userid,
+              username: comments.username
+            );
+            break;
+          }
+        }
       }else{
-        print('Xoa that bai');
+        print('Sua that bai');
       }
     }).catchError((error) {
       print(error);
@@ -97,8 +111,39 @@ class CommentRemoteDatasourceImpl implements CommentRemoteDatasource {
   }
 
   @override
-  apiUploadComment(String postId, String comment) {
-    // TODO: implement apiUploadComment
-    throw UnimplementedError();
+  apiUploadComment(String postId, String comment) async {
+    var response = await http.post(
+      "https://fakebook-20201.herokuapp.com/api/comment/" +postId,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({'comment':comment}),
+    ).then((value) async {
+      var responseJson = json.decode(value.body);
+      if (responseJson['data']['content'].length > 0) {
+        var listcomment = responseJson['data']['content'];
+        print(responseJson);
+        commentOfPost = [];
+        for (var comment in listcomment) {
+          Comment newcomment= Comment(
+            username: comment['poster_name'],
+            userid: comment['poster'],
+            comment: comment['comment'],
+            commentid: responseJson['id'],
+            createDate: comment['created'],
+            index: comment['index'],
+            postid: comment['post'],
+          );
+          commentOfPost.add(newcomment);
+        }
+      } else {
+        commentOfPost = [];
+      }
+    }).catchError((error) {
+      print(error);
+      print('Error');
+    });
   }
 }
