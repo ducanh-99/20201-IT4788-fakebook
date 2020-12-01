@@ -7,6 +7,7 @@ class Comment {
   String postid;
   String userid;
   String username;
+  final String avatar = 'assets/images/fb.png';
   String comment;
   String createDate;
   Comment(
@@ -16,6 +17,7 @@ class Comment {
       this.comment,
       this.createDate,
       this.index,
+      // this.avatar,
       this.postid}
       );
 }

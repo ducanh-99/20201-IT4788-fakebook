@@ -337,7 +337,7 @@ class _PostBodyState extends State<_PostBodyStateful> {
                   // print(isLiked);
                   // showCommentSheet(context, [CommentContainer()]);
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return CommentScreen();
+                    return CommentScreen(post: post,);
                     // return CardComment(comment_profile_pic: '',comment_text: 'Cômment',comment_username: 'Hoa Xuân Dương',);
                     // return ListCommentScreen();
                   }));
