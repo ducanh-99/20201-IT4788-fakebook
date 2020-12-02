@@ -20,10 +20,11 @@ class CommentScreen extends StatefulWidget {
   }
 }
 
-class _CommentScreen extends State<CommentScreen> with AutomaticKeepAliveClientMixin {
+class _CommentScreen extends State<CommentScreen>
+    with AutomaticKeepAliveClientMixin {
   _CommentScreen(this.post);
   RefreshController _refreshController =
-  RefreshController(initialRefresh: false);
+      RefreshController(initialRefresh: false);
   void _onRefresh() async {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000), () async {
@@ -52,7 +53,7 @@ class _CommentScreen extends State<CommentScreen> with AutomaticKeepAliveClientM
   Future<String> waitApi() async {
     Future<String> _calculation = Future<String>.delayed(
       Duration(seconds: 2),
-          () async {
+      () async {
         return 'Data Loaded';
       },
     );
@@ -60,6 +61,7 @@ class _CommentScreen extends State<CommentScreen> with AutomaticKeepAliveClientM
     await commentBloc.getCommentByPostId(post.id);
     return _calculation;
   }
+
   Widget postComment(String time, String postComment, String profileName,
       String profileImage) {
     return Padding(
@@ -164,10 +166,10 @@ class _CommentScreen extends State<CommentScreen> with AutomaticKeepAliveClientM
 
   // TextEditingController _sendMessageController = new TextEditingController();
   final Post post;
+  BottomCommentSheet bottomCommentSheet = new BottomCommentSheet();
 
   @override
   Widget build(BuildContext context) {
-
     timeago.setLocaleMessages('vi', timeago.ViShortMessages());
     return Scaffold(
       appBar: AppBar(
@@ -186,26 +188,28 @@ class _CommentScreen extends State<CommentScreen> with AutomaticKeepAliveClientM
             InkWell(
               child: Row(
                 children: [
-                  post.likes != 0 ?
-                  Container(
-                    padding: const EdgeInsets.all(4.0),
-                    decoration: BoxDecoration(
-                      color: kPrimaryColor,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.thumb_up,
-                      size: 20.0,
-                      color: Colors.white,
-                    ),
-                  ) : Container(),
-                  post.likes != 0 ?
-                  InkWell(
-                    child: Text(
-                      " " + post.likes.toString(),
-                      style: TextStyle(color: kBlack, fontSize: 17),
-                    ),
-                  ) : Container(),
+                  post.likes != 0
+                      ? Container(
+                          padding: const EdgeInsets.all(4.0),
+                          decoration: BoxDecoration(
+                            color: kPrimaryColor,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.thumb_up,
+                            size: 20.0,
+                            color: Colors.white,
+                          ),
+                        )
+                      : Container(),
+                  post.likes != 0
+                      ? InkWell(
+                          child: Text(
+                            " " + post.likes.toString(),
+                            style: TextStyle(color: kBlack, fontSize: 17),
+                          ),
+                        )
+                      : Container(),
                 ],
               ),
               onTap: () {
@@ -287,8 +291,11 @@ class _CommentScreen extends State<CommentScreen> with AutomaticKeepAliveClientM
               if (snapshot.hasData) {
                 children = <Widget>[
                   for (var comment in commentOfPost)
-                    postComment('${timeago.format( DateTime.parse(post.createDate), locale: 'vi')} • ', comment.comment, comment.username, comment.avatar)
-                    ,
+                    postComment(
+                        '${timeago.format(DateTime.parse(post.createDate), locale: 'vi')} • ',
+                        comment.comment,
+                        comment.username,
+                        comment.avatar),
                   SizedBox(height: 20.0)
                 ];
               } else if (snapshot.hasError) {
@@ -386,216 +393,63 @@ class _CommentScreen extends State<CommentScreen> with AutomaticKeepAliveClientM
         ),
       ),
       // resizeToAvoidBottomInset: true,
-      bottomSheet: Container(
-          // padding: MediaQuery.of(context).viewInsets,
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-          child: Row(
-            children: [
-              // Column(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   children: [
-              //     Divider(height: 40.0, color: kBackgroundGrey,),
-              //   ],
-              // ),
-
-              // Padding(
-              //   padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
-              //   child: Divider(height: 40.0),
-              // ),
-
-              // Expanded(
-              //   child: TextField(
-              //     decoration: InputDecoration.collapsed(
-              //       hintText: 'Bạn đang nghĩ gì?',
-              // border: InputBorder.none,
-              //     ),
-              //   ),
-              // )
-              InkWell(
-                child: Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                  // EdgeInsets.all(10.0),
-                  height: 45.0,
-                  width: MediaQuery.of(context).size.width * 0.65,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1.0, color: Colors.grey[400]),
-                      color: kBackgroundGrey,
-                      borderRadius: BorderRadius.circular(30.0)),
-                  child: TextField(
-                    // autofocus: true,
-                    decoration: InputDecoration(
-                      isCollapsed: true,
-                      border: InputBorder.none,
-
-                      //UnderlineInputBorder
-                      // Row(
-                      //   children: <Widget>[
-                      //     IconButton(
-                      //       icon: Icon(Icons.clear),
-                      //     ),
-                      //     IconButton(
-                      //       icon: Icon(snapshot.data ? Icons.visibility : Icons.visibility_off),
-                      //       onPressed: _authBloc.switchObscureTextMode,
-                      //     ),
-                      //   ],
-                      //),
-                      hintText: 'Viết bình luận...',
-                      suffixIcon: IconButton(
-                        padding: EdgeInsets.only(bottom: 5.0),
-                        icon: Icon(Icons.send),
-                        // onPressed: () {
-                        //   print('press');
-                        // },
-                      ),
-                      // Padding(
-                      //   padding: const EdgeInsetsDirectional.only(end: 12.0),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.end,
-                      //     children: <Widget>[
-                      //       IconButton(
-                      //         icon: Icon(Icons.send),
-                      //         onPressed: () {
-                      //           print('press');
-                      //         },
-                      //       ),
-                      //       IconButton(
-                      //         icon: Icon(Icons.send),
-                      //         onPressed: () {
-                      //           print('press');
-                      //         },
-                      //       ),
-                      //     ],
-                      //   ), // myIcon is a 48px-wide widget.
-                      // )
-                    ),
-                  ),
-                ),
-                // onTap: () {
-                //   print("comment");
-                //   // Navigator.push(context, MaterialPageRoute(builder: (context) {
-                //   //   return PostScreenFul(post: post);
-                //   // }));
-                // },
-              ),
-              // IconButton(
-              //   padding: EdgeInsets.only(bottom: 5.0),
-              //   icon: Icon(Icons.camera_alt),
-              //   onPressed: () {
-              //     print('camera_alt');
-              //   },
-              // ),
-              // IconButton(
-              //   padding: EdgeInsets.only(bottom: 5.0),
-              //   icon: Icon(Icons.insert_emoticon),
-              //   onPressed: () {
-              //     print('insert_emoticon');
-              //   },
-              // ),
-
-              // TextField(
-              //   obscureText: true,
-              //   decoration: InputDecoration(
-              //     border: OutlineInputBorder(),
-              //     labelText: 'Password',
-              //   ),
-              // )
-            ],
-          )),
-      // bottomSheet: Container(
-      //   height: 50,
-      //   width: double.infinity,
-      //   decoration: BoxDecoration(color: kBackgroundGrey.withOpacity(0.2)),
-      //   child: Padding(
-      //     padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-      //     child: Row(
-      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //       children: <Widget>[
-      //         // Container(
-      //         //   width: (MediaQuery.of(context).size.width - 40) / 2,
-      //         //   child: Row(
-      //         //     children: <Widget>[
-      //         //       // Icon(
-      //         //       //   Icons.camera_alt,
-      //         //       //   size: 35,
-      //         //       //   color: kPrimaryColor,
-      //         //       // ),
-      //         //       // SizedBox(
-      //         //       //   width: 15,
-      //         //       // ),
-      //         //       // Icon(
-      //         //       //   Icons.photo,
-      //         //       //   size: 35,
-      //         //       //   color: kPrimaryColor,
-      //         //       // ),
-      //         //       // SizedBox(
-      //         //       //   width: 15,
-      //         //       // ),
-      //         //       // Icon(
-      //         //       //   Icons.keyboard_voice,
-      //         //       //   size: 35,
-      //         //       //   color: kPrimaryColor,
-      //         //       // ),
-      //         //     ],
-      //         //   ),
-      //         // ),
-      //         Container(
-      //           width: (MediaQuery.of(context).size.width *0.8),
-      //           child: Row(
-      //             children: <Widget>[
-      //               Container(
-      //                 width: (MediaQuery.of(context).size.width *0.7),
-      //                 height: 40,
-      //                 decoration: BoxDecoration(
-      //                     color: kBackgroundGrey,
-      //                     borderRadius: BorderRadius.circular(20)),
-      //                 child: Padding(
-      //                   padding: const EdgeInsets.only(left: 12),
-      //                   // child: TextField(
-      //                   //   cursorColor: kColorTextNormal,
-      //                   //   controller: _sendMessageController,
-      //                   //   decoration: InputDecoration(
-      //                   //       border: InputBorder.none,
-      //                   //       hintText: "Aa",
-      //                   //       suffixIcon: Icon(
-      //                   //         Icons.face,
-      //                   //         color: kPrimaryColor,
-      //                   //         size: 35,
-      //                   //       )),
-      //                   // ),
-      //                   child: TextField(
-      //                       decoration: InputDecoration(
-      //                     isCollapsed: true,
-      //                     border: InputBorder.none,
-      //                     hintText: 'Viết bình luận...',
-      //                     suffixIcon: IconButton(
-      //                       padding: EdgeInsets.only(bottom: 5.0),
-      //                       icon: Icon(Icons.send),
-      //                       onPressed: () {
-      //                         print('press');
-      //                       },
-      //                     ),
-      //                   )),
-      //                 ),
-      //               ),
-      //               // SizedBox(
-      //               //   width: 15,
-      //               // ),
-      //               // Icon(
-      //               //   Icons.thumb_up,
-      //               //   size: 35,
-      //               //   color: kPrimaryColor,
-      //               // ),
-      //             ],
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
+      bottomSheet: bottomCommentSheet,
     );
   }
 
   @override
   bool get wantKeepAlive => true;
+}
+
+class BottomCommentSheet extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _BottomCommentSheet();
+  }
+}
+
+class _BottomCommentSheet extends State<BottomCommentSheet> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      child: Row(
+        children: [
+          InkWell(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              // EdgeInsets.all(10.0),
+              height: 45.0,
+              width: MediaQuery.of(context).size.width * 0.65,
+              decoration: BoxDecoration(
+                  border: Border.all(width: 1.0, color: Colors.grey[400]),
+                  color: kBackgroundGrey,
+                  borderRadius: BorderRadius.circular(30.0)),
+              child: TextField(
+                // autofocus: true,
+                decoration: InputDecoration(
+                  isCollapsed: true,
+                  border: InputBorder.none,
+                  hintText: 'Viết bình luận...',
+                  suffixIcon: IconButton(
+                    padding: EdgeInsets.only(bottom: 5.0),
+                    icon: Icon(Icons.send),
+                    onPressed: () {
+                      print('press');
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
