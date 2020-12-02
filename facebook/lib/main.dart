@@ -22,10 +22,6 @@ void main() async {
   UserBloc userBloc = UserBloc();
   await userLocalBloc.setCurrentUser();
   if (currentUser != null) {
-    SearchBloc searchBloc = SearchBloc();
-    await searchBloc.getHistorySearch();
-    print('history:');
-    print(historySearch);
     PostBloc postBloc = PostBloc();
     await postBloc.setLocalPost();
     await postBloc.getAllPost();

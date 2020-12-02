@@ -71,7 +71,7 @@ class _HomeScreenMobile extends State<HomeScreenMobile> {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return SearchScreen();
+                          return SearchBackGround();
                         },
                       ),
                     );
