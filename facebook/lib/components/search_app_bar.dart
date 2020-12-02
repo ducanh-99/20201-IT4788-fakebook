@@ -55,7 +55,28 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
+class SearchResultScreen extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() {
+    return _SearchResultScreen();
+  }
 
+}
+
+class _SearchResultScreen extends State<SearchResultScreen>{
+  @override
+  Widget build(BuildContext context) {
+    return SearchBackGround(
+      body: ListView(
+        children: [
+          for (var data in searchResult)
+           PostContainer(post: data),
+        ],
+      ),
+    );
+  }
+
+}
 class SearchBackGround extends StatefulWidget {
   final Widget body;
   final TextEditingController searchText;
