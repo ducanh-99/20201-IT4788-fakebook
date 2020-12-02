@@ -10,6 +10,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   TextEditingController _sendMessageController = new TextEditingController();
+  BottomMessageSheet bottomMessageSheet = new BottomMessageSheet();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,95 +90,7 @@ class _ChatPageState extends State<ChatPage> {
         ],
       ),
       body: getBody(),
-      bottomSheet: getBottom(),
-    );
-  }
-
-  Widget getBottom() {
-    return Container(
-      height: 80,
-      width: double.infinity,
-      decoration: BoxDecoration(color: grey.withOpacity(0.2)),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Container(
-              width: (MediaQuery.of(context).size.width - 40) / 2,
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.add_circle,
-                    size: 35,
-                    color: primary,
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Icon(
-                    Icons.camera_alt,
-                    size: 35,
-                    color: primary,
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Icon(
-                    Icons.photo,
-                    size: 35,
-                    color: primary,
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Icon(
-                    Icons.keyboard_voice,
-                    size: 35,
-                    color: primary,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              width: (MediaQuery.of(context).size.width - 40) / 2,
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    width: (MediaQuery.of(context).size.width - 140) / 2,
-                    height: 40,
-                    decoration: BoxDecoration(
-                        color: grey, borderRadius: BorderRadius.circular(20)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 12),
-                      child: TextField(
-                        cursorColor: black,
-                        controller: _sendMessageController,
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Aa",
-                            suffixIcon: Icon(
-                              Icons.face,
-                              color: primary,
-                              size: 35,
-                            )),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Icon(
-                    Icons.thumb_up,
-                    size: 35,
-                    color: primary,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+      bottomSheet: bottomMessageSheet,
     );
   }
 
@@ -330,5 +243,108 @@ class ChatBubble extends StatelessWidget {
         return BorderRadius.all(Radius.circular(30));
       }
     }
+  }
+}
+
+class BottomMessageSheet extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _BottomMessageSheet();
+  }
+}
+
+class _BottomMessageSheet extends State<BottomMessageSheet> {
+  TextEditingController _sendMessageController = new TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 80,
+      width: double.infinity,
+      decoration: BoxDecoration(color: grey.withOpacity(0.2)),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              width: (MediaQuery.of(context).size.width - 40) / 2,
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.add_circle,
+                    size: 35,
+                    color: primary,
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Icon(
+                    Icons.camera_alt,
+                    size: 35,
+                    color: primary,
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Icon(
+                    Icons.photo,
+                    size: 35,
+                    color: primary,
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Icon(
+                    Icons.keyboard_voice,
+                    size: 35,
+                    color: primary,
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: (MediaQuery.of(context).size.width - 40) / 2,
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    width: (MediaQuery.of(context).size.width - 140) / 2,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        color: grey, borderRadius: BorderRadius.circular(20)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 12),
+                      child: TextField(
+                        cursorColor: black,
+                        controller: _sendMessageController,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Aa",
+                            suffixIcon: Icon(
+                              Icons.send,
+                              color: primary,
+                              size: 35,
+                            )),
+                        onTap: () {
+                          print("send");
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Icon(
+                    Icons.thumb_up,
+                    size: 35,
+                    color: primary,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
