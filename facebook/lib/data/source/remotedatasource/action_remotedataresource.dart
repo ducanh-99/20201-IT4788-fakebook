@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/models/post_model.dart';
 import 'package:facebook/data/source/base/search_Database.dart';
 import 'package:facebook/data/source/base/search_model.dart';
@@ -26,13 +27,12 @@ class ActionRemoteDatasourceImpl implements ActionRemoteDatasource {
       SearchDatabaseProvider searchDatabaseProvider =
           await SearchDatabaseProvider.databaseProvider;
       await searchDatabaseProvider.deleteDB();
-
       historySearch.removeRange(0, historySearch.length);
-
       for (var data in responseJson) {
-        historySearch.insert(0, data.toString());
+        historySearch.add(data.toString());
         await searchDatabaseProvider.addSearchData(data.toString());
       }
+      print(historySearch);
     }).catchError((error) async {
       SearchDatabaseProvider searchDatabaseProvider =
           await SearchDatabaseProvider.databaseProvider;
@@ -40,7 +40,7 @@ class ActionRemoteDatasourceImpl implements ActionRemoteDatasource {
       if (data.isNotEmpty) {
         for (var post in data) {
           String data = SearchModel.formJson(post);
-          historySearch.insert(0, data);
+          historySearch.add(data);
         }
         posts = localPosts;
       } else {}
@@ -78,9 +78,10 @@ class ActionRemoteDatasourceImpl implements ActionRemoteDatasource {
         .then((value) async {
       var responseJson = json.decode(value.body);
       if (responseJson.length > 0) {
-        print(responseJson);
+        print('search result' + keyword);
+        print(responseJson['user']);
         searchResult = [];
-        for (var post in responseJson) {
+        for (var post in responseJson['posts']) {
           Post newpost = Post(
               id: post['id'],
               isliked: post['is_liked'],
@@ -118,12 +119,24 @@ class ActionRemoteDatasourceImpl implements ActionRemoteDatasource {
               timeAgo: '');
           searchResult.add(newpost);
         }
+        searchUser = [];
+        for (var user in responseJson['user']) {
+          User user1 = User(
+            id: user['id'],
+            username: user['username'],
+            avatar: 'https://fakebook-20201.herokuapp.com/api/get_avt/' +
+                user['id'],
+            isFriend: user['is_friend'],
+          );
+          searchUser.add(user1);
+        }
       } else {
         searchResult = [];
+        searchUser = [];
       }
     }).catchError((error) {
       print(error);
-      print('Error');
+      print('Error serve');
     });
   }
 }

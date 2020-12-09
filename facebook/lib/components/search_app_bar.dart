@@ -1,5 +1,7 @@
 import 'package:facebook/Screens/Home/friends_tab.dart';
+import 'package:facebook/Screens/Messenger/components/home_page.dart';
 import 'package:facebook/bloc/search_bloc.dart';
+import 'package:facebook/components/search_reasult_screen.dart';
 import 'package:facebook/data/source/localdatasource/data.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
@@ -55,33 +57,16 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
-class SearchResultScreen extends StatefulWidget{
-  @override
-  State<StatefulWidget> createState() {
-    return _SearchResultScreen();
-  }
 
-}
-
-class _SearchResultScreen extends State<SearchResultScreen>{
-  @override
-  Widget build(BuildContext context) {
-    return SearchBackGround(
-      body: ListView(
-        children: [
-          for (var data in searchResult)
-           PostContainer(post: data),
-        ],
-      ),
-    );
-  }
-
-}
 class SearchBackGround extends StatefulWidget {
   final Widget body;
+
   final TextEditingController searchText;
-  const SearchBackGround({Key key, this.body, this.searchText})
-      : super(key: key);
+  const SearchBackGround({
+    Key key,
+    this.body,
+    this.searchText,
+  }) : super(key: key);
   @override
   _SearchBackGround createState() => _SearchBackGround(
         body: body,
@@ -89,10 +74,17 @@ class SearchBackGround extends StatefulWidget {
       );
 }
 
-class _SearchBackGround extends State<SearchBackGround> {
+class _SearchBackGround extends State<SearchBackGround>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   final Widget body;
   final TextEditingController searchText;
-  _SearchBackGround({Key key, this.body, this.searchText});
+  _SearchBackGround({
+    Key key,
+    this.body,
+    this.searchText,
+  });
 
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -108,6 +100,7 @@ class _SearchBackGround extends State<SearchBackGround> {
     });
     // if failed,use refreshFailed()
     print('down');
+    this.setState(() {});
     _refreshController.refreshCompleted();
   }
 
@@ -130,10 +123,10 @@ class _SearchBackGround extends State<SearchBackGround> {
         return 'Data Loaded';
       },
     );
-    print("api call: ");
+
     SearchBloc searchBloc = SearchBloc();
     await searchBloc.getHistorySearch();
-    print(historySearch);
+
     return _calculation;
   }
 
@@ -196,24 +189,37 @@ class _SearchBackGround extends State<SearchBackGround> {
                               prefixIcon: IconButton(
                                 padding: EdgeInsets.only(bottom: 5.0),
                                 icon: Icon(Icons.search),
-                                onPressed: () {
-                                  print('press');
+                                onPressed: () async {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return SearchResultScreen(
+                                          search: stringSearch,
+                                        );
+                                      },
+                                    ),
+                                  );
                                 },
                               ),
                               isCollapsed: true,
                               border: InputBorder.none,
-                              hintText: 'Tìm kiếm',
+                              hintText: stringSearch == ''
+                                  ? 'Tìm Kiếm'
+                                  : stringSearch,
                               suffixIcon: IconButton(
                                 padding: EdgeInsets.only(bottom: 5.0),
                                 icon: Icon(Icons.close),
                                 onPressed: () {
-                                  searchController.text = "";
+                                  stringSearch = '';
                                   print('press');
                                   setState(() {});
                                 },
                               ),
                             ),
-                            onChanged: (value) async {},
+                            onChanged: (value) async {
+                              stringSearch = value;
+                            },
                             // onChanged: (){
                             //   print(_searchController);
                             // },
@@ -227,7 +233,64 @@ class _SearchBackGround extends State<SearchBackGround> {
                       ),
                     ],
                   ),
-                  searchScreen,
+                  Container(
+                    height: 600,
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      separatorBuilder: (context, index) => Divider(
+                        height: 0.0,
+                        color: Colors.black,
+                      ),
+                      itemCount: 10,
+                      itemBuilder: (context, index) {
+                        return Dismissible(
+                          key: Key(historySearch[index]),
+                          background: Container(
+                            alignment: AlignmentDirectional.centerEnd,
+                            color: Colors.red,
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ),
+                          ),
+                          onDismissed: (direction) async {
+                            historySearch.removeAt(index);
+                            print('call api here');
+                          },
+                          child: InkWell(
+                            child: ListTile(
+                              title: Text(historySearch[index]),
+                              leading: Icon(Icons.search),
+                              trailing: IconButton(
+                                padding: EdgeInsets.only(bottom: 5.0),
+                                icon: Icon(Icons.close),
+                                onPressed: () async {
+                                  SearchBloc searchBloc = SearchBloc();
+                                  //api xoa history
+                                  historySearch.removeAt(index);
+                                  print(historySearch);
+                                  setState(() {});
+                                },
+                              ),
+                            ),
+                            onTap: () async {
+                              stringSearch = historySearch[index];
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return SearchResultScreen(
+                                      search: stringSearch,
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  )
                 ];
               } else if (snapshot.hasError) {
                 children = <Widget>[

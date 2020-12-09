@@ -99,6 +99,12 @@ class _FriendsTabState extends State<FriendsTab>
 
   @override
   FriendRequestContainer friendRequestContainer = new FriendRequestContainer();
+  int _selectedIndex = 0;
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

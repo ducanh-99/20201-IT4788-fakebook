@@ -10,6 +10,7 @@ class User {
   String password;
   String avatar;
   String id;
+  bool isFriend;
 
   User(
       {this.username,
@@ -20,7 +21,8 @@ class User {
       this.birthday,
       this.avatar,
       this.email,
-      this.id});
+      this.id,
+      this.isFriend});
 
   Map<String, dynamic> toJSON() => {
         'firstName': firstName,
