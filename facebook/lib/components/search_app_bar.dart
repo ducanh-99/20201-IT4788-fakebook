@@ -146,284 +146,287 @@ class _SearchBackGround extends State<SearchBackGround>
     //   print(searchController);
     //   return searchController;
     // }
-    return Scaffold(
-      body: SmartRefresher(
-        controller: _refreshController,
-        onRefresh: _onRefresh,
-        onLoading: _onLoading,
-        header: MaterialClassicHeader(),
-        footer: ClassicFooter(),
-        enablePullDown: true,
-        enablePullUp: true,
-        child: SingleChildScrollView(
-          child: FutureBuilder<String>(
-            future: waitApi(),
-            builder: (context, snapshot) {
-              List<Widget> children;
-              if (snapshot.hasData) {
-                children = <Widget>[
-                  Row(
-                    children: <Widget>[
-                      FlatButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: kPrimaryColor,
-                          )),
-                      InkWell(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 10.0),
-                          // EdgeInsets.all(10.0),
-                          height: 45.0,
-                          width: MediaQuery.of(context).size.width * 0.65,
-                          decoration: BoxDecoration(
+    return SafeArea(
+      child: Scaffold(
+        body: SmartRefresher(
+          controller: _refreshController,
+          onRefresh: _onRefresh,
+          onLoading: _onLoading,
+          header: MaterialClassicHeader(),
+          footer: ClassicFooter(),
+          enablePullDown: true,
+          enablePullUp: true,
+          child: SingleChildScrollView(
+            child: FutureBuilder<String>(
+              future: waitApi(),
+              builder: (context, snapshot) {
+                List<Widget> children;
+                if (snapshot.hasData) {
+                  children = <Widget>[
+                    Row(
+                      children: <Widget>[
+                        FlatButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: kPrimaryColor,
+                            )),
+                        InkWell(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 10.0),
+                            // EdgeInsets.all(10.0),
+                            height: 45.0,
+                            width: MediaQuery.of(context).size.width * 0.65,
+                            decoration: BoxDecoration(
                               // border:
                               //     Border.all(width: 1.0, color: Colors.grey[400]),
-                              color: kBackgroundGrey,
-                              borderRadius: BorderRadius.circular(30.0)),
-                          child: TextField(
-                            // autofocus: true,
-                            decoration: InputDecoration(
-                              prefixIcon: IconButton(
-                                padding: EdgeInsets.only(bottom: 5.0),
-                                icon: Icon(Icons.search),
-                                onPressed: () async {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return SearchResultScreen(
-                                          search: stringSearch,
-                                        );
-                                      },
-                                    ),
-                                  );
-                                },
-                              ),
-                              isCollapsed: true,
-                              border: InputBorder.none,
-                              hintText: stringSearch == ''
-                                  ? 'Tìm Kiếm'
-                                  : stringSearch,
-                              suffixIcon: IconButton(
-                                padding: EdgeInsets.only(bottom: 5.0),
-                                icon: Icon(Icons.close),
-                                onPressed: () {
-                                  stringSearch = '';
-                                  print('press');
-                                  setState(() {});
-                                },
-                              ),
-                            ),
-                            onChanged: (value) async {
-                              stringSearch = value;
-                            },
-                            // onChanged: (){
-                            //   print(_searchController);
-                            // },
-                            // onChanged: search(_searchController),
-                            // autofocus: true,
-                          ),
-                        ),
-                        onTap: () {
-                          print("comment");
-                        },
-                      ),
-                    ],
-                  ),
-                  Container(
-                    height: 600,
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      separatorBuilder: (context, index) => Divider(
-                        height: 0.0,
-                        color: Colors.black,
-                      ),
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return Dismissible(
-                          key: Key(historySearch[index]),
-                          background: Container(
-                            alignment: AlignmentDirectional.centerEnd,
-                            color: Colors.red,
-                            child: Icon(
-                              Icons.delete,
-                              color: Colors.white,
-                            ),
-                          ),
-                          onDismissed: (direction) async {
-                            historySearch.removeAt(index);
-                            print('call api here');
-                          },
-                          child: InkWell(
-                            child: ListTile(
-                              title: Text(historySearch[index]),
-                              leading: Icon(Icons.search),
-                              trailing: IconButton(
-                                padding: EdgeInsets.only(bottom: 5.0),
-                                icon: Icon(Icons.close),
-                                onPressed: () async {
-                                  SearchBloc searchBloc = SearchBloc();
-                                  //api xoa history
-                                  historySearch.removeAt(index);
-                                  print(historySearch);
-                                  setState(() {});
-                                },
-                              ),
-                            ),
-                            onTap: () async {
-                              stringSearch = historySearch[index];
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return SearchResultScreen(
-                                      search: stringSearch,
+                                color: kBackgroundGrey,
+                                borderRadius: BorderRadius.circular(30.0)),
+                            child: TextField(
+                              // autofocus: true,
+                              decoration: InputDecoration(
+                                prefixIcon: IconButton(
+                                  padding: EdgeInsets.only(bottom: 5.0),
+                                  icon: Icon(Icons.search),
+                                  onPressed: () async {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return SearchResultScreen(
+                                            search: stringSearch,
+                                          );
+                                        },
+                                      ),
                                     );
                                   },
                                 ),
-                              );
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  )
-                ];
-              } else if (snapshot.hasError) {
-                children = <Widget>[
-                  TextField(
-                    // autofocus: true,
-                    decoration: InputDecoration(
-                      prefixIcon: IconButton(
-                        padding: EdgeInsets.only(bottom: 5.0),
-                        icon: Icon(Icons.search),
-                        onPressed: () {
-                          print('press');
-                        },
-                      ),
-                      isCollapsed: true,
-                      border: InputBorder.none,
-                      hintText: 'Tìm kiếm',
-                      suffixIcon: IconButton(
-                        padding: EdgeInsets.only(bottom: 5.0),
-                        icon: Icon(Icons.close),
-                        onPressed: () {
-                          searchController.text = "";
-                          print('press');
-                        },
-                      ),
-                    ),
-                    onChanged: (value) async {
-                      setState(() {});
-                    },
-                    // onChanged: (){
-                    //   print(_searchController);
-                    // },
-                    // onChanged: search(_searchController),
-                    // autofocus: true,
-                  ),
-                  Icon(
-                    Icons.error_outline,
-                    color: Colors.red,
-                    size: 60,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: Text('Error: ${snapshot.error}'),
-                  ),
-                ];
-              } else {
-                children = <Widget>[
-                  Row(
-                    children: <Widget>[
-                      FlatButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: kPrimaryColor,
-                          )),
-                      InkWell(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 10.0),
-                          // EdgeInsets.all(10.0),
-                          height: 45.0,
-                          width: MediaQuery.of(context).size.width * 0.65,
-                          decoration: BoxDecoration(
-                              // border:
-                              //     Border.all(width: 1.0, color: Colors.grey[400]),
-                              color: kBackgroundGrey,
-                              borderRadius: BorderRadius.circular(30.0)),
-                          child: TextField(
-                            // autofocus: true,
-                            decoration: InputDecoration(
-                              prefixIcon: IconButton(
-                                padding: EdgeInsets.only(bottom: 5.0),
-                                icon: Icon(Icons.search),
-                                onPressed: () {
-                                  print('press');
-                                },
+                                isCollapsed: true,
+                                border: InputBorder.none,
+                                hintText: stringSearch == ''
+                                    ? 'Tìm Kiếm'
+                                    : stringSearch,
+                                suffixIcon: IconButton(
+                                  padding: EdgeInsets.only(bottom: 5.0),
+                                  icon: Icon(Icons.close),
+                                  onPressed: () {
+                                    stringSearch = '';
+                                    print('press');
+                                    setState(() {});
+                                  },
+                                ),
                               ),
-                              isCollapsed: true,
-                              border: InputBorder.none,
-                              hintText: 'Tìm kiếm',
-                              suffixIcon: IconButton(
-                                padding: EdgeInsets.only(bottom: 5.0),
-                                icon: Icon(Icons.close),
-                                onPressed: () {
-                                  searchController.text = "";
-                                  print('press');
-                                  setState(() {});
-                                },
+                              onChanged: (value) async {
+                                stringSearch = value;
+                              },
+                              // onChanged: (){
+                              //   print(_searchController);
+                              // },
+                              // onChanged: search(_searchController),
+                              // autofocus: true,
+                            ),
+                          ),
+                          onTap: () {
+                            print("comment");
+                          },
+                        ),
+                      ],
+                    ),
+                    Container(
+                      height: 600,
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        separatorBuilder: (context, index) => Divider(
+                          height: 0.0,
+                          color: Colors.black,
+                        ),
+                        itemCount: 10,
+                        itemBuilder: (context, index) {
+                          return Dismissible(
+                            key: Key(historySearch[index]),
+                            background: Container(
+                              alignment: AlignmentDirectional.centerEnd,
+                              color: Colors.red,
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.white,
                               ),
                             ),
-                            onChanged: (value) async {},
-                            // onChanged: (){
-                            //   print(_searchController);
-                            // },
-                            // onChanged: search(_searchController),
-                            // autofocus: true,
-                          ),
-                        ),
-                        onTap: () {
-                          print("comment");
+                            onDismissed: (direction) async {
+                              historySearch.removeAt(index);
+                              print('call api here');
+                            },
+                            child: InkWell(
+                              child: ListTile(
+                                title: Text(historySearch[index]),
+                                leading: Icon(Icons.search),
+                                trailing: IconButton(
+                                  padding: EdgeInsets.only(bottom: 5.0),
+                                  icon: Icon(Icons.close),
+                                  onPressed: () async {
+                                    SearchBloc searchBloc = SearchBloc();
+                                    //api xoa history
+                                    historySearch.removeAt(index);
+                                    print(historySearch);
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                              onTap: () async {
+                                stringSearch = historySearch[index];
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return SearchResultScreen(
+                                        search: stringSearch,
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                          );
                         },
                       ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        child: CircularProgressIndicator(),
-                        width: 40,
-                        height: 40,
+                    )
+                  ];
+                } else if (snapshot.hasError) {
+                  children = <Widget>[
+                    TextField(
+                      // autofocus: true,
+                      decoration: InputDecoration(
+                        prefixIcon: IconButton(
+                          padding: EdgeInsets.only(bottom: 5.0),
+                          icon: Icon(Icons.search),
+                          onPressed: () {
+                            print('press');
+                          },
+                        ),
+                        isCollapsed: true,
+                        border: InputBorder.none,
+                        hintText: 'Tìm kiếm',
+                        suffixIcon: IconButton(
+                          padding: EdgeInsets.only(bottom: 5.0),
+                          icon: Icon(Icons.close),
+                          onPressed: () {
+                            searchController.text = "";
+                            print('press');
+                          },
+                        ),
                       ),
-                    ],
+                      onChanged: (value) async {
+                        setState(() {});
+                      },
+                      // onChanged: (){
+                      //   print(_searchController);
+                      // },
+                      // onChanged: search(_searchController),
+                      // autofocus: true,
+                    ),
+                    Icon(
+                      Icons.error_outline,
+                      color: Colors.red,
+                      size: 60,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: Text('Error: ${snapshot.error}'),
+                    ),
+                  ];
+                } else {
+                  children = <Widget>[
+                    Row(
+                      children: <Widget>[
+                        FlatButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: kPrimaryColor,
+                            )),
+                        InkWell(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 10.0),
+                            // EdgeInsets.all(10.0),
+                            height: 45.0,
+                            width: MediaQuery.of(context).size.width * 0.65,
+                            decoration: BoxDecoration(
+                              // border:
+                              //     Border.all(width: 1.0, color: Colors.grey[400]),
+                                color: kBackgroundGrey,
+                                borderRadius: BorderRadius.circular(30.0)),
+                            child: TextField(
+                              // autofocus: true,
+                              decoration: InputDecoration(
+                                prefixIcon: IconButton(
+                                  padding: EdgeInsets.only(bottom: 5.0),
+                                  icon: Icon(Icons.search),
+                                  onPressed: () {
+                                    print('press');
+                                  },
+                                ),
+                                isCollapsed: true,
+                                border: InputBorder.none,
+                                hintText: 'Tìm kiếm',
+                                suffixIcon: IconButton(
+                                  padding: EdgeInsets.only(bottom: 5.0),
+                                  icon: Icon(Icons.close),
+                                  onPressed: () {
+                                    searchController.text = "";
+                                    print('press');
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                              onChanged: (value) async {},
+                              // onChanged: (){
+                              //   print(_searchController);
+                              // },
+                              // onChanged: search(_searchController),
+                              // autofocus: true,
+                            ),
+                          ),
+                          onTap: () {
+                            print("comment");
+                          },
+                        ),
+                      ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          child: CircularProgressIndicator(),
+                          width: 40,
+                          height: 40,
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 16),
+                    )
+                  ];
+                }
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: children,
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 16),
-                  )
-                ];
-              }
-              return Container(
-                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: children,
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ),
-    );
+    )
+    ;
 
     //   appBar: AppBar(
     //     backgroundColor: kBackgroundGrey.withOpacity(0.2),

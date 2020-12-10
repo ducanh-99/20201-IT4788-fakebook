@@ -1,10 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:facebook/bloc/search_bloc.dart';
+import 'package:facebook/bloc/user_bloc.dart';
+import 'package:facebook/components/circle_button.dart';
 import 'package:facebook/components/search_app_bar.dart';
 import 'package:facebook/components/separator_widget.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
 
 // import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../constants.dart';
 
@@ -319,152 +323,346 @@ class _FriendProfile extends State<FriendProfile> {
 }
 
 class ProfileUser extends StatefulWidget {
+  final String id;
+  final String username;
+
+  const ProfileUser({Key key, this.id, this.username}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
-    return _ProfileUser();
+    return _ProfileUser(id, username);
   }
 }
 
-class _ProfileUser extends State<ProfileUser> {
+class _ProfileUser extends State<ProfileUser>
+    with AutomaticKeepAliveClientMixin {
+  final String id;
+  final String username;
+
+  _ProfileUser(this.id, this.username);
+
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  // void _onRefresh() async {
+  //   // monitor network fetch
+  //   await Future.delayed(Duration(milliseconds: 1000), () async {
+  //     SearchBloc searchBloc = SearchBloc();
+  //     await searchBloc.getHistorySearch();
+  //     print('history:');
+  //     print(historySearch);
+  //     return 'Data Loaded';
+  //   });
+  //   // if failed,use refreshFailed()
+  //   print('down');
+  //   this.setState(() {});
+  //   _refreshController.refreshCompleted();
+  // }
+
+  void _onLoading() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000), () async {
+      UserBloc userBloc = UserBloc();
+      await userBloc.getProfileUser(id);
+    });
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    if (mounted) setState(() {});
+    print('up');
+    _refreshController.loadComplete();
+  }
+
+  Future<String> waitApi() async {
+
+    Future<String> _calculation = Future<String>.delayed(
+      Duration(seconds: 2),
+      () async {
+        UserBloc userBloc = UserBloc();
+        await userBloc.getProfileUser(id);
+        return 'Data Loaded';
+      },
+    );
+
+    // UserBloc userBloc = UserBloc();
+    // await userBloc.getProfileUser(id);
+
+    return _calculation;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SearchBackGround(
-        body: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: ListView(
-            children: [
-              Container(
-                height: 360.0,
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.symmetric(
-                          horizontal: 15.0, vertical: 15.0),
-                      height: 180.0,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image:
-                                  AssetImage('assets/images/login_bottom.png'),
-                              fit: BoxFit.cover),
-                          borderRadius: BorderRadius.circular(10.0)),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
+    var avt = 'http://fakebook-20201.herokuapp.com/api/get_avt/' + id;
+    return SafeArea(
+        child: Scaffold(
+      appBar: AppBar(
+        backgroundColor: backgroundColor,
+        iconTheme: IconThemeData(color: kColorTextNormal),
+        actions: [
+          CircleButton(
+            icon: Icons.search,
+            iconSize: 30.0,
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return SearchBackGround();
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+      body: SmartRefresher(
+        controller: _refreshController,
+        onLoading: _onLoading,
+        header: MaterialClassicHeader(),
+        footer: ClassicFooter(),
+        enablePullDown: true,
+        enablePullUp: true,
+        child: SingleChildScrollView(
+          child: FutureBuilder(
+            future: waitApi(),
+            builder: (context, snapshot) {
+              List<Widget> children;
+              if (snapshot.hasData) {
+                children = <Widget>[
+                  Container(
+                    height: 360.0,
+                    child: Stack(
                       children: <Widget>[
-                        // CircleAvatar(
-                        //   backgroundImage: currentUser.avatar,
-                        //   radius: 70.0,
-                        // ),
-
-                        CircleAvatar(
-                          radius: 70.0,
-                          backgroundColor: Colors.grey[200],
-                          backgroundImage: CachedNetworkImageProvider(avatar),
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 15.0, vertical: 15.0),
+                          height: 180.0,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/images/login_bottom.png'),
+                                  fit: BoxFit.cover),
+                              borderRadius: BorderRadius.circular(10.0)),
                         ),
-                        SizedBox(height: 20.0),
-                        Text(currentUser.username,
-                            style: TextStyle(
-                                fontSize: 24.0, fontWeight: FontWeight.bold)),
-                        SizedBox(height: 20.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            Container(
-                              height: 40.0,
-                              width: MediaQuery.of(context).size.width - 80,
-                              decoration: BoxDecoration(
-                                  color: Colors.blue,
-                                  borderRadius: BorderRadius.circular(5.0)),
-                              child: Center(
-                                  child: Text('Add to Story',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16.0))),
+                            CircleAvatar(
+                              radius: 70.0,
+                              backgroundColor: Colors.grey[200],
+                              backgroundImage: CachedNetworkImageProvider(avt),
                             ),
-                            Container(
-                              height: 40.0,
-                              width: 45.0,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey[300],
-                                  borderRadius: BorderRadius.circular(5.0)),
-                              child: Icon(Icons.more_horiz),
+                            SizedBox(height: 20.0),
+                            Text(username,
+                                style: TextStyle(
+                                    fontSize: 24.0,
+                                    fontWeight: FontWeight.bold)),
+                            SizedBox(height: 20.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Container(
+                                  height: 40.0,
+                                  width: MediaQuery.of(context).size.width - 80,
+                                  decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.circular(5.0)),
+                                  child: Center(
+                                      child: Text('Thêm tin',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16.0))),
+                                ),
+                                Container(
+                                  height: 40.0,
+                                  width: 45.0,
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[300],
+                                      borderRadius: BorderRadius.circular(5.0)),
+                                  child: Icon(Icons.more_horiz),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
+                          child: Divider(height: 40.0),
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Icon(Icons.phone,
+                                      color: Colors.grey, size: 30.0),
+                                  SizedBox(width: 10.0),
+                                  Text(userProfile.phone,
+                                      style: TextStyle(fontSize: 16.0))
+                                ],
+                              ),
+                              SizedBox(height: 15.0),
+                              Row(
+                                children: <Widget>[
+                                  Icon(Icons.calendar_today,
+                                      color: Colors.grey, size: 30.0),
+                                  SizedBox(width: 10.0),
+                                  Text(
+                                      userProfile.birthday == null
+                                          ? " "
+                                          : userProfile.birthday.toString(),
+                                      style: TextStyle(fontSize: 16.0))
+                                ],
+                              ),
+                              SizedBox(height: 15.0),
+                              Row(
+                                children: <Widget>[
+                                  Icon(Icons.more_horiz,
+                                      color: Colors.grey, size: 30.0),
+                                  SizedBox(width: 10.0),
+                                  Text('Xem chi tiết',
+                                      style: TextStyle(fontSize: 16.0))
+                                ],
+                              ),
+                              SizedBox(height: 15.0),
+                              InkWell(
+                                child: Container(
+                                  height: 40.0,
+                                  decoration: BoxDecoration(
+                                    color: Colors.lightBlueAccent
+                                        .withOpacity(0.25),
+                                    borderRadius: BorderRadius.circular(5.0),
+                                  ),
+                                  child: Center(
+                                      child: Text('Chỉnh sửa thông tin',
+                                          style: TextStyle(
+                                              color: Colors.blue,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16.0))),
+                                ),
+                                onTap: () {
+                                  print(currentUser.toJSON());
+                                },
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ];
+              } else if (snapshot.hasError) {
+                children = <Widget>[
+                  Text("Đã xảy ra lỗi"),
+                  Icon(
+                    Icons.error_outline,
+                    color: Colors.red,
+                    size: 60,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Text('Error: ${snapshot.error}'),
+                  ),
+                ];
+              } else {
+                children = <Widget>[
+                  Container(
+                    height: 360.0,
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 15.0, vertical: 15.0),
+                          height: 180.0,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/images/login_bottom.png'),
+                                  fit: BoxFit.cover),
+                              borderRadius: BorderRadius.circular(10.0)),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            // CircleAvatar(
+                            //   backgroundImage: currentUser.avatar,
+                            //   radius: 70.0,
+                            // ),
+
+                            CircleAvatar(
+                              radius: 70.0,
+                              backgroundColor: Colors.grey[200],
+                              backgroundImage: CachedNetworkImageProvider(avt),
+                            ),
+                            SizedBox(height: 20.0),
+                            Text(username,
+                                style: TextStyle(
+                                    fontSize: 24.0,
+                                    fontWeight: FontWeight.bold)),
+                            SizedBox(height: 20.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Container(
+                                  height: 40.0,
+                                  width: MediaQuery.of(context).size.width - 80,
+                                  decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.circular(5.0)),
+                                  child: Center(
+                                      child: Text('Thêm tin',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16.0))),
+                                ),
+                                Container(
+                                  height: 40.0,
+                                  width: 45.0,
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[300],
+                                      borderRadius: BorderRadius.circular(5.0)),
+                                  child: Icon(Icons.more_horiz),
+                                )
+                              ],
                             )
                           ],
                         )
                       ],
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
-                child: Divider(height: 40.0),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 15.0),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Icon(Icons.home, color: Colors.grey, size: 30.0),
-                        SizedBox(width: 10.0),
-                        Text('Lives in New York',
-                            style: TextStyle(fontSize: 16.0))
-                      ],
                     ),
-                    SizedBox(height: 15.0),
-                    Row(
-                      children: <Widget>[
-                        Icon(Icons.location_on, color: Colors.grey, size: 30.0),
-                        SizedBox(width: 10.0),
-                        Text('From New York', style: TextStyle(fontSize: 16.0))
-                      ],
-                    ),
-                    SizedBox(height: 15.0),
-                    Row(
-                      children: <Widget>[
-                        Icon(Icons.more_horiz, color: Colors.grey, size: 30.0),
-                        SizedBox(width: 10.0),
-                        Text('See your About Info',
-                            style: TextStyle(fontSize: 16.0))
-                      ],
-                    ),
-                    SizedBox(height: 15.0),
-                    Container(
-                      height: 40.0,
-                      decoration: BoxDecoration(
-                        color: Colors.lightBlueAccent.withOpacity(0.25),
-                        borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        child: CircularProgressIndicator(),
+                        width: 40,
+                        height: 40,
                       ),
-                      child: Center(
-                          child: Text('Edit Public Details',
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.0))),
-                    ),
-                  ],
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 16),
+                  )
+                ];
+              }
+              return Container(
+                padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: children,
                 ),
-              ),
-              Divider(height: 40.0),
-              // GridListFriend()
-              // FriendProfile()
-              // GridView.count(
-              //   crossAxisCount: 3,
-              //
-              //   children: List.generate(6, (index) {
-              //     return Center(
-              //       child: Text(
-              //           'Item $index'
-              //       ),
-              //     );
-              //   }),
-              // )
-            ],
+              );
+            },
           ),
-        ));
+        ),
+      ),
+    ));
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class GridListFriend extends StatefulWidget {
