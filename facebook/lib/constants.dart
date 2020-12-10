@@ -9,5 +9,6 @@ const kColorTextNormal = Color(0xFF000000);
 const kBlack = Color(0xFF000000);
 const kColorButton = Color(0xFF757575);
 const kBackgroundGrey = Color(0xFFe4e6eb);
+const kGreenComment =Color(0xff00c853);
 const String circularProgressIndicator =
 "packages:facebook/assets/images/circular_progress_indicator.gif";

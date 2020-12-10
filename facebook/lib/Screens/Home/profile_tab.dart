@@ -16,7 +16,8 @@ class ProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var dateTime =
-        Jiffy(currentUser.birthday, "yyyy/dd/MM").format("dd 'tháng' MM, yyyy");
+        // Jiffy(currentUser.birthday, "yyyy/dd/MM").format("dd 'tháng' MM, yyyy");
+        Jiffy(currentUser.birthday, "dd/MM/yyyy").format("dd 'tháng' MM, yyyy");
     return SingleChildScrollView(
         child: Column(
       children: <Widget>[

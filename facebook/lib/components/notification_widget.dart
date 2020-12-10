@@ -1,13 +1,11 @@
+import 'package:facebook/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/data/models/user_notification.dart';
 
 class NotificationWidget extends StatelessWidget {
-
   final UserNotification notification;
 
-  NotificationWidget({
-    this.notification
-  });
+  NotificationWidget({this.notification});
 
   @override
   Widget build(BuildContext context) {
@@ -21,19 +19,105 @@ class NotificationWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              CircleAvatar(
-                backgroundImage: AssetImage(notification.imageUrl),
-                radius: 35.0,
+              Stack(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(notification.imageUrl),
+                    radius: 29.0,
+                  ),
+                  Positioned(
+                    top: 32,
+                    left: 32,
+                    child:
+                        // Container(
+                        //   width: 20,
+                        //   height: 20,
+                        //   decoration: BoxDecoration(
+                        //       color: kBlack,
+                        //       shape: BoxShape.circle,
+                        //       border:
+                        //       Border.all(color: kBlack, width: 3)),
+                        // ),
+                        // Container(
+                        //   width: 20,
+                        //   height: 20,
+                        //   padding: const EdgeInsets.all(4.0),
+                        //   decoration: BoxDecoration(
+                        //     color: kPrimaryColor,
+                        //     shape: BoxShape.circle,
+                        //   ),
+                        //   child: const Icon(
+                        //     Icons.thumb_up,
+                        //     size: 10.0,
+                        //     color: Colors.white,
+                        //   ),
+                        // ),
+                        // Container(
+                        //   width: 25,
+                        //   height: 25,
+                        //   padding: const EdgeInsets.all(2.0),
+                        //   decoration: BoxDecoration(
+                        //     color: kPrimaryColor,
+                        //     shape: BoxShape.circle,
+                        //   ),
+                        //   child: const Icon(
+                        //     Icons.person,
+                        //     size: 20.0,
+                        //     color: Colors.white,
+                        //   ),
+                        // ),
+                        Container(
+                      width: 25,
+                      height: 25,
+                      padding: const EdgeInsets.all(2.0),
+                      decoration: BoxDecoration(
+                        color: kPrimaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.person_add,
+                        size: 20.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                    // Container(
+                    //   width: 25,
+                    //   height: 25,
+                    //   padding: const EdgeInsets.all(2.0),
+                    //   decoration: BoxDecoration(
+                    //     color: kGreenComment,
+                    //     shape: BoxShape.circle,
+                    //   ),
+                    //   child: const Icon(
+                    //     Icons.comment,
+                    //     size: 17.0,
+                    //     color: Colors.white,
+                    //   ),
+                    // ),
+                  ),
+                ],
               ),
-
               SizedBox(width: 15.0),
-
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(notification.content, style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold)),
-                  Text(notification.time, style: TextStyle(fontSize: 15.0, color: Colors.grey)),
+                  InkWell(
+                    child: Column(
+                      children: [
+                        Text(notification.username,
+                            style: TextStyle(
+                                fontSize: 17.0, fontWeight: FontWeight.bold)),
+                        Text(notification.content,
+                            style: TextStyle(fontSize: 16.0)),
+                      ],
+                    ),
+                  ),
+                  // Text(notification.content,
+                  //     style: TextStyle(
+                  //         fontSize: 17.0, fontWeight: FontWeight.bold)),
+                  Text(notification.time,
+                      style: TextStyle(fontSize: 15.0, color: Colors.grey)),
                 ],
               ),
             ],
