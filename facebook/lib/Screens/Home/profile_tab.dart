@@ -111,7 +111,7 @@ class ProfileTab extends StatelessWidget {
                 children: <Widget>[
                   Icon(Icons.more_horiz, color: Colors.grey, size: 30.0),
                   SizedBox(width: 10.0),
-                  Text('See your About Info', style: TextStyle(fontSize: 16.0))
+                  Text('Xem chi tiết', style: TextStyle(fontSize: 16.0))
                 ],
               ),
               SizedBox(height: 15.0),

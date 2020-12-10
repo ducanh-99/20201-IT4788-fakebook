@@ -117,7 +117,7 @@ class _PostHeader extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return ProfileUser();
+                    return ProfileUser(id: post.userid, username: post.username,);
                   }));
                 },
               ),
