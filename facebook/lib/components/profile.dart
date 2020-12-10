@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:facebook/bloc/search_bloc.dart';
 import 'package:facebook/components/search_app_bar.dart';
 import 'package:facebook/components/separator_widget.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
@@ -326,9 +327,123 @@ class ProfileUser extends StatefulWidget {
 }
 
 class _ProfileUser extends State<ProfileUser> {
+  SearchBloc searchBloc = SearchBloc();
+
   @override
   Widget build(BuildContext context) {
-    return SearchBackGround(
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: kBackgroundGrey.withOpacity(0.2),
+          elevation: 0,
+          leading: FlatButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back,
+                color: kPrimaryColor,
+              )),
+          title: Row(
+            children: <Widget>[
+              Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  child: Row(
+                    children: [
+                      InkWell(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 10.0),
+                          // EdgeInsets.all(10.0),
+                          height: 45.0,
+                          width: MediaQuery.of(context).size.width * 0.65,
+                          decoration: BoxDecoration(
+                              // border:
+                              //     Border.all(width: 1.0, color: Colors.grey[400]),
+                              color: kBackgroundGrey,
+                              borderRadius: BorderRadius.circular(30.0)),
+                          child: TextField(
+                            // autofocus: true,
+                            decoration: InputDecoration(
+                              prefixIcon: IconButton(
+                                padding: EdgeInsets.only(bottom: 5.0),
+                                icon: Icon(Icons.search),
+                                onPressed: () {
+                                  searchBloc.getHistorySearch();
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        TextEditingController
+                                            textEditingController =
+                                            new TextEditingController();
+
+                                        return SearchBackGround(
+                                          searchText: textEditingController,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                              isCollapsed: true,
+                              border: InputBorder.none,
+                              hintText: 'Tìm kiếm',
+                              suffixIcon: IconButton(
+                                padding: EdgeInsets.only(bottom: 5.0),
+                                icon: Icon(Icons.close),
+                                onPressed: () {
+                                  // searchController.text = "";
+                                  searchBloc.getHistorySearch();
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        TextEditingController
+                                        textEditingController =
+                                        new TextEditingController();
+
+                                        return SearchBackGround(
+                                          searchText: textEditingController,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            onChanged: (value) async {
+                              setState(() {});
+                            },
+                            // onChanged: (){
+                            //   print(_searchController);
+                            // },
+                            // onChanged: search(_searchController),
+                            // autofocus: true,
+                          ),
+                        ),
+                        onTap: () {
+                          print("thanh search");
+                          searchBloc.getHistorySearch();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                TextEditingController textEditingController =
+                                    new TextEditingController();
+
+                                return SearchBackGround(
+                                  searchText: textEditingController,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ))
+            ],
+          ),
+          // actions: <Widget>[],
+        ),
         body: Padding(
           padding: const EdgeInsets.all(4.0),
           child: ListView(
