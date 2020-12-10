@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
@@ -19,7 +20,7 @@ class _FriendRequestState extends State<FriendRequest> {
   final User user;
 
   _FriendRequestState(this.user);
-
+  Friend_Bloc _friend_bloc = Friend_Bloc();
   @override
   void initState() {
     // TODO: implement initState
@@ -72,7 +73,7 @@ class _FriendRequestState extends State<FriendRequest> {
                                   color: Colors.white, fontSize: 15.0)),
                         ),
                         onTap: () {
-                          print('Chấp nhận yêu cầu kết bạn');
+                          _friend_bloc.AcceptFriendRequest(user.id);
                           _accept();
                         },
                       ),
@@ -89,7 +90,7 @@ class _FriendRequestState extends State<FriendRequest> {
                                   color: Colors.black, fontSize: 15.0)),
                         ),
                         onTap: () {
-                          print('Xóa yêu cầu kết bạn');
+                          _friend_bloc.DeclineFriendRequest(user.id);
                           _delete();
                         },
                       ),

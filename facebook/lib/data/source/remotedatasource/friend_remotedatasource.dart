@@ -12,6 +12,10 @@ import 'package:facebook/data/source/localdatasource/local_data.dart';
 abstract class FriendRemotedatasource {
   apiGetFriendRequest(Function onSuccess, Function onError);
   apiGetListFriend(String userId);
+  apiAcceptFriendRequest(String userId);
+  apiDeclineFriendRequest(String userId);
+  apiBlockFriend(String blockId);
+  apiSendFriendRequest(String userId);
 }
 
 class FriendRemotedatasourceImpl implements FriendRemotedatasource {
@@ -80,4 +84,90 @@ class FriendRemotedatasourceImpl implements FriendRemotedatasource {
       print(error);
     });
   }
+
+  @override
+  apiAcceptFriendRequest(String userId) async{
+    var response = await http.get(
+      'https://fakebook-20201.herokuapp.com/api/friend/confirm/' + userId,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    ).then((value) {
+      var responseJson = json.decode(value.body);
+      print(responseJson);
+      if (responseJson['code'] == 1000) {
+        print("Accept friend succesfully");
+      }
+    }).catchError((error) {
+      print('Error');
+      print(error);
+    });
+  }
+  @override
+  apiDeclineFriendRequest(String userId) async{
+    var response = await http.post(
+      'https://fakebook-20201.herokuapp.com/api/friend/reject/' + userId,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    ).then((value) {
+      var responseJson = json.decode(value.body);
+      print(responseJson);
+      if (responseJson['code'] == 1000) {
+        print("Decline friend succesfully");
+      }
+    }).catchError((error) {
+      print('Error');
+      print(error);
+    });
+  }
+  @override
+  apiBlockFriend(String blockId) async{
+    var response = await http.get(
+      'https://fakebook-20201.herokuapp.com/api/friend/block/' + blockId,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    ).then((value) {
+      var responseJson = json.decode(value.body);
+      print(responseJson);
+      if (responseJson['code'] == 1000) {
+        print(responseJson['block_id']);
+        print("Block friend succesfully");
+      }
+    }).catchError((error) {
+      print('Error');
+      print(error);
+    });
+  }
+
+  @override
+  apiSendFriendRequest(String userId) async {
+    var response = await http.get(
+      'https://fakebook-20201.herokuapp.com/api/friend/request/' + userId,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    ).then((value) {
+      var responseJson = json.decode(value.body);
+      print(responseJson);
+      if (responseJson['code'] == 1000) {
+        print(responseJson['block_id']);
+        print("Block friend succesfully");
+      }
+    }).catchError((error) {
+      print('Error');
+      print(error);
+    });
+  }
+
+
 }
