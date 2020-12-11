@@ -1,4 +1,5 @@
 import 'package:facebook/bloc/friend_bloc.dart';
+import 'package:facebook/bloc/notification_bloc.dart';
 import 'package:facebook/bloc/post_bloc.dart';
 import 'package:facebook/components/error_connect.dart';
 import 'package:flutter/material.dart';

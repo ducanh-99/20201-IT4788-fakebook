@@ -18,3 +18,4 @@ int indexState = 0;
 String stringSearch = '';
 List<User> searchUser = [];
 List<Post> videoData=[];
+List<UserNotification> notifications = [];

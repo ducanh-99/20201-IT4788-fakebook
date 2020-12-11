@@ -6,6 +6,7 @@ abstract class SearchRepository {
   search(String keyword);
   getHistorySearch();
   getHistorySearchLocal();
+  getNotification(Function onSuccess, Function onError);
 }
 
 class SearchRepositoryImpl implements SearchRepository {
@@ -24,5 +25,10 @@ class SearchRepositoryImpl implements SearchRepository {
   @override
   getHistorySearchLocal() async {
     await _actionRemoteDatasource.getHistorySearchLocal();
+  }
+
+  @override
+  getNotification(Function onSuccess, Function onError) async {
+    await _actionRemoteDatasource.apiGetNotification(onSuccess, onError);
   }
 }

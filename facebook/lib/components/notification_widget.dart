@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/data/models/user_notification.dart';
@@ -23,8 +24,8 @@ class NotificationWidget extends StatelessWidget {
                 Stack(
                   children: [
                     CircleAvatar(
-                      backgroundImage: AssetImage(notification.imageUrl),
-                      radius: 29.0,
+                      radius: 22.0,
+                      backgroundImage: CachedNetworkImageProvider(notification.imageUrl),
                     ),
                     Positioned(
                       top: 32,

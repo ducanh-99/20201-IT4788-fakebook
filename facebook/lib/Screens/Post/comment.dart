@@ -417,7 +417,8 @@ class BottomCommentSheet extends StatefulWidget {
 
 class _BottomCommentSheet extends State<BottomCommentSheet> {
   final Post post;
-
+  CommentBloc _commentBloc =CommentBloc();
+  var comment="";
   _BottomCommentSheet(this.post);
   @override
   void initState() {
@@ -443,6 +444,9 @@ class _BottomCommentSheet extends State<BottomCommentSheet> {
                   borderRadius: BorderRadius.circular(30.0)),
               child: TextField(
                 // autofocus: true,
+                onChanged: (value) {
+                  comment = value;
+                },
                 decoration: InputDecoration(
                   isCollapsed: true,
                   border: InputBorder.none,
@@ -450,8 +454,8 @@ class _BottomCommentSheet extends State<BottomCommentSheet> {
                   suffixIcon: IconButton(
                     padding: EdgeInsets.only(bottom: 5.0),
                     icon: Icon(Icons.send),
-                    onPressed: () {
-                      print(post.id);
+                    onPressed: () async {
+                      await _commentBloc.uploadComment(post.id, comment);
                     },
                   ),
                 ),

@@ -2,6 +2,7 @@ import 'package:facebook/Screens/Home/nav_screen.dart';
 import 'package:facebook/Screens/Login/login_screen.dart';
 import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:facebook/bloc/local_bloc.dart';
+import 'package:facebook/bloc/notification_bloc.dart';
 import 'package:facebook/bloc/post_bloc.dart';
 import 'package:facebook/bloc/search_bloc.dart';
 import 'package:facebook/bloc/user_bloc.dart';

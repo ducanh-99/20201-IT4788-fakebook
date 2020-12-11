@@ -10,7 +10,7 @@ abstract class ActionRemoteDatasource {
   apiSearch(String keyword);
   apiGetHistorySearch();
   getHistorySearchLocal();
-
+  apiGetNotification(Function onSuccess, Function onError);
 }
 
 class ActionRemoteDatasourceImpl implements ActionRemoteDatasource {
@@ -138,6 +138,45 @@ class ActionRemoteDatasourceImpl implements ActionRemoteDatasource {
     }).catchError((error) {
       print(error);
       print('Error serve');
+    });
+  }
+
+  @override
+  apiGetNotification(Function onSuccess, Function onError ) async {
+    var response = await http.get(
+      "https://fakebook-20201.herokuapp.com/api/noti",
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    ).then((value) async {
+      var responseJson = json.decode(value.body);
+      if (responseJson['content'].length > 0) {
+        print(responseJson);
+        notifications = [];
+        for (var noti in responseJson['content']) {
+          UserNotification newnoti = new UserNotification(
+              userId: noti['user_id'],
+              username: noti['username'],
+              imageUrl: 'https://fakebook-20201.herokuapp.com/api/get_avt/' + noti['user_id'],
+              content: noti['text'],
+              postId: noti['post_id'],
+              read: noti['read'],
+              time: noti['create']
+              );
+          notifications.add(newnoti);
+        }
+      } else {
+        notifications = [];
+      }
+      onSuccess();
+      // return posts;
+    }).catchError((error) {
+      print(error);
+      onError();
+      print('Error');
+      // return List<Post>();
     });
   }
 
