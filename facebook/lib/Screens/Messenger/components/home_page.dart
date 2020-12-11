@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook/data/source/localdatasource/colors.dart';
+import 'package:facebook/data/source/localdatasource/data.dart';
 import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:facebook/data/source/localdatasource/messenger_data.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   TextEditingController _searchController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget getBody() {
+    var avt = 'http://fakebook-20201.herokuapp.com/api/get_avt/';
     return SafeArea(
         child: ListView(
       padding: EdgeInsets.only(left: 20, right: 20, top: 15),
@@ -29,9 +32,8 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             CircleAvatar(
-              radius: 20.0,
-              backgroundImage:
-              CachedNetworkImageProvider(currentUser.avatar),
+              radius: 22.0,
+              backgroundImage: CachedNetworkImageProvider(currentUser.avatar),
             ),
             Text(
               "Chat",
@@ -56,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                   LineIcons.search,
                   color: black.withOpacity(0.5),
                 ),
-                hintText: "Search",
+                hintText: "Tìm kiếm",
                 border: InputBorder.none),
           ),
         ),
@@ -72,14 +74,14 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      width: 70,
-                      height: 70,
+                      width: 60,
+                      height: 60,
                       decoration:
                           BoxDecoration(shape: BoxShape.circle, color: grey),
                       child: Center(
                         child: Icon(
                           LineIcons.plus,
-                          size: 33,
+                          size: 28,
                         ),
                       ),
                     ),
@@ -90,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                       width: 75,
                       child: Align(
                           child: Text(
-                        'Your Story',
+                        'Tin của bạn',
                         overflow: TextOverflow.ellipsis,
                       )),
                     )
@@ -98,76 +100,90 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Row(
-                  children: List.generate(userStories.length, (index) {
+                  children: List.generate(listFriends.length, (index) {
                 return Padding(
                   padding: const EdgeInsets.only(right: 20),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        width: 75,
-                        height: 75,
-                        child: Stack(
-                          children: <Widget>[
-                            userStories[index]['story']
-                                ? Container(
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                            color: blue_story, width: 3)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(3.0),
-                                      child: Container(
-                                        width: 75,
-                                        height: 75,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                    userStories[index]['img']),
-                                                fit: BoxFit.cover)),
-                                      ),
-                                    ),
-                                  )
-                                : Container(
-                                    width: 70,
-                                    height: 70,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                                userStories[index]['img']),
-                                            fit: BoxFit.cover)),
-                                  ),
-                            userStories[index]['online']
-                                ? Positioned(
-                                    top: 48,
-                                    left: 52,
-                                    child: Container(
-                                      width: 20,
-                                      height: 20,
-                                      decoration: BoxDecoration(
-                                          color: online,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              color: white, width: 3)),
-                                    ),
-                                  )
-                                : Container()
-                          ],
+                  child: InkWell(
+                    child: Column(
+                      children: <Widget>[
+                        // Container(
+                        //   width: 75,
+                        //   height: 75,
+                        //   child: Stack(
+                        //     children: <Widget>[
+                        //       userStories[index]['story']
+                        //           ? Container(
+                        //               decoration: BoxDecoration(
+                        //                   shape: BoxShape.circle,
+                        //                   border: Border.all(
+                        //                       color: blue_story, width: 3)),
+                        //               child: Padding(
+                        //                 padding: const EdgeInsets.all(3.0),
+                        //                 child: Container(
+                        //                   width: 75,
+                        //                   height: 75,
+                        //                   decoration: BoxDecoration(
+                        //                       shape: BoxShape.circle,
+                        //                       image: DecorationImage(
+                        //                           image: NetworkImage(
+                        //                               userStories[index]['img']),
+                        //                           fit: BoxFit.cover)),
+                        //                 ),
+                        //               ),
+                        //             )
+                        //           : Container(
+                        //               width: 70,
+                        //               height: 70,
+                        //               decoration: BoxDecoration(
+                        //                   shape: BoxShape.circle,
+                        //                   image: DecorationImage(
+                        //                       image: NetworkImage(
+                        //                           userStories[index]['img']),
+                        //                       fit: BoxFit.cover)),
+                        //             ),
+                        //       userStories[index]['online']
+                        //           ? Positioned(
+                        //               top: 48,
+                        //               left: 52,
+                        //               child: Container(
+                        //                 width: 20,
+                        //                 height: 20,
+                        //                 decoration: BoxDecoration(
+                        //                     color: online,
+                        //                     shape: BoxShape.circle,
+                        //                     border: Border.all(
+                        //                         color: white, width: 3)),
+                        //               ),
+                        //             )
+                        //           : Container()
+                        //     ],
+                        //   ),
+                        // ),
+
+                        CircleAvatar(
+                          radius: 30.0,
+                          backgroundImage:
+                          CachedNetworkImageProvider(avt + listFriends[index].id),
                         ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        width: 75,
-                        child: Align(
-                            child: Text(
-                          userStories[index]['name'],
-                          overflow: TextOverflow.ellipsis,
-                        )),
-                      )
-                    ],
+                        SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          width: 75,
+                          child: Align(
+                              child: Text(
+                                listFriends[index].username,
+                                overflow: TextOverflow.ellipsis,
+                              )),
+                        )
+                      ],
+                    ),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) {
+                            return ChatPage(user: listFriends[index],);
+                          }));
+                    },
                   ),
                 );
               }))
@@ -177,103 +193,103 @@ class _HomePageState extends State<HomePage> {
         SizedBox(
           height: 30,
         ),
-        Column(
-          children: List.generate(userMessages.length, (index) {
-            return InkWell(
-              onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => ChatPage()));
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      width: 75,
-                      height: 75,
-                      child: Stack(
-                        children: <Widget>[
-                          userMessages[index]['story']
-                              ? Container(
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          color: blue_story, width: 3)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(3.0),
-                                    child: Container(
-                                      width: 75,
-                                      height: 75,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                              image: NetworkImage(
-                                                  userMessages[index]['img']),
-                                              fit: BoxFit.cover)),
-                                    ),
-                                  ),
-                                )
-                              : Container(
-                                  width: 70,
-                                  height: 70,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                              userMessages[index]['img']),
-                                          fit: BoxFit.cover)),
-                                ),
-                          userMessages[index]['online']
-                              ? Positioned(
-                                  top: 48,
-                                  left: 52,
-                                  child: Container(
-                                    width: 20,
-                                    height: 20,
-                                    decoration: BoxDecoration(
-                                        color: online,
-                                        shape: BoxShape.circle,
-                                        border:
-                                            Border.all(color: white, width: 3)),
-                                  ),
-                                )
-                              : Container()
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          userMessages[index]['name'],
-                          style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width - 135,
-                          child: Text(
-                            userMessages[index]['message'] +
-                                " - " +
-                                userMessages[index]['created_at'],
-                            style: TextStyle(
-                                fontSize: 15, color: black.withOpacity(0.8)),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            );
-          }),
-        )
+        // Column(
+        //   children: List.generate(userMessages.length, (index) {
+        //     return InkWell(
+        //       onTap: () {
+        //         Navigator.push(
+        //             context, MaterialPageRoute(builder: (_) => ChatPage()));
+        //       },
+        //       child: Padding(
+        //         padding: const EdgeInsets.only(bottom: 20),
+        //         child: Row(
+        //           children: <Widget>[
+        //             Container(
+        //               width: 75,
+        //               height: 75,
+        //               child: Stack(
+        //                 children: <Widget>[
+        //                   userMessages[index]['story']
+        //                       ? Container(
+        //                           decoration: BoxDecoration(
+        //                               shape: BoxShape.circle,
+        //                               border: Border.all(
+        //                                   color: blue_story, width: 3)),
+        //                           child: Padding(
+        //                             padding: const EdgeInsets.all(3.0),
+        //                             child: Container(
+        //                               width: 75,
+        //                               height: 75,
+        //                               decoration: BoxDecoration(
+        //                                   shape: BoxShape.circle,
+        //                                   image: DecorationImage(
+        //                                       image: NetworkImage(
+        //                                           userMessages[index]['img']),
+        //                                       fit: BoxFit.cover)),
+        //                             ),
+        //                           ),
+        //                         )
+        //                       : Container(
+        //                           width: 70,
+        //                           height: 70,
+        //                           decoration: BoxDecoration(
+        //                               shape: BoxShape.circle,
+        //                               image: DecorationImage(
+        //                                   image: NetworkImage(
+        //                                       userMessages[index]['img']),
+        //                                   fit: BoxFit.cover)),
+        //                         ),
+        //                   userMessages[index]['online']
+        //                       ? Positioned(
+        //                           top: 48,
+        //                           left: 52,
+        //                           child: Container(
+        //                             width: 20,
+        //                             height: 20,
+        //                             decoration: BoxDecoration(
+        //                                 color: online,
+        //                                 shape: BoxShape.circle,
+        //                                 border:
+        //                                     Border.all(color: white, width: 3)),
+        //                           ),
+        //                         )
+        //                       : Container()
+        //                 ],
+        //               ),
+        //             ),
+        //             SizedBox(
+        //               width: 20,
+        //             ),
+        //             Column(
+        //               crossAxisAlignment: CrossAxisAlignment.start,
+        //               children: <Widget>[
+        //                 Text(
+        //                   userMessages[index]['name'],
+        //                   style: TextStyle(
+        //                       fontSize: 17, fontWeight: FontWeight.w500),
+        //                 ),
+        //                 SizedBox(
+        //                   height: 5,
+        //                 ),
+        //                 SizedBox(
+        //                   width: MediaQuery.of(context).size.width - 135,
+        //                   child: Text(
+        //                     userMessages[index]['message'] +
+        //                         " - " +
+        //                         userMessages[index]['created_at'],
+        //                     style: TextStyle(
+        //                         fontSize: 15, color: black.withOpacity(0.8)),
+        //                     overflow: TextOverflow.ellipsis,
+        //                   ),
+        //                 )
+        //               ],
+        //             )
+        //           ],
+        //         ),
+        //       ),
+        //     );
+        //   }),
+        // )
       ],
     ));
   }
