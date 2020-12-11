@@ -15,17 +15,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_emoji/flutter_emoji.dart';
 
-class PostScreenFul extends StatefulWidget {
+class ChangeAvatar extends StatefulWidget {
   final Post post;
 
   // PostScreenFul(this.post);
-  const PostScreenFul({Key key, this.post}) : super(key: key);
+  const ChangeAvatar({Key key, this.post}) : super(key: key);
 
   @override
-  _PostScreenState createState() => _PostScreenState();
+  _ChangeAvatarState createState() => _ChangeAvatarState();
 }
 
-class _PostScreenState extends State<PostScreenFul> {
+class _ChangeAvatarState extends State<ChangeAvatar> {
   TextEditingController textFieldController = TextEditingController();
   // FirebaseRepository _repository = FirebaseRepository();
   PostBloc postBloc = PostBloc();
