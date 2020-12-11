@@ -20,6 +20,7 @@ class _HomeScreenMobile extends State<HomeScreenMobile> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   SearchBloc searchBloc = SearchBloc();
+
   void _onRefresh() async {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
@@ -39,7 +40,8 @@ class _HomeScreenMobile extends State<HomeScreenMobile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       body: SmartRefresher(
         controller: _refreshController,
         onRefresh: _onRefresh,
@@ -100,7 +102,6 @@ class _HomeScreenMobile extends State<HomeScreenMobile> {
                   },
                 ),
               ],
-
             ),
             SliverToBoxAdapter(
               child: CreatePostContainer(currentUser: currentUser),
@@ -124,7 +125,7 @@ class _HomeScreenMobile extends State<HomeScreenMobile> {
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   final Post post = posts[index];
-                  return PostContainer( post);
+                  return PostContainer(post);
                 },
                 childCount: posts.length,
               ),
@@ -222,7 +223,7 @@ class _HomeScreenMobile extends State<HomeScreenMobile> {
       //     ),
       //   ],
       // ),
-    );
+    ));
   }
 }
 

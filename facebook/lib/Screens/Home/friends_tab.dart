@@ -3,10 +3,12 @@ import 'package:facebook/components/error_connect.dart';
 import 'package:facebook/components/friend_request.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/source/localdatasource/data.dart';
+import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../constants.dart';
+import 'all_friends_tab.dart';
 
 class FriendsTab extends StatefulWidget {
   @override
@@ -22,6 +24,7 @@ class _FriendsTabState extends State<FriendsTab>
 
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
+
   void _onRefresh() async {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000), () async {
@@ -100,6 +103,7 @@ class _FriendsTabState extends State<FriendsTab>
   @override
   FriendRequestContainer friendRequestContainer = new FriendRequestContainer();
   int _selectedIndex = 0;
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -147,9 +151,22 @@ class _FriendsTabState extends State<FriendsTab>
                         decoration: BoxDecoration(
                             color: Colors.grey[300],
                             borderRadius: BorderRadius.circular(30.0)),
-                        child: Text('Tất cả bạn bè',
-                            style: TextStyle(
-                                fontSize: 17.0, fontWeight: FontWeight.bold)),
+                        child: InkWell(
+                          child: Text('Tất cả bạn bè',
+                              style: TextStyle(
+                                  fontSize: 17.0,
+                                  fontWeight: FontWeight.bold)),
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return AllFriendsScreen(
+                                  id: currentUser.id,
+                                );
+                              },
+                            ),
+                          ),
+                        )
                       )
                     ],
                   ),
@@ -197,15 +214,27 @@ class _FriendsTabState extends State<FriendsTab>
                       ),
                       SizedBox(width: 10.0),
                       Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 15.0, vertical: 10.0),
-                        decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(30.0)),
-                        child: Text('Tất cả bạn bè',
-                            style: TextStyle(
-                                fontSize: 17.0, fontWeight: FontWeight.bold)),
-                      )
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 15.0, vertical: 10.0),
+                          decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(30.0)),
+                          child: InkWell(
+                            child: Text('Tất cả bạn bè',
+                                style: TextStyle(
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.bold)),
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return AllFriendsScreen(
+                                    id: currentUser.id,
+                                  );
+                                },
+                              ),
+                            ),
+                          ))
                     ],
                   ),
                   Column(
@@ -390,6 +419,7 @@ class FriendRequestContainer extends StatefulWidget {
   //
   // const FriendRequestContainer({Key key, this.friendRequest}) : super(key: key);
   int friendRequest = 1;
+
   @override
   State<StatefulWidget> createState() {
     return new FriendRequestContainerState();
@@ -398,6 +428,7 @@ class FriendRequestContainer extends StatefulWidget {
 
 class FriendRequestContainerState extends State<FriendRequestContainer> {
   int friendRequest = listFriendRequests.length;
+
   // FriendRequestContainerState(this.friendRequest);
   // @override
   // void initState() {

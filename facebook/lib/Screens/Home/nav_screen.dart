@@ -37,53 +37,55 @@ class _NavScreenState extends State<NavScreen> {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
-    return DefaultTabController(
-      length: _icons.length,
-      child: Scaffold(
-        appBar: Responsive.isDesktop(context)
-            ? PreferredSize(
-                preferredSize: Size(screenSize.width, 100.0),
-                child: CustomAppBar(
-                    currentUser: currentUser,
-                    icons: _icons,
-                    selectedIndex: _selectedIndex,
-                    onTap: (index) {
-                      setState(() => _selectedIndex = index);
-                    }),
-              )
-            : null,
-        // appBar: null,
-        body: TabBarView(
-          physics: NeverScrollableScrollPhysics(),
-          children: _screens,
+    return SafeArea(
+      child: DefaultTabController(
+        length: _icons.length,
+        child: Scaffold(
+          appBar: Responsive.isDesktop(context)
+              ? PreferredSize(
+            preferredSize: Size(screenSize.width, 100.0),
+            child: CustomAppBar(
+                currentUser: currentUser,
+                icons: _icons,
+                selectedIndex: _selectedIndex,
+                onTap: (index) {
+                  setState(() => _selectedIndex = index);
+                }),
+          )
+              : null,
+          // appBar: null,
+          body: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
+            children: _screens,
+          ),
+          bottomNavigationBar: !Responsive.isDesktop(context)
+              ? Container(
+            padding: const EdgeInsets.only(bottom: 12.0),
+            color: Colors.white,
+            child: CustomTabBar(
+              icons: _icons,
+              onTap: (index) async {
+                // if (index == 1) {
+                //   Friend_Bloc friendBloc = Friend_Bloc();
+                //   await friendBloc.apiGetRequestFriend(() {});
+                // }
+                // if (index == 0) {
+                //   indexState = 0;
+                //   PostBloc postBloc = PostBloc();
+                //   await postBloc.getAllPost();
+                //   print("Cap nhat trang chu");
+                // }
+                // if (index == 2) {
+                //   indexState = 2;
+                // }
+                setState(() => _selectedIndex = index);
+              },
+              selectedIndex: _selectedIndex,
+            ),
+          )
+              : const SizedBox.shrink(),
         ),
-        bottomNavigationBar: !Responsive.isDesktop(context)
-            ? Container(
-                padding: const EdgeInsets.only(bottom: 12.0),
-                color: Colors.white,
-                child: CustomTabBar(
-                  icons: _icons,
-                  onTap: (index) async {
-                    // if (index == 1) {
-                    //   Friend_Bloc friendBloc = Friend_Bloc();
-                    //   await friendBloc.apiGetRequestFriend(() {});
-                    // }
-                    // if (index == 0) {
-                    //   indexState = 0;
-                    //   PostBloc postBloc = PostBloc();
-                    //   await postBloc.getAllPost();
-                    //   print("Cap nhat trang chu");
-                    // }
-                    // if (index == 2) {
-                    //   indexState = 2;
-                    // }
-                    setState(() => _selectedIndex = index);
-                  },
-                  selectedIndex: _selectedIndex,
-                ),
-              )
-            : const SizedBox.shrink(),
       ),
-    );
+    ) ;
   }
 }

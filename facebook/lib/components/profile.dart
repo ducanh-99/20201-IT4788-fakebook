@@ -397,20 +397,18 @@ class _ProfileUser extends State<ProfileUser>
   RefreshController _refreshController =
   RefreshController(initialRefresh: false);
 
-  // void _onRefresh() async {
-  //   // monitor network fetch
-  //   await Future.delayed(Duration(milliseconds: 1000), () async {
-  //     SearchBloc searchBloc = SearchBloc();
-  //     await searchBloc.getHistorySearch();
-  //     print('history:');
-  //     print(historySearch);
-  //     return 'Data Loaded';
-  //   });
-  //   // if failed,use refreshFailed()
-  //   print('down');
-  //   this.setState(() {});
-  //   _refreshController.refreshCompleted();
-  // }
+  void _onRefresh() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000), () async {
+      UserBloc userBloc = UserBloc();
+      await userBloc.getProfileUser(id);
+      return 'Data Loaded';
+    });
+    // if failed,use refreshFailed()
+    print('down');
+    this.setState(() {});
+    _refreshController.refreshCompleted();
+  }
 
   void _onLoading() async {
     // monitor network fetch
@@ -467,6 +465,7 @@ class _ProfileUser extends State<ProfileUser>
           body: SmartRefresher(
             controller: _refreshController,
             onLoading: _onLoading,
+            onRefresh: _onRefresh,
             header: MaterialClassicHeader(),
             footer: ClassicFooter(),
             enablePullDown: true,
@@ -601,25 +600,25 @@ class _ProfileUser extends State<ProfileUser>
                               ],
                             ),
                             SizedBox(height: 15.0),
-                            InkWell(
-                              child: Container(
-                                height: 40.0,
-                                decoration: BoxDecoration(
-                                  color: Colors.lightBlueAccent.withOpacity(
-                                      0.25),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                ),
-                                child: Center(
-                                    child: Text('Chỉnh sửa thông tin',
-                                        style: TextStyle(
-                                            color: Colors.blue,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0))),
-                              ),
-                              onTap: () {
-                                print(currentUser.toJSON());
-                              },
-                            )
+                            // InkWell(
+                            //   child: Container(
+                            //     height: 40.0,
+                            //     decoration: BoxDecoration(
+                            //       color: Colors.lightBlueAccent.withOpacity(
+                            //           0.25),
+                            //       borderRadius: BorderRadius.circular(5.0),
+                            //     ),
+                            //     child: Center(
+                            //         child: Text('Chỉnh sửa thông tin',
+                            //             style: TextStyle(
+                            //                 color: Colors.blue,
+                            //                 fontWeight: FontWeight.bold,
+                            //                 fontSize: 16.0))),
+                            //   ),
+                            //   onTap: () {
+                            //     print(currentUser.toJSON());
+                            //   },
+                            // )
                           ],
                         ),
                       ),
