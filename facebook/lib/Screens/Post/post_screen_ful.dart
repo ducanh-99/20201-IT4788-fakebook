@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
 import 'package:facebook/components/components.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:video_player/video_player.dart';
 import 'package:flutter_emoji/flutter_emoji.dart';
 
 class PostScreenFul extends StatefulWidget {
@@ -61,9 +62,38 @@ class _PostScreenState extends State<PostScreenFul> {
   }
   //End Image
 
+  //video
+  File _video;
+  VideoPlayerController _videoPlayerController;
+  _pickVideo() async {
+    File video = await ImagePicker.pickVideo(source: ImageSource.gallery);
+    _video = video;
+    _videoPlayerController = VideoPlayerController.file(_video)..initialize().then((_) {
+      setState(() { });
+      _videoPlayerController.play();
+    });
+  }
+  //end video
+
   Widget showImage() {
     if (image != null) return Image.file(image);
     return Text("");
+  }
+
+  Widget showVideo(){
+    if (_video != null)
+      return
+      _videoPlayerController.value.initialized
+          ? AspectRatio(
+        aspectRatio: _videoPlayerController.value.aspectRatio,
+        child: VideoPlayer(_videoPlayerController),
+      )
+          : Container();
+    else
+      return Text(
+        "",
+        // style: TextStyle(fontSize: 18.0),
+      );
   }
 
   @override
@@ -179,6 +209,7 @@ class _PostScreenState extends State<PostScreenFul> {
               ),
               // Image.file(image),
               showImage(),
+              showVideo(),
               showEmojiPicker
                   ? Container(child: emojiContainer())
                   : Container(),
@@ -237,7 +268,27 @@ class _PostScreenState extends State<PostScreenFul> {
                         margin: const EdgeInsets.only(left: 5.0, right: 10.0),
                         child: Icon(Icons.photo_library, color: Colors.green),
                       ),
-                      Text("Ảnh/Video", style: TextStyle(fontSize: 20.0))
+                      Text("Ảnh", style: TextStyle(fontSize: 20.0))
+                    ],
+                  ),
+                ),
+              ),
+              new GestureDetector(
+                onTap: () {
+                  _pickVideo();
+                  setState(() {});
+                },
+                child: new Container(
+                  height: 40.0,
+                  decoration:
+                  BoxDecoration(border: Border.all(color: Colors.grey)),
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 5.0, right: 10.0),
+                        child: Icon(Icons.photo_library, color: Colors.green),
+                      ),
+                      Text("Video", style: TextStyle(fontSize: 20.0))
                     ],
                   ),
                 ),
