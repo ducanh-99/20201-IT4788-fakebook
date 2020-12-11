@@ -212,11 +212,10 @@ class _FriendsTabState extends State<FriendsTab>
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(
+                      Center(
                         child: CircularProgressIndicator(),
-                        width: 40,
-                        height: 40,
-                      ),
+                      )
+
                     ],
                   ),
                   Padding(

@@ -100,20 +100,7 @@ class _HomeScreenMobile extends State<HomeScreenMobile> {
                   },
                 ),
               ],
-              // bottom: TabBar(
-              //           //   indicatorColor: Colors.blueAccent,
-              //           //   controller: _tabController,
-              //           //   unselectedLabelColor: Colors.grey,
-              //           //   labelColor: Colors.blueAccent,
-              //           //   tabs: [
-              //           //     Tab(icon: Icon(Icons.home, size: 30.0)),
-              //           //     Tab(icon: Icon(Icons.people, size: 30.0)),
-              //           //     Tab(icon: Icon(Icons.ondemand_video, size: 30.0)),
-              //           //     Tab(icon: Icon(Icons.account_circle, size: 30.0)),
-              //           //     Tab(icon: Icon(Icons.notifications, size: 30.0)),
-              //           //     Tab(icon: Icon(Icons.menu, size: 30.0))
-              //           //   ],
-              //           // ),
+
             ),
             SliverToBoxAdapter(
               child: CreatePostContainer(currentUser: currentUser),
@@ -137,7 +124,7 @@ class _HomeScreenMobile extends State<HomeScreenMobile> {
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   final Post post = posts[index];
-                  return PostContainer(post: post);
+                  return PostContainer( post);
                 },
                 childCount: posts.length,
               ),

@@ -18,16 +18,53 @@ import 'package:facebook/data/source/localdatasource/local_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:facebook/bloc/post_bloc.dart';
+import 'package:video_player/video_player.dart';
 
 import 'detail_image_screen.dart';
 
-class PostContainer extends StatelessWidget {
+class PostContainer extends StatefulWidget{
   final Post post;
 
-  const PostContainer({
+  PostContainer(
+      this.post,
+      );
+  @override
+  State<StatefulWidget> createState() {
+    return _PostContainer(post: post);
+  }
+
+}
+
+class _PostContainer extends State<PostContainer> {
+  final Post post;
+   VideoPlayerController controller;
+   Future<void> initializeVideoPlayerFuture;
+
+  _PostContainer({
     Key key,
     @required this.post,
-  }) : super(key: key);
+  });
+
+  @override
+  void initState() {
+    if(post.video!= null && post.video!= ""){
+      controller = VideoPlayerController.network(post.video);
+      print(controller.value.size);
+      //_controller = VideoPlayerController.asset("videos/sample_video.mp4");
+      initializeVideoPlayerFuture = controller.initialize();
+      controller.setLooping(true);
+      controller.setVolume(1.0);
+    }
+
+    super.initState();
+  }
+  @override
+  void dispose() {
+    if(post.video!= null && post.video!= "") {
+      controller.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +108,38 @@ class PostContainer extends StatelessWidget {
                 ],
               ),
             ),
+            post.video != null ?
+                post.video !="" ?
+                InkWell(
+                  child: Container(
+                    height: 281,
+                    width: 400,
+                    child: AspectRatio(
+                      aspectRatio: controller.value.aspectRatio,
+                      child: VideoPlayer(controller),
+                    ),
+                  ),
+                  onTap: (){
+                    setState(() {
+                      if (controller.value.isPlaying) {
+                        controller.pause();
+                      } else {
+                        controller.play();
+                      }
+                    });
+                  },
+                )
+
+                // Center(
+                // child: AspectRatio(
+                // aspectRatio: controller.value.aspectRatio,
+                // child: VideoPlayer(controller),
+                // ),
+                //        )
+
+
+                    : const SizedBox(height: 4.0)
+                : const SizedBox(height: 4.0),
             post.image1 != null
                 ? post.image1 != ""
                     ? InkWell(

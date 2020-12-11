@@ -117,7 +117,8 @@ class _SearchResultScreen extends State<SearchResultScreen> {
                                   String string = historySearch[index];
                                   return InkWell(
                                     child: PostContainer(
-                                        post: searchResult[index]),
+                                         searchResult[index]
+                                    ),
                                     onTap: () {},
                                   );
                                 }),

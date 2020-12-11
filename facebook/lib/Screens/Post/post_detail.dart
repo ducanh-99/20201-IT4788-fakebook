@@ -143,7 +143,7 @@ class PostDetailScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            PostContainer(post: post),
+            PostContainer(post),
             for (int count in List.generate(3, (index) => index + 1))
               InkWell(
                 child: postComment(

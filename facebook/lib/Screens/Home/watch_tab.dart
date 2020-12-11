@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook/bloc/post_bloc.dart';
+import 'package:facebook/components/home_widget.dart';
+import 'package:facebook/components/search_app_bar.dart';
 import 'package:facebook/components/separator_widget.dart';
+import 'package:facebook/constants.dart';
 import 'package:facebook/data/source/localdatasource/data.dart';
 import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:flutter/material.dart';
@@ -15,17 +18,10 @@ class WatchTab extends StatefulWidget {
 
 class _WatchTabState extends State<WatchTab> {
 
-  VideoPlayerController _controller;
-  Future<void> _initializeVideoPlayerFuture;
 
+  List<VideoPlayerController> list =[];
   @override
   void initState() {
-    _controller = VideoPlayerController.network(
-        "https://fakebook-20201.herokuapp.com/api/video/5faeab00533d9d845174b2d6");
-    //_controller = VideoPlayerController.asset("videos/sample_video.mp4");
-    _initializeVideoPlayerFuture = _controller.initialize();
-    _controller.setLooping(true);
-    _controller.setVolume(1.0);
     super.initState();
   }
 
@@ -42,30 +38,66 @@ class _WatchTabState extends State<WatchTab> {
     print(videoData.length);
     for(var post in videoData){
       print(post.video);
+
     }
     return _calculation;
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
+  ScrollController controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Video Demo"),
+        backgroundColor: backgroundColor,
+        iconTheme: IconThemeData(color: kColorTextNormal),
+        title: Text(
+          "Watch",
+          style: TextStyle(color: kBlack, fontSize: 18),
+        ),
+        actions: [
+          CircleButton(
+            icon: Icons.search,
+            iconSize: 30.0,
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return SearchBackGround();
+                },
+              ),
+            ),
+          ),
+        ],
       ),
-      body: FutureBuilder(
+      body: SingleChildScrollView(
+        controller: controller,
+        child: FutureBuilder(
         future: waitApi(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return Center(
-              child: AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: VideoPlayer(_controller),
+
+            return Container(
+              child: Column(
+                children: [
+                  Divider(height: 30.0),
+                  videoData.length == 0
+                      ? SizedBox(height: 10)
+                      : ListBody(
+                    children:
+                    List.generate(videoData.length, (index) {
+                      return InkWell(
+                        child: PostContainer(
+                         videoData[index]),
+                        onTap: () {},
+                      );
+                    }),
+                  )
+                ],
               ),
             );
           } else {
@@ -75,19 +107,7 @@ class _WatchTabState extends State<WatchTab> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            if (_controller.value.isPlaying) {
-              _controller.pause();
-            } else {
-              _controller.play();
-            }
-          });
-        },
-        child:
-        Icon(_controller.value.isPlaying ? Icons.pause : Icons.play_arrow),
-      ),
+    ),
     );
   }
 
