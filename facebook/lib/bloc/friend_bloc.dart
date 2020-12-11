@@ -14,4 +14,23 @@ class Friend_Bloc {
     print('get list friend');
     await friendRespository.getListFriend(userId);
   }
+  AcceptFriendRequest(String userId) async {
+    print("accept friend");
+    await friendRespository.AcceptFriendRequest(userId);
+  }
+
+  BlockFriend(String blockId) async {
+    print("block friend");
+    await friendRespository.BlockFriend(blockId);
+  }
+
+  DeclineFriendRequest(String userId) async {
+    print("decline friend");
+    await friendRespository.DeclineFriendRequest(userId);
+  }
+
+  SendFriendRequest(String userId) async{
+    print("send request friend");
+    await friendRespository.SendFriendRequest(userId);
+  }
 }

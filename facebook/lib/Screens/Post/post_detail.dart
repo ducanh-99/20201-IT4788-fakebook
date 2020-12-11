@@ -121,7 +121,10 @@ class PostDetailScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: backgroundColor,
         iconTheme: IconThemeData(color: kColorTextNormal),
-        title: Text(post.username, style: TextStyle(color: kBlack, fontSize: 18),),
+        title: Text(
+          post.username,
+          style: TextStyle(color: kBlack, fontSize: 18),
+        ),
         actions: [
           CircleButton(
             icon: Icons.search,
@@ -130,7 +133,7 @@ class PostDetailScreen extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return SearchScreen();
+                  return SearchBackGround();
                 },
               ),
             ),

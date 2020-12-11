@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook/Screens/Home/profile_tab.dart';
+import 'package:facebook/components/components.dart';
 import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/bloc/local_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:facebook/Screens/Welcome/welcome_screen.dart';
 
 class MenuTab extends StatelessWidget {
   UserLocal_bloc userLocal_bloc = UserLocal_bloc();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -50,7 +52,10 @@ class MenuTab extends StatelessWidget {
             onTap: () {
               print("Xem trang cá nhân của bạn");
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return ProfileTab();
+                return ProfileUser(
+                  id: currentUser.id,
+                  username: currentUser.username,
+                );
               }));
             },
           ),

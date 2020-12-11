@@ -1,26 +1,25 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 
-class FriendRequest extends StatefulWidget {
+class FriendSearch extends StatefulWidget {
   final User user;
 
-  const FriendRequest({Key key, this.user}) : super(key: key);
+  const FriendSearch({Key key, this.user}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _FriendRequestState(user);
+    return _FriendSearch(user);
   }
 }
 
-class _FriendRequestState extends State<FriendRequest> {
+class _FriendSearch extends State<FriendSearch> {
   int isAccept;
   final User user;
 
-  _FriendRequestState(this.user);
-  Friend_Bloc _friend_bloc = Friend_Bloc();
+  _FriendSearch(this.user);
+
   @override
   void initState() {
     // TODO: implement initState
@@ -58,7 +57,7 @@ class _FriendRequestState extends State<FriendRequest> {
             Text(user.username,
                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
             SizedBox(height: 10.0),
-            isAccept == 0
+            user.isFriend == false
                 ? Row(
                     children: <Widget>[
                       InkWell(
@@ -68,49 +67,35 @@ class _FriendRequestState extends State<FriendRequest> {
                           decoration: BoxDecoration(
                               color: Colors.blue,
                               borderRadius: BorderRadius.circular(5.0)),
-                          child: Text('Xác nhận',
+                          child: Text('Thêm bạn bè',
                               style: TextStyle(
                                   color: Colors.white, fontSize: 15.0)),
                         ),
                         onTap: () {
-                          _friend_bloc.AcceptFriendRequest(user.id);
-                          _accept();
+                          print('Thêm bạn bè');
                         },
                       ),
-                      SizedBox(width: 10.0),
+                    ],
+                  )
+                : Row(
+                    children: <Widget>[
                       InkWell(
                         child: Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: 10.0, vertical: 10.0),
                           decoration: BoxDecoration(
-                              color: Colors.grey[300],
+                              color: Colors.blue,
                               borderRadius: BorderRadius.circular(5.0)),
-                          child: Text('Xóa lời mời',
+                          child: Text('Xem trang cá nhân',
                               style: TextStyle(
-                                  color: Colors.black, fontSize: 15.0)),
+                                  color: Colors.white, fontSize: 15.0)),
                         ),
                         onTap: () {
-                          _friend_bloc.DeclineFriendRequest(user.id);
-                          _delete();
+                          print('Xem trang cá nhân');
                         },
                       ),
                     ],
-                  )
-                : isAccept == 2
-                    ? Row(
-                        children: <Widget>[
-                          Text('Đã xóa lời mời',
-                              style:
-                                  TextStyle(fontSize: 16, color: kColorButton))
-                        ],
-                      )
-                    : Row(
-                        children: <Widget>[
-                          Text('Đã chấp nhận lời mời',
-                              style:
-                                  TextStyle(fontSize: 16, color: kColorButton))
-                        ],
-                      ),
+                  ),
             SizedBox(height: 15.0),
           ],
         ),

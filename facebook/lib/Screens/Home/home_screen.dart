@@ -74,7 +74,12 @@ class _HomeScreenMobile extends State<HomeScreenMobile> {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return SearchBackGround();
+                          TextEditingController textEditingController =
+                              new TextEditingController();
+
+                          return SearchBackGround(
+                            searchText: textEditingController,
+                          );
                         },
                       ),
                     );

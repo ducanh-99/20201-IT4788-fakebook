@@ -15,3 +15,5 @@ List<String> historySearch = [];
 List<Post> searchResult = [];
 List<Comment> commentOfPost = [];
 int indexState = 0;
+String stringSearch = '';
+List<User> searchUser = [];
