@@ -376,15 +376,13 @@ class _ProfileUser extends State<ProfileUser>
     Future<String> _calculation = Future<String>.delayed(
       Duration(seconds: 2),
       () async {
-        UserBloc userBloc = UserBloc();
-        await userBloc.getProfileUser(id);
         return 'Data Loaded';
       },
     );
 
-    // UserBloc userBloc = UserBloc();
-    // await userBloc.getProfileUser(id);
-
+    UserBloc userBloc = UserBloc();
+    await userBloc.getProfileUser(id);
+    print('asdfbasd');
     return _calculation;
   }
 
@@ -487,68 +485,70 @@ class _ProfileUser extends State<ProfileUser>
                               const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
                           child: Divider(height: 40.0),
                         ),
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Icon(Icons.phone,
-                                      color: Colors.grey, size: 30.0),
-                                  SizedBox(width: 10.0),
-                                  Text(userProfile.phone,
-                                      style: TextStyle(fontSize: 16.0))
-                                ],
-                              ),
-                              SizedBox(height: 15.0),
-                              Row(
-                                children: <Widget>[
-                                  Icon(Icons.calendar_today,
-                                      color: Colors.grey, size: 30.0),
-                                  SizedBox(width: 10.0),
-                                  Text(
-                                      userProfile.birthday == null
-                                          ? " "
-                                          : userProfile.birthday.toString(),
-                                      style: TextStyle(fontSize: 16.0))
-                                ],
-                              ),
-                              SizedBox(height: 15.0),
-                              Row(
-                                children: <Widget>[
-                                  Icon(Icons.more_horiz,
-                                      color: Colors.grey, size: 30.0),
-                                  SizedBox(width: 10.0),
-                                  Text('Xem chi tiết',
-                                      style: TextStyle(fontSize: 16.0))
-                                ],
-                              ),
-                              SizedBox(height: 15.0),
-                              InkWell(
-                                child: Container(
-                                  height: 40.0,
-                                  decoration: BoxDecoration(
-                                    color: Colors.lightBlueAccent
-                                        .withOpacity(0.25),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
-                                  child: Center(
-                                      child: Text('Chỉnh sửa thông tin',
-                                          style: TextStyle(
-                                              color: Colors.blue,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16.0))),
-                                ),
-                                onTap: () {
-                                  print(currentUser.toJSON());
-                                },
-                              )
-                            ],
-                          ),
-                        ),
+
                       ],
                     ),
-                  )
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Icon(Icons.phone,
+                                color: Colors.grey, size: 30.0),
+                            SizedBox(width: 10.0),
+                            Text(userProfile.phone == null ? "" : userProfile.phone,
+                                style: TextStyle(fontSize: 16.0))
+                          ],
+                        ),
+                        SizedBox(height: 15.0),
+                        Row(
+                          children: <Widget>[
+                            Icon(Icons.calendar_today,
+                                color: Colors.grey, size: 30.0),
+                            SizedBox(width: 10.0),
+                            Text(
+                                userProfile.birthday == null
+                                    ? " "
+                                    : userProfile.birthday.toString(),
+                                style: TextStyle(fontSize: 16.0))
+                          ],
+                        ),
+                        SizedBox(height: 15.0),
+                        Row(
+                          children: <Widget>[
+                            Icon(Icons.more_horiz,
+                                color: Colors.grey, size: 30.0),
+                            SizedBox(width: 10.0),
+                            Text('Xem chi tiết',
+                                style: TextStyle(fontSize: 16.0))
+                          ],
+                        ),
+                        SizedBox(height: 15.0),
+                        InkWell(
+                          child: Container(
+                            height: 40.0,
+                            decoration: BoxDecoration(
+                              color: Colors.lightBlueAccent
+                                  .withOpacity(0.25),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            child: Center(
+                                child: Text('Chỉnh sửa thông tin',
+                                    style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.0))),
+                          ),
+
+                          onTap: () {
+                            print(currentUser.toJSON());
+                          },
+                        )
+                      ],
+                    ),
+                  ),
                 ];
               } else if (snapshot.hasError) {
                 children = <Widget>[

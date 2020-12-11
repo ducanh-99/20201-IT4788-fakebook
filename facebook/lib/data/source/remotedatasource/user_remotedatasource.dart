@@ -130,13 +130,14 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
       var responseJson = json.decode(value.body);
       print(responseJson);
       userProfile = null;
-      userProfile = User (
+      userProfile = new User(
         id: responseJson['id'],
         username: responseJson['username'],
         firstName: responseJson['firstname'],
         lastName: responseJson['lastname'],
         birthday: responseJson['birthday'],
-        avatar: 'https://fakebook-20201.herokuapp.com/api/get_avt/' +responseJson['id'] ,
+        avatar: 'https://fakebook-20201.herokuapp.com/api/get_avt/' +
+            responseJson['id'],
       );
       print(userProfile.username);
     }).catchError((error) {
@@ -144,4 +145,4 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
       print(error);
     });
   }
-  }
+}
