@@ -1,96 +1,112 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:facebook/constants.dart';
+import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/source/localdatasource/colors.dart';
+import 'package:facebook/data/source/localdatasource/local_data.dart';
 import 'package:facebook/data/source/localdatasource/messenger_data.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 
 class ChatPage extends StatefulWidget {
+  final User user;
+
+  const ChatPage({Key key, this.user}) : super(key: key);
+
   @override
-  _ChatPageState createState() => _ChatPageState();
+  _ChatPageState createState() => _ChatPageState(user);
 }
 
 class _ChatPageState extends State<ChatPage> {
+  final User user;
+
   TextEditingController _sendMessageController = new TextEditingController();
   BottomMessageSheet bottomMessageSheet = new BottomMessageSheet();
+
+  _ChatPageState(this.user);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: grey.withOpacity(0.2),
-        elevation: 0,
-        leading: FlatButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.arrow_back_ios,
-              color: primary,
-            )),
-        title: Row(
-          children: <Widget>[
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"),
-                      fit: BoxFit.cover)),
-            ),
-            SizedBox(
-              width: 15,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Tyler Nix",
-                  style: TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold, color: black),
-                ),
-                SizedBox(
-                  height: 3,
-                ),
-                Text(
-                  "Active now",
-                  style: TextStyle(color: black.withOpacity(0.4), fontSize: 14),
-                )
-              ],
-            )
-          ],
+    var avt = 'http://fakebook-20201.herokuapp.com/api/get_avt/';
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: grey.withOpacity(0.2),
+          elevation: 0,
+          leading: FlatButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back,
+                color: kPrimaryColor,
+              )),
+          title: Row(
+            children: <Widget>[
+              CircleAvatar(
+                radius: 22.0,
+                backgroundImage: CachedNetworkImageProvider(avt + user.id),
+              ),
+              SizedBox(
+                width: 15,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    user.username,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: black),
+                  ),
+                  SizedBox(
+                    height: 3,
+                  ),
+                  Text(
+                    "Đang hoạt động",
+                    overflow: TextOverflow.ellipsis,
+                    style:
+                        TextStyle(color: black.withOpacity(0.4), fontSize: 14),
+                  )
+
+                ],
+              )
+            ],
+          ),
+          // actions: <Widget>[
+            // Icon(
+            //   LineIcons.phone,
+            //   color: kPrimaryColor,
+            //   size: 32,
+            // ),
+            // SizedBox(
+            //   width: 15,
+            // ),
+            // Icon(
+            //   LineIcons.video_camera,
+            //   color: kPrimaryColor,
+            //   size: 35,
+            // ),
+            // SizedBox(
+            //   width: 8,
+            // ),
+            // Container(
+            //   width: 13,
+            //   height: 13,
+            //   decoration: BoxDecoration(
+            //       color: online,
+            //       shape: BoxShape.circle,
+            //       border: Border.all(color: Colors.white38)),
+            // ),
+            // SizedBox(
+            //   width: 15,
+            // ),
+          // ],
         ),
-        actions: <Widget>[
-          Icon(
-            LineIcons.phone,
-            color: primary,
-            size: 32,
-          ),
-          SizedBox(
-            width: 15,
-          ),
-          Icon(
-            LineIcons.video_camera,
-            color: primary,
-            size: 35,
-          ),
-          SizedBox(
-            width: 8,
-          ),
-          Container(
-            width: 13,
-            height: 13,
-            decoration: BoxDecoration(
-                color: online,
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white38)),
-          ),
-          SizedBox(
-            width: 15,
-          ),
-        ],
+        body: getBody(),
+        bottomSheet: bottomMessageSheet,
       ),
-      body: getBody(),
-      bottomSheet: bottomMessageSheet,
     );
   }
 
@@ -113,6 +129,7 @@ class ChatBubble extends StatelessWidget {
   final String profileImg;
   final String message;
   final int messageType;
+
   const ChatBubble({
     Key key,
     this.isMe,
@@ -132,7 +149,7 @@ class ChatBubble extends StatelessWidget {
             Flexible(
               child: Container(
                 decoration: BoxDecoration(
-                    color: primary, borderRadius: getMessageType(messageType)),
+                    color: kPrimaryColor, borderRadius: getMessageType(messageType)),
                 child: Padding(
                   padding: const EdgeInsets.all(13.0),
                   child: Text(
@@ -256,12 +273,14 @@ class BottomMessageSheet extends StatefulWidget {
 
 class _BottomMessageSheet extends State<BottomMessageSheet> {
   TextEditingController _sendMessageController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 80,
       width: double.infinity,
       decoration: BoxDecoration(color: grey.withOpacity(0.2)),
+      // decoration: BoxDecoration(color: grey.withOpacity(0.2)),
       child: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
         child: Row(
@@ -274,31 +293,31 @@ class _BottomMessageSheet extends State<BottomMessageSheet> {
                   Icon(
                     Icons.add_circle,
                     size: 35,
-                    color: primary,
+                    color: kPrimaryColor,
                   ),
                   SizedBox(
-                    width: 15,
+                    width: 5,
                   ),
                   Icon(
                     Icons.camera_alt,
                     size: 35,
-                    color: primary,
+                    color: kPrimaryColor,
                   ),
                   SizedBox(
-                    width: 15,
+                    width: 5,
                   ),
                   Icon(
                     Icons.photo,
                     size: 35,
-                    color: primary,
+                    color: kPrimaryColor,
                   ),
                   SizedBox(
-                    width: 15,
+                    width: 5,
                   ),
                   Icon(
                     Icons.keyboard_voice,
                     size: 35,
-                    color: primary,
+                    color: kPrimaryColor,
                   ),
                 ],
               ),
@@ -322,7 +341,7 @@ class _BottomMessageSheet extends State<BottomMessageSheet> {
                             hintText: "Aa",
                             suffixIcon: Icon(
                               Icons.send,
-                              color: primary,
+                              color: kPrimaryColor,
                               size: 35,
                             )),
                         onTap: () {
@@ -337,7 +356,7 @@ class _BottomMessageSheet extends State<BottomMessageSheet> {
                   Icon(
                     Icons.thumb_up,
                     size: 35,
-                    color: primary,
+                    color: kPrimaryColor,
                   ),
                 ],
               ),
