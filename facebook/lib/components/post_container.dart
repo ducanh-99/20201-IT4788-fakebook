@@ -19,6 +19,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:facebook/bloc/post_bloc.dart';
 
+import 'detail_image_screen.dart';
+
 class PostContainer extends StatelessWidget {
   final Post post;
 
@@ -52,8 +54,8 @@ class PostContainer extends StatelessWidget {
                   _PostHeader(post: post),
                   const SizedBox(height: 4.0),
                   InkWell(
-                    child:  Text(post.described),
-                    onTap: (){
+                    child: Text(post.described),
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -70,11 +72,50 @@ class PostContainer extends StatelessWidget {
               ),
             ),
             post.image1 != null
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: CachedNetworkImage(imageUrl: post.image1),
-                  )
-                : const SizedBox.shrink(),
+                ? post.image1 != ""
+                    ? InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: CachedNetworkImage(
+                            imageUrl: post.image1,
+                            placeholder: (context, url) => SizedBox(
+                              child: Container(
+                                // child: Container(
+                                //   child: CircularProgressIndicator(),
+                                //   height: 40,
+                                //   width: 40,
+                                // ),
+                                color: kBackgroundGrey,
+                                height: 40,
+                                width: 40,
+                              ),
+                              width: MediaQuery.of(context).size.width,
+                              height: 300,
+                            ),
+                            errorWidget: (context, url, error) => SizedBox(
+                              child: Container(
+                                child: new Icon(
+                                  Icons.error,
+                                  size: 40,
+                                ),
+                                color: kBackgroundGrey,
+                              ),
+                              width: MediaQuery.of(context).size.width,
+                              height: 300,
+                            ),
+                            // errorWidget: (context) => new Icon(Icons.error),
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (_) {
+                            return DetailScreen(post: post,);
+                          }));
+                        },
+                      )
+                    : const SizedBox(height: 4.0)
+                : const SizedBox(height: 4.0),
+            // : const SizedBox.shrink(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               // child: _PostStats(post: post),
@@ -89,6 +130,7 @@ class PostContainer extends StatelessWidget {
 
 class _PostHeader extends StatelessWidget {
   final Post post;
+
   const _PostHeader({
     Key key,
     @required this.post,
@@ -117,7 +159,10 @@ class _PostHeader extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return ProfileUser(id: post.userid, username: post.username,);
+                    return ProfileUser(
+                      id: post.userid,
+                      username: post.username,
+                    );
                   }));
                 },
               ),
@@ -231,7 +276,9 @@ class _PostBodyState extends State<_PostBodyStateful> {
   PostBloc postBloc = PostBloc();
 
   _PostBodyState(this.post);
+
   int comments;
+
   @override
   void initState() {
     super.initState();
@@ -337,7 +384,9 @@ class _PostBodyState extends State<_PostBodyStateful> {
                   // print(isLiked);
                   // showCommentSheet(context, [CommentContainer()]);
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return CommentScreen(post: post,);
+                    return CommentScreen(
+                      post: post,
+                    );
                     // return CardComment(comment_profile_pic: '',comment_text: 'Cômment',comment_username: 'Hoa Xuân Dương',);
                     // return ListCommentScreen();
                   }));
