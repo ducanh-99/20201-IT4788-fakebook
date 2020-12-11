@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:facebook/components/create_post_container.dart';
+import 'package:facebook/components/detail_image_screen.dart';
 import 'package:facebook/components/post_container.dart';
 import 'package:facebook/components/separator_widget.dart';
 import 'package:facebook/data/models/post_model.dart';
@@ -43,11 +44,25 @@ class ProfileTab extends StatelessWidget {
                   // ),
                   Stack(
                     children: [
-                      CircleAvatar(
-                        radius: 70.0,
-                        backgroundColor: Colors.grey[200],
-                        backgroundImage:
-                        CachedNetworkImageProvider(currentUser.avatar),
+                      // CircleAvatar(
+                      //   radius: 70.0,
+                      //   backgroundColor: Colors.grey[200],
+                      //   backgroundImage:
+                      //   CachedNetworkImageProvider(currentUser.avatar),
+                      // ),
+                      InkWell(
+                        child: CircleAvatar(
+                          radius: 70.0,
+                          backgroundColor: Colors.grey[200],
+                          backgroundImage: CachedNetworkImageProvider(
+                              currentUser.avatar),
+                        ),
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (_) {
+                                return DetailAvatarScreen(avatar: currentUser.avatar,);
+                              }));
+                        },
                       ),
                       Positioned(
                         top: 100,
