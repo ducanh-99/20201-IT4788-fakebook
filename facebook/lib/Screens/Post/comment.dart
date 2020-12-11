@@ -168,7 +168,7 @@ class _CommentScreen extends State<CommentScreen>
 
   // TextEditingController _sendMessageController = new TextEditingController();
 
-  BottomCommentSheet bottomCommentSheet = new BottomCommentSheet();
+  BottomCommentSheet bottomCommentSheet =  BottomCommentSheet();
 
   @override
   Widget build(BuildContext context) {
@@ -395,7 +395,7 @@ class _CommentScreen extends State<CommentScreen>
         ),
       ),
       // resizeToAvoidBottomInset: true,
-      bottomSheet: bottomCommentSheet,
+      bottomSheet: BottomCommentSheet(post: post,),
     );
   }
 
@@ -408,7 +408,7 @@ class BottomCommentSheet extends StatefulWidget {
 
   // const BottomCommentSheet(this.post);
 
-  const BottomCommentSheet({Key key, this.post}) : super(key: key);
+  const BottomCommentSheet({ this.post});
   @override
   State<StatefulWidget> createState() {
     return _BottomCommentSheet(post);
