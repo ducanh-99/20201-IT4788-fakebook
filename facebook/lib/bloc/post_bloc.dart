@@ -45,4 +45,8 @@ class PostBloc {
   setLocalPost() async {
     await _postRepositoryImpl.setLocalPost();
   }
+
+  apiGetAllVideo()async{
+    await _postRepositoryImpl.apiGetAllVideo();
+  }
 }

@@ -40,6 +40,9 @@ dependencies:
   line_icons: ^0.2.0
   dio: ^3.0.10
   pull_to_refresh: ^1.6.3
+  youtube_player_flutter: ^7.0.0+7
+  video_player: ^1.0.1
+  font_awesome_flutter: ^8.10.1
   flutter:
     sdk: flutter
 
@@ -51,7 +54,7 @@ dependencies:
     # Emojies
   emoji_picker: ^0.1.0
   image_picker: 0.6.6+1
-  video_player: ^0.10.2+1
+
 
 dev_dependencies:
   flutter_test:

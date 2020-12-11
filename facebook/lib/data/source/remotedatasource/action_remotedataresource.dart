@@ -10,6 +10,7 @@ abstract class ActionRemoteDatasource {
   apiSearch(String keyword);
   apiGetHistorySearch();
   getHistorySearchLocal();
+
 }
 
 class ActionRemoteDatasourceImpl implements ActionRemoteDatasource {
@@ -139,4 +140,6 @@ class ActionRemoteDatasourceImpl implements ActionRemoteDatasource {
       print('Error serve');
     });
   }
+
+
 }

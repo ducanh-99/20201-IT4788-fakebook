@@ -32,6 +32,7 @@ abstract class PostRemoteDatasource {
   apiDeletePost(Post postId, Function onSuccess);
   Future<bool> apiLikePost(String post_id);
   Future<bool> apiUnlikePost(String post_id);
+  apiGetAllVideo();
 }
 
 class PostRemoteDatasourceImpl implements PostRemoteDatasource {
@@ -340,6 +341,50 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     }).catchError((error) {
       print(error);
       print('Error');
+    });
+  }
+
+  apiGetAllVideo() async {
+    var response = await http.get(
+      "https://fakebook-20201.herokuapp.com/api/video",
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    ).then((value) async {
+
+      var responseJson = json.decode(value.body);
+      if (responseJson.length > 0) {
+        videoData = [];
+        print(responseJson["data"].runtimeType);
+        int amountLocalPost = 0;
+        for (var post in responseJson["data"]) {
+          Post newpost = Post(
+              id: post['id'],
+              isliked: post['is_liked'],
+              described: post['described'],
+              userid: post['owner']['user'],
+              username: post['owner']['username'],
+              likes: post['like'],
+              comments: post['comment'],
+              createDate: post['creation_date'],
+              video: post['video'] != null
+                  ? 'https://fakebook-20201.herokuapp.com/api/video/' +
+                  post['id']
+                  : '',
+              imageUrl: '',
+              timeAgo: '');
+          videoData.add(newpost);
+        }
+      } else {
+        videoData = [];
+      }
+      // return posts;
+    }).catchError((error) {
+      print(error);
+      print('Error');
+      // return List<Post>();
     });
   }
 }

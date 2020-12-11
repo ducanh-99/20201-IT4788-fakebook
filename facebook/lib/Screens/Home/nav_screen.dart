@@ -20,7 +20,7 @@ class _NavScreenState extends State<NavScreen> {
   final List<Widget> _screens = [
     HomeScreenMobile(),
     FriendsTab(),
-    ErrorConnect(),
+    WatchTab(),
     ProfileTab(),
     NotificationsTab(),
     MenuTab(),
