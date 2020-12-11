@@ -41,13 +41,78 @@ class ProfileTab extends StatelessWidget {
                   //   backgroundImage: currentUser.avatar,
                   //   radius: 70.0,
                   // ),
-
-                  CircleAvatar(
-                    radius: 70.0,
-                    backgroundColor: Colors.grey[200],
-                    backgroundImage:
+                  Stack(
+                    children: [
+                      CircleAvatar(
+                        radius: 70.0,
+                        backgroundColor: Colors.grey[200],
+                        backgroundImage:
                         CachedNetworkImageProvider(currentUser.avatar),
+                      ),
+                      Positioned(
+                        top: 100,
+                        left: 100,
+                        child:
+                        // Container(
+                        //   width: 20,
+                        //   height: 20,
+                        //   decoration: BoxDecoration(
+                        //       color: kBlack,
+                        //       shape: BoxShape.circle,
+                        //       border:
+                        //       Border.all(color: kBlack, width: 3)),
+                        // ),
+                        // Container(
+                        //   width: 20,
+                        //   height: 20,
+                        //   padding: const EdgeInsets.all(4.0),
+                        //   decoration: BoxDecoration(
+                        //     color: kPrimaryColor,
+                        //     shape: BoxShape.circle,
+                        //   ),
+                        //   child: const Icon(
+                        //     Icons.thumb_up,
+                        //     size: 10.0,
+                        //     color: Colors.white,
+                        //   ),
+                        // ),
+                        // Container(
+                        //   width: 25,
+                        //   height: 25,
+                        //   padding: const EdgeInsets.all(2.0),
+                        //   decoration: BoxDecoration(
+                        //     color: kPrimaryColor,
+                        //     shape: BoxShape.circle,
+                        //   ),
+                        //   child: const Icon(
+                        //     Icons.person,
+                        //     size: 20.0,
+                        //     color: Colors.white,
+                        //   ),
+                        // ),
+                        Container(
+                          width: 40,
+                          height: 40,
+                          padding: const EdgeInsets.all(2.0),
+                          decoration: BoxDecoration(
+                            color: kPrimaryLightColor,
+                            shape: BoxShape.circle,
+                          ),
+                          child: InkWell(
+                            child: const Icon(
+                              Icons.camera_alt,
+                              size: 20.0,
+                              color: kBlack,
+                            ),
+                            onTap: () {
+                              print("thay ảnh đại diện");
+                            },
+                          )
+                        ),
+                      ),
+                    ],
                   ),
+
                   SizedBox(height: 20.0),
                   Text(currentUser.username,
                       style: TextStyle(
