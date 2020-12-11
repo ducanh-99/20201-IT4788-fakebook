@@ -22,7 +22,9 @@ class CommentScreen extends StatefulWidget {
 
 class _CommentScreen extends State<CommentScreen>
     with AutomaticKeepAliveClientMixin {
+  final Post post;
   _CommentScreen(this.post);
+
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   void _onRefresh() async {
@@ -165,7 +167,7 @@ class _CommentScreen extends State<CommentScreen>
   }
 
   // TextEditingController _sendMessageController = new TextEditingController();
-  final Post post;
+
   BottomCommentSheet bottomCommentSheet = new BottomCommentSheet();
 
   @override
@@ -402,13 +404,21 @@ class _CommentScreen extends State<CommentScreen>
 }
 
 class BottomCommentSheet extends StatefulWidget {
+  final Post post;
+
+  // const BottomCommentSheet(this.post);
+
+  const BottomCommentSheet({Key key, this.post}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
-    return _BottomCommentSheet();
+    return _BottomCommentSheet(post);
   }
 }
 
 class _BottomCommentSheet extends State<BottomCommentSheet> {
+  final Post post;
+
+  _BottomCommentSheet(this.post);
   @override
   void initState() {
     // TODO: implement initState
@@ -441,7 +451,7 @@ class _BottomCommentSheet extends State<BottomCommentSheet> {
                     padding: EdgeInsets.only(bottom: 5.0),
                     icon: Icon(Icons.send),
                     onPressed: () {
-                      print('press');
+                      print(post.id);
                     },
                   ),
                 ),

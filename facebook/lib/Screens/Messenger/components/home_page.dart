@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook/data/source/localdatasource/colors.dart';
+import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:facebook/data/source/localdatasource/messenger_data.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
@@ -26,18 +28,13 @@ class _HomePageState extends State<HomePage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"),
-                      fit: BoxFit.cover)),
+            CircleAvatar(
+              radius: 20.0,
+              backgroundImage:
+              CachedNetworkImageProvider(currentUser.avatar),
             ),
             Text(
-              "Chats",
+              "Chat",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             Icon(Icons.edit)
