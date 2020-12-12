@@ -15,6 +15,7 @@ class PrivacySignup extends StatelessWidget {
     TextEditingController firstName = new TextEditingController();
     TextEditingController lastName = new TextEditingController();
     // firstName.text = user.firstName;
+
     // lastName.text= user.lastName;
     Size size = MediaQuery.of(context).size;
     return Background(

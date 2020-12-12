@@ -43,6 +43,9 @@ class _FriendsTabState extends State<FriendsTab>
     // if failed,use refreshFailed()
     print('down');
     _refreshController.refreshCompleted();
+    setState(() {
+
+    });
   }
 
   void _onLoading() async {

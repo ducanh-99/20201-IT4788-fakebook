@@ -43,9 +43,8 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
         'phonenumber': user.phone,
         'password': user.password,
         'lastname': user.lastName,
-        'firtname': user.firstName,
+        'firstname': user.firstName,
         'birthday': user.birthday,
-        'code_verify': 123456,
       }),
     )
         .then((value) {

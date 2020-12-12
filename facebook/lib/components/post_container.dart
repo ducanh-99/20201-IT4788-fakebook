@@ -53,7 +53,7 @@ class _PostContainer extends State<PostContainer> {
       //_controller = VideoPlayerController.asset("videos/sample_video.mp4");
       initializeVideoPlayerFuture = controller.initialize();
       controller.setLooping(true);
-      controller.setVolume(1.0);
+      controller.setVolume(10.0);
     }
 
     super.initState();

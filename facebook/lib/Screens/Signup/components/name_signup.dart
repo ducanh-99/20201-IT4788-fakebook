@@ -52,6 +52,7 @@ class NameSignup extends StatelessWidget {
                       controller: first,
                       onChanged: (value) {
                         user.firstName = value;
+                        print(user.firstName);
                       },
                       decoration: InputDecoration(
                         labelText: "Họ",

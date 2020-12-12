@@ -71,12 +71,8 @@ class ConfirmSignup extends StatelessWidget {
               minWidth: double.infinity,
               child: MaterialButton(
                 onPressed:(){
-                  _registerBloc.signUp(user, (){
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => LoginScreen()));
-                  }, (code){
-                    context.showToast(code);
-                  });
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => LoginScreen()));
                 } ,
                 child: Text('Tiếp'),
                 color: kPrimaryColor,

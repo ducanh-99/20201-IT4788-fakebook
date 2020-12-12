@@ -3,11 +3,13 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:facebook/Screens/Home/all_friends_tab.dart';
 import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:facebook/bloc/post_bloc.dart';
+import 'package:facebook/components/components.dart';
 import 'package:facebook/components/create_post_container.dart';
 import 'package:facebook/components/detail_image_screen.dart';
 import 'package:facebook/components/post_container.dart';
 import 'package:facebook/components/separator_widget.dart';
 import 'package:facebook/data/models/post_model.dart';
+import 'package:facebook/data/models/user.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
 
 // import 'package:facebook/data/source/localdatasource/data_personal.dart';
@@ -31,10 +33,6 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
   void _onRefresh() async {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000), () async {
-      // SearchBloc searchBloc = SearchBloc();
-      // await searchBloc.getHistorySearch();
-      // print('history:');
-      // print(historySearch);
       Friend_Bloc friend_bloc = new Friend_Bloc();
       await friend_bloc.getListFriend(currentUser.id);
       PostBloc postBloc = new PostBloc();
@@ -55,8 +53,6 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
 
       PostBloc postBloc = new PostBloc();
       await postBloc.getAllPostOfUser(currentUser.id);
-      // UserBloc userBloc = UserBloc();
-      // await userBloc.getProfileUser(id);
     });
     // if failed,use loadFailed(),if no data return,use LoadNodata()
     if (mounted) setState(() {});
@@ -82,6 +78,42 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
     return _calculation;
   }
 
+  var avt = 'http://fakebook-20201.herokuapp.com/api/get_avt/';
+
+  Widget widgetFriend(User user) {
+    return InkWell(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            height: MediaQuery.of(context).size.width / 3 - 10,
+            width: MediaQuery.of(context).size.width / 3 - 20,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: CachedNetworkImageProvider(avt + user.id)),
+                borderRadius: BorderRadius.circular(10.0)),
+          ),
+          SizedBox(height: 1.0),
+          Container(
+              height: MediaQuery.of(context).size.width / 3 - 20,
+              width: MediaQuery.of(context).size.width / 3 - 20,
+              child: Text(user.username,
+                  overflow: TextOverflow.visible,
+                  style:
+                      TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold))),
+        ],
+      ),
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (_) {
+          return ProfileUser(
+            id: user.id,
+            username: user.username,
+          );
+        }));
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var dateTime =
@@ -90,6 +122,7 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
     return SmartRefresher(
       controller: _refreshController,
       onLoading: _onLoading,
+      onRefresh: _onRefresh,
       header: MaterialClassicHeader(),
       footer: ClassicFooter(),
       enablePullDown: true,
@@ -101,38 +134,6 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
             List<Widget> children;
             if (snapshot.hasData) {
               children = <Widget>[
-                // Column(
-                //   children: <Widget>
-                //   [
-
-
-// Column(
-//   children: [
-//     ListView.builder(itemBuilder: (context, index) {
-//       final Post post = posts[index];
-//       return PostContainer(post: post);
-//     }),
-//   ],
-// )
-// ListView.builder(itemBuilder: (context, index){
-//   final Post post = posts[index];
-//   return PostContainer(post: post);
-// }),
-// CustomScrollView(
-//     slivers: [
-//       SliverList(
-//         delegate: SliverChildBuilderDelegate(
-//               (context, index) {
-//             final Post post = posts[index];
-//             return PostContainer(post: post);
-//           },
-//           childCount: posts.length,
-//         ),
-//       ),
-//     ]
-// )
-//                   ],
-//                 ),
                 Container(
                   height: 360.0,
                   child: Stack(
@@ -151,77 +152,28 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-// CircleAvatar(
-//   backgroundImage: currentUser.avatar,
-//   radius: 70.0,
-// ),
                           Stack(
                             children: [
-// CircleAvatar(
-//   radius: 70.0,
-//   backgroundColor: Colors.grey[200],
-//   backgroundImage:
-//   CachedNetworkImageProvider(currentUser.avatar),
-// ),
                               InkWell(
                                 child: CircleAvatar(
                                   radius: 70.0,
                                   backgroundColor: Colors.grey[200],
-                                  backgroundImage:
-                                  CachedNetworkImageProvider(
+                                  backgroundImage: CachedNetworkImageProvider(
                                       currentUser.avatar),
                                 ),
                                 onTap: () {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (_) {
-                                        return DetailAvatarScreen(
-                                          avatar: currentUser.avatar,
-                                        );
-                                      }));
+                                    return DetailAvatarScreen(
+                                      avatar: currentUser.avatar,
+                                    );
+                                  }));
                                 },
                               ),
                               Positioned(
                                 top: 100,
                                 left: 100,
-                                child:
-// Container(
-//   width: 20,
-//   height: 20,
-//   decoration: BoxDecoration(
-//       color: kBlack,
-//       shape: BoxShape.circle,
-//       border:
-//       Border.all(color: kBlack, width: 3)),
-// ),
-// Container(
-//   width: 20,
-//   height: 20,
-//   padding: const EdgeInsets.all(4.0),
-//   decoration: BoxDecoration(
-//     color: kPrimaryColor,
-//     shape: BoxShape.circle,
-//   ),
-//   child: const Icon(
-//     Icons.thumb_up,
-//     size: 10.0,
-//     color: Colors.white,
-//   ),
-// ),
-// Container(
-//   width: 25,
-//   height: 25,
-//   padding: const EdgeInsets.all(2.0),
-//   decoration: BoxDecoration(
-//     color: kPrimaryColor,
-//     shape: BoxShape.circle,
-//   ),
-//   child: const Icon(
-//     Icons.person,
-//     size: 20.0,
-//     color: Colors.white,
-//   ),
-// ),
-                                Container(
+                                child: Container(
                                     width: 40,
                                     height: 40,
                                     padding: const EdgeInsets.all(2.0),
@@ -242,25 +194,20 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                               ),
                             ],
                           ),
-
                           SizedBox(height: 20.0),
                           Text(currentUser.username,
                               style: TextStyle(
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.bold)),
+                                  fontSize: 24.0, fontWeight: FontWeight.bold)),
                           SizedBox(height: 20.0),
                           Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Container(
                                 height: 40.0,
-                                width:
-                                MediaQuery.of(context).size.width - 80,
+                                width: MediaQuery.of(context).size.width - 80,
                                 decoration: BoxDecoration(
                                     color: Colors.blue,
-                                    borderRadius:
-                                    BorderRadius.circular(5.0)),
+                                    borderRadius: BorderRadius.circular(5.0)),
                                 child: Center(
                                     child: Text('Thêm tin',
                                         style: TextStyle(
@@ -273,8 +220,7 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                                 width: 45.0,
                                 decoration: BoxDecoration(
                                     color: Colors.grey[300],
-                                    borderRadius:
-                                    BorderRadius.circular(5.0)),
+                                    borderRadius: BorderRadius.circular(5.0)),
                                 child: Icon(Icons.more_horiz),
                               )
                             ],
@@ -296,7 +242,7 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                         children: <Widget>[
                           Icon(Icons.phone, color: Colors.grey, size: 30.0),
                           SizedBox(width: 10.0),
-                          Text(currentUser.phone,
+                          Text(currentUser.phone == null ? "" : currentUser.phone,
                               style: TextStyle(fontSize: 16.0))
                         ],
                       ),
@@ -315,8 +261,7 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                           Icon(Icons.more_horiz,
                               color: Colors.grey, size: 30.0),
                           SizedBox(width: 10.0),
-                          Text('Xem chi tiết',
-                              style: TextStyle(fontSize: 16.0))
+                          Text('Xem chi tiết', style: TextStyle(fontSize: 16.0))
                         ],
                       ),
                       SizedBox(height: 15.0),
@@ -358,10 +303,9 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                                       fontSize: 22.0,
                                       fontWeight: FontWeight.bold)),
                               SizedBox(height: 6.0),
-                              Text('536 friends',
+                              Text(listFriends.length.toString() + ' bạn bè',
                                   style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: Colors.grey[800])),
+                                      fontSize: 16.0, color: Colors.grey[800])),
                             ],
                           ),
                           InkWell(
@@ -371,134 +315,105 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                             onTap: () {
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
-                                    return AllFriendsScreen(
-                                      id: currentUser.id,
-                                    );
-                                  }));
+                                return AllFriendsScreen(
+                                  id: currentUser.id,
+                                );
+                              }));
                             },
                           )
                         ],
                       ),
-// Padding(
-//   padding: const EdgeInsets.only(top: 15.0),
-//   child: Row(
-//     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//     children: <Widget>[
-//       // Column(
-//       //   crossAxisAlignment: CrossAxisAlignment.start,
-//       //   children: <Widget>[
-//       //     Container(
-//       //       height: MediaQuery.of(context).size.width / 3 - 20,
-//       //       width: MediaQuery.of(context).size.width / 3 - 20,
-//       //       decoration: BoxDecoration(
-//       //           image: DecorationImage(
-//       //               image: AssetImage('assets/samantha.jpg')),
-//       //           borderRadius: BorderRadius.circular(10.0)),
-//       //     ),
-//       //     SizedBox(height: 5.0),
-//       //     Text('Samantha',
-//       //         style: TextStyle(
-//       //             fontSize: 16.0, fontWeight: FontWeight.bold))
-//       //   ],
-//       // ),
-//       Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: <Widget>[
-//           Container(
-//             height: MediaQuery.of(context).size.width / 3 - 20,
-//             width: MediaQuery.of(context).size.width / 3 - 20,
-//             decoration: BoxDecoration(
-//                 image: DecorationImage(
-//                     image: AssetImage('assets/andrew.jpg')),
-//                 borderRadius: BorderRadius.circular(10.0)),
-//           ),
-//           SizedBox(height: 5.0),
-//           Text('Andrew',
-//               style: TextStyle(
-//                   fontSize: 16.0, fontWeight: FontWeight.bold))
-//         ],
-//       ),
-//       Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: <Widget>[
-//           Container(
-//             height: MediaQuery.of(context).size.width / 3 - 20,
-//             width: MediaQuery.of(context).size.width / 3 - 20,
-//             decoration: BoxDecoration(
-//                 image: DecorationImage(
-//                     image: AssetImage('assets/Sam Wilson.jpg'),
-//                     fit: BoxFit.cover),
-//                 borderRadius: BorderRadius.circular(10.0)),
-//           ),
-//           SizedBox(height: 5.0),
-//           Text('Sam Wilson',
-//               style: TextStyle(
-//                   fontSize: 16.0, fontWeight: FontWeight.bold))
-//         ],
-//       ),
-//     ],
-//   ),
-// ),
-// Padding(
-//   padding: const EdgeInsets.only(top: 15.0),
-//   child: Row(
-//     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//     children: <Widget>[
-//       Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: <Widget>[
-//           Container(
-//             height: MediaQuery.of(context).size.width / 3 - 20,
-//             width: MediaQuery.of(context).size.width / 3 - 20,
-//             decoration: BoxDecoration(
-//                 image: DecorationImage(
-//                     image: AssetImage('assets/steven.jpg')),
-//                 borderRadius: BorderRadius.circular(10.0)),
-//           ),
-//           SizedBox(height: 5.0),
-//           Text('Steven',
-//               style: TextStyle(
-//                   fontSize: 16.0, fontWeight: FontWeight.bold))
-//         ],
-//       ),
-//       Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: <Widget>[
-//           Container(
-//             height: MediaQuery.of(context).size.width / 3 - 20,
-//             width: MediaQuery.of(context).size.width / 3 - 20,
-//             decoration: BoxDecoration(
-//                 image: DecorationImage(
-//                     image: AssetImage('assets/greg.jpg')),
-//                 borderRadius: BorderRadius.circular(10.0)),
-//           ),
-//           SizedBox(height: 5.0),
-//           Text('Greg',
-//               style: TextStyle(
-//                   fontSize: 16.0, fontWeight: FontWeight.bold))
-//         ],
-//       ),
-//       Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: <Widget>[
-//           Container(
-//             height: MediaQuery.of(context).size.width / 3 - 20,
-//             width: MediaQuery.of(context).size.width / 3 - 20,
-//             decoration: BoxDecoration(
-//                 image: DecorationImage(
-//                     image: AssetImage('assets/andy.jpg'),
-//                     fit: BoxFit.cover),
-//                 borderRadius: BorderRadius.circular(10.0)),
-//           ),
-//           SizedBox(height: 5.0),
-//           Text('Andy',
-//               style: TextStyle(
-//                   fontSize: 16.0, fontWeight: FontWeight.bold))
-//         ],
-//       ),
-//     ],
-//   ),
-// ),
+                      listFriends.length >= 1 ? Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            listFriends.length >= 1
+                                ? widgetFriend(listFriends[0])
+                                : SizedBox(
+                                    height:
+                                        MediaQuery.of(context).size.width / 3 -
+                                            10,
+                                    width:
+                                        MediaQuery.of(context).size.width / 3 -
+                                            20,
+                                  ),
+                            listFriends.length >= 2
+                                ? widgetFriend(listFriends[1])
+                                : SizedBox(
+                                    height:
+                                        MediaQuery.of(context).size.width / 3 -
+                                            10,
+                                    width:
+                                        MediaQuery.of(context).size.width / 3 -
+                                            20,
+                                  ),
+                            listFriends.length >= 3
+                                ? widgetFriend(listFriends[2])
+                                : SizedBox(
+                                    height:
+                                        MediaQuery.of(context).size.width / 3 -
+                                            10,
+                                    width:
+                                        MediaQuery.of(context).size.width / 3 -
+                                            20,
+                                  ),
+                          ],
+                        ),
+                      ) : SizedBox(),
+                      listFriends.length >= 4
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 15.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  listFriends.length >= 4
+                                      ? widgetFriend(listFriends[3])
+                                      : SizedBox(
+                                          height: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3 -
+                                              10,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3 -
+                                              20,
+                                        ),
+                                  listFriends.length >= 5
+                                      ? widgetFriend(listFriends[4])
+                                      : SizedBox(
+                                          height: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3 -
+                                              10,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3 -
+                                              20,
+                                        ),
+                                  listFriends.length >= 6
+                                      ? widgetFriend(listFriends[5])
+                                      : SizedBox(
+                                          height: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3 -
+                                              10,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3 -
+                                              20,
+                                        ),
+                                ],
+                              ),
+                            )
+                          : SizedBox(),
                       InkWell(
                         child: Container(
                           margin: EdgeInsets.symmetric(vertical: 15.0),
@@ -517,10 +432,10 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                         onTap: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                                return AllFriendsScreen(
-                                  id: currentUser.id,
-                                );
-                              }));
+                            return AllFriendsScreen(
+                              id: currentUser.id,
+                            );
+                          }));
                         },
                       )
                     ],
@@ -530,8 +445,7 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                 Container(
                   child: CreatePostContainer(currentUser: currentUser),
                 ),
-                for (Post post in userPosts)
-                  PostContainer(post)
+                for (Post post in userPosts) PostContainer(post)
               ];
             } else if (snapshot.hasError) {
               children = <Widget>[
@@ -565,33 +479,22 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-// CircleAvatar(
-//   backgroundImage: currentUser.avatar,
-//   radius: 70.0,
-// ),
                           Stack(
                             children: [
-// CircleAvatar(
-//   radius: 70.0,
-//   backgroundColor: Colors.grey[200],
-//   backgroundImage:
-//   CachedNetworkImageProvider(currentUser.avatar),
-// ),
                               InkWell(
                                 child: CircleAvatar(
                                   radius: 70.0,
                                   backgroundColor: Colors.grey[200],
-                                  backgroundImage:
-                                  CachedNetworkImageProvider(
+                                  backgroundImage: CachedNetworkImageProvider(
                                       currentUser.avatar),
                                 ),
                                 onTap: () {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (_) {
-                                        return DetailAvatarScreen(
-                                          avatar: currentUser.avatar,
-                                        );
-                                      }));
+                                    return DetailAvatarScreen(
+                                      avatar: currentUser.avatar,
+                                    );
+                                  }));
                                 },
                               ),
                               Positioned(
@@ -635,46 +538,41 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
 //     color: Colors.white,
 //   ),
 // ),
-                                Container(
-                                    width: 40,
-                                    height: 40,
-                                    padding: const EdgeInsets.all(2.0),
-                                    decoration: BoxDecoration(
-                                      color: kPrimaryLightColor,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: InkWell(
-                                      child: const Icon(
-                                        Icons.camera_alt,
-                                        size: 20.0,
-                                        color: kBlack,
-                                      ),
-                                      onTap: () {
-                                        print("thay ảnh đại diện");
-                                      },
-                                    )),
+                                    Container(
+                                        width: 40,
+                                        height: 40,
+                                        padding: const EdgeInsets.all(2.0),
+                                        decoration: BoxDecoration(
+                                          color: kPrimaryLightColor,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: InkWell(
+                                          child: const Icon(
+                                            Icons.camera_alt,
+                                            size: 20.0,
+                                            color: kBlack,
+                                          ),
+                                          onTap: () {
+                                            print("thay ảnh đại diện");
+                                          },
+                                        )),
                               ),
                             ],
                           ),
-
                           SizedBox(height: 20.0),
                           Text(currentUser.username,
                               style: TextStyle(
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.bold)),
+                                  fontSize: 24.0, fontWeight: FontWeight.bold)),
                           SizedBox(height: 20.0),
                           Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Container(
                                 height: 40.0,
-                                width:
-                                MediaQuery.of(context).size.width - 80,
+                                width: MediaQuery.of(context).size.width - 80,
                                 decoration: BoxDecoration(
                                     color: Colors.blue,
-                                    borderRadius:
-                                    BorderRadius.circular(5.0)),
+                                    borderRadius: BorderRadius.circular(5.0)),
                                 child: Center(
                                     child: Text('Thêm tin',
                                         style: TextStyle(
@@ -687,8 +585,7 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                                 width: 45.0,
                                 decoration: BoxDecoration(
                                     color: Colors.grey[300],
-                                    borderRadius:
-                                    BorderRadius.circular(5.0)),
+                                    borderRadius: BorderRadius.circular(5.0)),
                                 child: Icon(Icons.more_horiz),
                               )
                             ],
@@ -710,7 +607,7 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                         children: <Widget>[
                           Icon(Icons.phone, color: Colors.grey, size: 30.0),
                           SizedBox(width: 10.0),
-                          Text(currentUser.phone,
+                          Text(currentUser.phone == null ? "" : currentUser.phone,
                               style: TextStyle(fontSize: 16.0))
                         ],
                       ),
@@ -729,8 +626,7 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                           Icon(Icons.more_horiz,
                               color: Colors.grey, size: 30.0),
                           SizedBox(width: 10.0),
-                          Text('Xem chi tiết',
-                              style: TextStyle(fontSize: 16.0))
+                          Text('Xem chi tiết', style: TextStyle(fontSize: 16.0))
                         ],
                       ),
                       SizedBox(height: 15.0),
@@ -756,205 +652,6 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                   ),
                 ),
                 Divider(height: 40.0),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text('Bạn bè',
-                                  style: TextStyle(
-                                      fontSize: 22.0,
-                                      fontWeight: FontWeight.bold)),
-                              SizedBox(height: 6.0),
-                              Text('536 friends',
-                                  style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: Colors.grey[800])),
-                            ],
-                          ),
-                          InkWell(
-                            child: Text('Tất cả',
-                                style: TextStyle(
-                                    fontSize: 16.0, color: Colors.blue)),
-                            onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                    return AllFriendsScreen(
-                                      id: currentUser.id,
-                                    );
-                                  }));
-                            },
-                          )
-                        ],
-                      ),
-// Padding(
-//   padding: const EdgeInsets.only(top: 15.0),
-//   child: Row(
-//     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//     children: <Widget>[
-//       // Column(
-//       //   crossAxisAlignment: CrossAxisAlignment.start,
-//       //   children: <Widget>[
-//       //     Container(
-//       //       height: MediaQuery.of(context).size.width / 3 - 20,
-//       //       width: MediaQuery.of(context).size.width / 3 - 20,
-//       //       decoration: BoxDecoration(
-//       //           image: DecorationImage(
-//       //               image: AssetImage('assets/samantha.jpg')),
-//       //           borderRadius: BorderRadius.circular(10.0)),
-//       //     ),
-//       //     SizedBox(height: 5.0),
-//       //     Text('Samantha',
-//       //         style: TextStyle(
-//       //             fontSize: 16.0, fontWeight: FontWeight.bold))
-//       //   ],
-//       // ),
-//       Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: <Widget>[
-//           Container(
-//             height: MediaQuery.of(context).size.width / 3 - 20,
-//             width: MediaQuery.of(context).size.width / 3 - 20,
-//             decoration: BoxDecoration(
-//                 image: DecorationImage(
-//                     image: AssetImage('assets/andrew.jpg')),
-//                 borderRadius: BorderRadius.circular(10.0)),
-//           ),
-//           SizedBox(height: 5.0),
-//           Text('Andrew',
-//               style: TextStyle(
-//                   fontSize: 16.0, fontWeight: FontWeight.bold))
-//         ],
-//       ),
-//       Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: <Widget>[
-//           Container(
-//             height: MediaQuery.of(context).size.width / 3 - 20,
-//             width: MediaQuery.of(context).size.width / 3 - 20,
-//             decoration: BoxDecoration(
-//                 image: DecorationImage(
-//                     image: AssetImage('assets/Sam Wilson.jpg'),
-//                     fit: BoxFit.cover),
-//                 borderRadius: BorderRadius.circular(10.0)),
-//           ),
-//           SizedBox(height: 5.0),
-//           Text('Sam Wilson',
-//               style: TextStyle(
-//                   fontSize: 16.0, fontWeight: FontWeight.bold))
-//         ],
-//       ),
-//     ],
-//   ),
-// ),
-// Padding(
-//   padding: const EdgeInsets.only(top: 15.0),
-//   child: Row(
-//     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//     children: <Widget>[
-//       Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: <Widget>[
-//           Container(
-//             height: MediaQuery.of(context).size.width / 3 - 20,
-//             width: MediaQuery.of(context).size.width / 3 - 20,
-//             decoration: BoxDecoration(
-//                 image: DecorationImage(
-//                     image: AssetImage('assets/steven.jpg')),
-//                 borderRadius: BorderRadius.circular(10.0)),
-//           ),
-//           SizedBox(height: 5.0),
-//           Text('Steven',
-//               style: TextStyle(
-//                   fontSize: 16.0, fontWeight: FontWeight.bold))
-//         ],
-//       ),
-//       Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: <Widget>[
-//           Container(
-//             height: MediaQuery.of(context).size.width / 3 - 20,
-//             width: MediaQuery.of(context).size.width / 3 - 20,
-//             decoration: BoxDecoration(
-//                 image: DecorationImage(
-//                     image: AssetImage('assets/greg.jpg')),
-//                 borderRadius: BorderRadius.circular(10.0)),
-//           ),
-//           SizedBox(height: 5.0),
-//           Text('Greg',
-//               style: TextStyle(
-//                   fontSize: 16.0, fontWeight: FontWeight.bold))
-//         ],
-//       ),
-//       Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: <Widget>[
-//           Container(
-//             height: MediaQuery.of(context).size.width / 3 - 20,
-//             width: MediaQuery.of(context).size.width / 3 - 20,
-//             decoration: BoxDecoration(
-//                 image: DecorationImage(
-//                     image: AssetImage('assets/andy.jpg'),
-//                     fit: BoxFit.cover),
-//                 borderRadius: BorderRadius.circular(10.0)),
-//           ),
-//           SizedBox(height: 5.0),
-//           Text('Andy',
-//               style: TextStyle(
-//                   fontSize: 16.0, fontWeight: FontWeight.bold))
-//         ],
-//       ),
-//     ],
-//   ),
-// ),
-                      InkWell(
-                        child: Container(
-                          margin: EdgeInsets.symmetric(vertical: 15.0),
-                          height: 40.0,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          child: Center(
-                              child: Text('Xem tất cả bạn bè',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16.0))),
-                        ),
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                                return AllFriendsScreen(
-                                  id: currentUser.id,
-                                );
-                              }));
-                        },
-                      )
-                    ],
-                  ),
-                ),
-                SeparatorWidget(),
-                Container(
-                  child: CreatePostContainer(currentUser: currentUser),
-                ),
-                // Column(
-                //   mainAxisAlignment: MainAxisAlignment.start,
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   children: [
-                //     SizedBox(
-                //       child: CircularProgressIndicator(),
-                //       width: 40,
-                //       height: 40,
-                //     ),
-                //   ],
-                // ),
                 Padding(
                   padding: EdgeInsets.only(top: 16),
                 )
@@ -972,425 +669,5 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
         ),
       ),
     );
-  }
-}
-
-class ProfileTab extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var dateTime =
-        // Jiffy(currentUser.birthday, "yyyy/dd/MM").format("dd 'tháng' MM, yyyy");
-        Jiffy(currentUser.birthday, "dd/MM/yyyy").format("dd 'tháng' MM, yyyy");
-    return SingleChildScrollView(
-        child: Column(
-      children: <Widget>[
-        Container(
-          height: 360.0,
-          child: Stack(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-                height: 180.0,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('assets/images/login_bottom.png'),
-                        fit: BoxFit.cover),
-                    borderRadius: BorderRadius.circular(10.0)),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  // CircleAvatar(
-                  //   backgroundImage: currentUser.avatar,
-                  //   radius: 70.0,
-                  // ),
-                  Stack(
-                    children: [
-                      // CircleAvatar(
-                      //   radius: 70.0,
-                      //   backgroundColor: Colors.grey[200],
-                      //   backgroundImage:
-                      //   CachedNetworkImageProvider(currentUser.avatar),
-                      // ),
-                      InkWell(
-                        child: CircleAvatar(
-                          radius: 70.0,
-                          backgroundColor: Colors.grey[200],
-                          backgroundImage:
-                              CachedNetworkImageProvider(currentUser.avatar),
-                        ),
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) {
-                            return DetailAvatarScreen(
-                              avatar: currentUser.avatar,
-                            );
-                          }));
-                        },
-                      ),
-                      Positioned(
-                        top: 100,
-                        left: 100,
-                        child:
-                            // Container(
-                            //   width: 20,
-                            //   height: 20,
-                            //   decoration: BoxDecoration(
-                            //       color: kBlack,
-                            //       shape: BoxShape.circle,
-                            //       border:
-                            //       Border.all(color: kBlack, width: 3)),
-                            // ),
-                            // Container(
-                            //   width: 20,
-                            //   height: 20,
-                            //   padding: const EdgeInsets.all(4.0),
-                            //   decoration: BoxDecoration(
-                            //     color: kPrimaryColor,
-                            //     shape: BoxShape.circle,
-                            //   ),
-                            //   child: const Icon(
-                            //     Icons.thumb_up,
-                            //     size: 10.0,
-                            //     color: Colors.white,
-                            //   ),
-                            // ),
-                            // Container(
-                            //   width: 25,
-                            //   height: 25,
-                            //   padding: const EdgeInsets.all(2.0),
-                            //   decoration: BoxDecoration(
-                            //     color: kPrimaryColor,
-                            //     shape: BoxShape.circle,
-                            //   ),
-                            //   child: const Icon(
-                            //     Icons.person,
-                            //     size: 20.0,
-                            //     color: Colors.white,
-                            //   ),
-                            // ),
-                            Container(
-                                width: 40,
-                                height: 40,
-                                padding: const EdgeInsets.all(2.0),
-                                decoration: BoxDecoration(
-                                  color: kPrimaryLightColor,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: InkWell(
-                                  child: const Icon(
-                                    Icons.camera_alt,
-                                    size: 20.0,
-                                    color: kBlack,
-                                  ),
-                                  onTap: () {
-                                    print("thay ảnh đại diện");
-                                  },
-                                )),
-                      ),
-                    ],
-                  ),
-
-                  SizedBox(height: 20.0),
-                  Text(currentUser.username,
-                      style: TextStyle(
-                          fontSize: 24.0, fontWeight: FontWeight.bold)),
-                  SizedBox(height: 20.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Container(
-                        height: 40.0,
-                        width: MediaQuery.of(context).size.width - 80,
-                        decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(5.0)),
-                        child: Center(
-                            child: Text('Thêm tin',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0))),
-                      ),
-                      Container(
-                        height: 40.0,
-                        width: 45.0,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(5.0)),
-                        child: Icon(Icons.more_horiz),
-                      )
-                    ],
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
-          child: Divider(height: 40.0),
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 15.0),
-          child: Column(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Icon(Icons.phone, color: Colors.grey, size: 30.0),
-                  SizedBox(width: 10.0),
-                  Text(currentUser.phone, style: TextStyle(fontSize: 16.0))
-                ],
-              ),
-              SizedBox(height: 15.0),
-              Row(
-                children: <Widget>[
-                  Icon(Icons.calendar_today, color: Colors.grey, size: 30.0),
-                  SizedBox(width: 10.0),
-                  Text(dateTime, style: TextStyle(fontSize: 16.0))
-                ],
-              ),
-              SizedBox(height: 15.0),
-              Row(
-                children: <Widget>[
-                  Icon(Icons.more_horiz, color: Colors.grey, size: 30.0),
-                  SizedBox(width: 10.0),
-                  Text('Xem chi tiết', style: TextStyle(fontSize: 16.0))
-                ],
-              ),
-              SizedBox(height: 15.0),
-              InkWell(
-                child: Container(
-                  height: 40.0,
-                  decoration: BoxDecoration(
-                    color: Colors.lightBlueAccent.withOpacity(0.25),
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                  child: Center(
-                      child: Text('Chỉnh sửa thông tin',
-                          style: TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0))),
-                ),
-                onTap: () {
-                  print(currentUser.toJSON());
-                },
-              )
-            ],
-          ),
-        ),
-        Divider(height: 40.0),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 15.0),
-          child: Column(
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text('Bạn bè',
-                          style: TextStyle(
-                              fontSize: 22.0, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 6.0),
-                      Text('536 friends',
-                          style: TextStyle(
-                              fontSize: 16.0, color: Colors.grey[800])),
-                    ],
-                  ),
-                  InkWell(
-                    child: Text('Tất cả',
-                        style: TextStyle(fontSize: 16.0, color: Colors.blue)),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return AllFriendsScreen(
-                          id: currentUser.id,
-                        );
-                      }));
-                    },
-                  )
-                ],
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 15.0),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: <Widget>[
-              //       // Column(
-              //       //   crossAxisAlignment: CrossAxisAlignment.start,
-              //       //   children: <Widget>[
-              //       //     Container(
-              //       //       height: MediaQuery.of(context).size.width / 3 - 20,
-              //       //       width: MediaQuery.of(context).size.width / 3 - 20,
-              //       //       decoration: BoxDecoration(
-              //       //           image: DecorationImage(
-              //       //               image: AssetImage('assets/samantha.jpg')),
-              //       //           borderRadius: BorderRadius.circular(10.0)),
-              //       //     ),
-              //       //     SizedBox(height: 5.0),
-              //       //     Text('Samantha',
-              //       //         style: TextStyle(
-              //       //             fontSize: 16.0, fontWeight: FontWeight.bold))
-              //       //   ],
-              //       // ),
-              //       Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: <Widget>[
-              //           Container(
-              //             height: MediaQuery.of(context).size.width / 3 - 20,
-              //             width: MediaQuery.of(context).size.width / 3 - 20,
-              //             decoration: BoxDecoration(
-              //                 image: DecorationImage(
-              //                     image: AssetImage('assets/andrew.jpg')),
-              //                 borderRadius: BorderRadius.circular(10.0)),
-              //           ),
-              //           SizedBox(height: 5.0),
-              //           Text('Andrew',
-              //               style: TextStyle(
-              //                   fontSize: 16.0, fontWeight: FontWeight.bold))
-              //         ],
-              //       ),
-              //       Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: <Widget>[
-              //           Container(
-              //             height: MediaQuery.of(context).size.width / 3 - 20,
-              //             width: MediaQuery.of(context).size.width / 3 - 20,
-              //             decoration: BoxDecoration(
-              //                 image: DecorationImage(
-              //                     image: AssetImage('assets/Sam Wilson.jpg'),
-              //                     fit: BoxFit.cover),
-              //                 borderRadius: BorderRadius.circular(10.0)),
-              //           ),
-              //           SizedBox(height: 5.0),
-              //           Text('Sam Wilson',
-              //               style: TextStyle(
-              //                   fontSize: 16.0, fontWeight: FontWeight.bold))
-              //         ],
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 15.0),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: <Widget>[
-              //       Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: <Widget>[
-              //           Container(
-              //             height: MediaQuery.of(context).size.width / 3 - 20,
-              //             width: MediaQuery.of(context).size.width / 3 - 20,
-              //             decoration: BoxDecoration(
-              //                 image: DecorationImage(
-              //                     image: AssetImage('assets/steven.jpg')),
-              //                 borderRadius: BorderRadius.circular(10.0)),
-              //           ),
-              //           SizedBox(height: 5.0),
-              //           Text('Steven',
-              //               style: TextStyle(
-              //                   fontSize: 16.0, fontWeight: FontWeight.bold))
-              //         ],
-              //       ),
-              //       Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: <Widget>[
-              //           Container(
-              //             height: MediaQuery.of(context).size.width / 3 - 20,
-              //             width: MediaQuery.of(context).size.width / 3 - 20,
-              //             decoration: BoxDecoration(
-              //                 image: DecorationImage(
-              //                     image: AssetImage('assets/greg.jpg')),
-              //                 borderRadius: BorderRadius.circular(10.0)),
-              //           ),
-              //           SizedBox(height: 5.0),
-              //           Text('Greg',
-              //               style: TextStyle(
-              //                   fontSize: 16.0, fontWeight: FontWeight.bold))
-              //         ],
-              //       ),
-              //       Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: <Widget>[
-              //           Container(
-              //             height: MediaQuery.of(context).size.width / 3 - 20,
-              //             width: MediaQuery.of(context).size.width / 3 - 20,
-              //             decoration: BoxDecoration(
-              //                 image: DecorationImage(
-              //                     image: AssetImage('assets/andy.jpg'),
-              //                     fit: BoxFit.cover),
-              //                 borderRadius: BorderRadius.circular(10.0)),
-              //           ),
-              //           SizedBox(height: 5.0),
-              //           Text('Andy',
-              //               style: TextStyle(
-              //                   fontSize: 16.0, fontWeight: FontWeight.bold))
-              //         ],
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              InkWell(
-                child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 15.0),
-                  height: 40.0,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                  child: Center(
-                      child: Text('Xem tất cả bạn bè',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0))),
-                ),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return AllFriendsScreen(
-                      id: currentUser.id,
-                    );
-                  }));
-                },
-              )
-            ],
-          ),
-        ),
-        SeparatorWidget(),
-        Container(
-          child: CreatePostContainer(currentUser: currentUser),
-        ),
-        // Column(
-        //   children: [
-        //     ListView.builder(itemBuilder: (context, index) {
-        //       final Post post = posts[index];
-        //       return PostContainer(post: post);
-        //     }),
-        //   ],
-        // )
-        // ListView.builder(itemBuilder: (context, index){
-        //   final Post post = posts[index];
-        //   return PostContainer(post: post);
-        // }),
-        // CustomScrollView(
-        //     slivers: [
-        //       SliverList(
-        //         delegate: SliverChildBuilderDelegate(
-        //               (context, index) {
-        //             final Post post = posts[index];
-        //             return PostContainer(post: post);
-        //           },
-        //           childCount: posts.length,
-        //         ),
-        //       ),
-        //     ]
-        // )
-      ],
-    ));
   }
 }

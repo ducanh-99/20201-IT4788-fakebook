@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:facebook/bloc/post_bloc.dart';
 import 'package:facebook/bloc/search_bloc.dart';
 import 'package:facebook/components/search_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -21,17 +22,25 @@ class _HomeScreenMobile extends State<HomeScreenMobile> {
       RefreshController(initialRefresh: false);
   SearchBloc searchBloc = SearchBloc();
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   void _onRefresh() async {
     // monitor network fetch
-    await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
+    PostBloc postBloc = PostBloc();
+    await postBloc.getAllPost();
     print('down');
     _refreshController.refreshCompleted();
+    setState(() {});
   }
 
   void _onLoading() async {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
+
     // if failed,use loadFailed(),if no data return,use LoadNodata()
     if (mounted) setState(() {});
     print('up');
