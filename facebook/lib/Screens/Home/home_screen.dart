@@ -40,6 +40,7 @@ class _HomeScreenMobile extends State<HomeScreenMobile> {
   void _onLoading() async {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
+
     // if failed,use loadFailed(),if no data return,use LoadNodata()
     if (mounted) setState(() {});
     print('up');
@@ -50,7 +51,7 @@ class _HomeScreenMobile extends State<HomeScreenMobile> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-        body: SmartRefresher(
+      body: SmartRefresher(
         controller: _refreshController,
         onRefresh: _onRefresh,
         onLoading: _onLoading,

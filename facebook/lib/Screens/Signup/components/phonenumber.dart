@@ -1,4 +1,5 @@
 import 'package:facebook/Screens/Signup/components/background.dart';
+import 'package:facebook/bloc/sign_bloc.dart';
 import 'package:facebook/data/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ import 'confirm.dart';
 
 class PhoneSignup extends StatelessWidget {
   final User user;
-
+  SignUpBloc _registerBloc = SignUpBloc();
   PhoneSignup({Key key, @required this.user}) : super(key: key);
 
   @override
@@ -20,7 +21,7 @@ class PhoneSignup extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Background(
       text: Text(
-        "Số điện thoại và email",
+        "Số điện thoại",
         style: TextStyle(color: kColorTextNormal, fontSize: 17),
       ),
       child: SingleChildScrollView(
@@ -58,32 +59,6 @@ class PhoneSignup extends StatelessWidget {
                 ),
               ],
             ),
-            Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                    child: TextFormField(
-                      autofocus: true,
-                      controller: email,
-                      onChanged: (value) {
-                        user.email = value;
-                      },
-                      decoration: InputDecoration(
-                        labelText: "Email",
-                      ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Vui lòng điền đầy đủ thông tin!';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
             RoundedPasswordField(
               onChanged: (value) {
                 user.password = value;
@@ -94,10 +69,12 @@ class PhoneSignup extends StatelessWidget {
               minWidth: double.infinity,
               child: MaterialButton(
                 onPressed: () {
-                  print(user.firstName);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return ConfirmSignup(user: user);
-                  }));
+                  _registerBloc.signUp(user, (){
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => ConfirmSignup(user: user)));
+                  }, (code){
+
+                  });
                 },
                 child: Text('Tiếp'),
                 color: kPrimaryColor,
