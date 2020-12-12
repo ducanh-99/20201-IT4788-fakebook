@@ -29,6 +29,7 @@ class _FriendsTabState extends State<FriendsTab>
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000), () async {
       Friend_Bloc friendBloc = Friend_Bloc();
+      await friendBloc.getRecommendFriend();
       await friendBloc.apiGetRequestFriend(() {}, () {
         Navigator.push(
           context,
@@ -48,6 +49,7 @@ class _FriendsTabState extends State<FriendsTab>
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000), () async {
       Friend_Bloc friendBloc = Friend_Bloc();
+      await friendBloc.getRecommendFriend();
       await friendBloc.apiGetRequestFriend(() {}, () {
         Navigator.push(
           context,
@@ -71,6 +73,7 @@ class _FriendsTabState extends State<FriendsTab>
       },
     );
     Friend_Bloc friendBloc = Friend_Bloc();
+    await friendBloc.getRecommendFriend();
     await friendBloc.apiGetRequestFriend(() {}, () {
       Future<String>.delayed(
         Duration(seconds: 2),

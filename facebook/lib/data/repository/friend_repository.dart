@@ -7,6 +7,8 @@ abstract class FriendRespository {
   DeclineFriendRequest(String userId);
   BlockFriend(String blockId);
   SendFriendRequest(String userId);
+  unfriend(String userId);
+  getRecommendFriend();
 }
 
 class FriendResposityImpl implements FriendRespository {
@@ -40,5 +42,15 @@ class FriendResposityImpl implements FriendRespository {
   @override
   SendFriendRequest(String userId) async{
     await _friendRemotedatasource.apiSendFriendRequest(userId);
+  }
+
+  @override
+  getRecommendFriend() async {
+    await _friendRemotedatasource.apiGetRecommendFriend();
+  }
+
+  @override
+  unfriend(String userId) async{
+    await _friendRemotedatasource.apiUnfriend(userId);
   }
 }
