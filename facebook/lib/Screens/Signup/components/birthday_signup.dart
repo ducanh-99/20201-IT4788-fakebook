@@ -47,7 +47,7 @@ class BirthdaySignup extends StatelessWidget {
             DateTimePicker(
               initialValue: DateTime.now().toString(),
               icon: Icon(Icons.event),
-              dateMask: 'd MMM, yyyy',
+              dateMask: 'dd MM, yyyy',
               firstDate: DateTime(1990),
               lastDate: DateTime(2100),
               dateLabelText: 'Date',

@@ -1,5 +1,6 @@
 import 'package:facebook/Screens/Home/nav_screen.dart';
 import 'package:facebook/Screens/Login/login_screen.dart';
+import 'package:facebook/bloc/chat_bloc.dart';
 import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:facebook/bloc/local_bloc.dart';
 import 'package:facebook/bloc/notification_bloc.dart';
@@ -24,7 +25,13 @@ void main() async {
   UserBloc userBloc = UserBloc();
   await userLocalBloc.setCurrentUser();
   if (currentUser != null) {
+    ChatBloc chatBloc = ChatBloc();
+    await chatBloc.getAllConversation();
+    await chatBloc.getConversationByUserId("5fa56d5d589d29364e8d4436");
+    await chatBloc.getConversationByUserId("5fa183c8bc5f9937a302714d");
     PostBloc postBloc = PostBloc();
+    NotificationBloc noti = NotificationBloc();
+    await noti.getNotification(() {}, () {});
     await postBloc.setLocalPost();
     await postBloc.getAllPost();
     await userBloc.getProfileUser(currentUser.id);
