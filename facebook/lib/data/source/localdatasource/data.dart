@@ -19,3 +19,4 @@ String stringSearch = '';
 List<User> searchUser = [];
 List<Post> videoData=[];
 List<UserNotification> notifications = [];
+List<User> recommendfriend = [];

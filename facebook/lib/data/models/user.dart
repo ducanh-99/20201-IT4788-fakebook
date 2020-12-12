@@ -11,7 +11,7 @@ class User {
   String avatar;
   String id;
   bool isFriend;
-
+  int commondFriend;
   User(
       {this.username,
       this.lastName,
@@ -22,7 +22,9 @@ class User {
       this.avatar,
       this.email,
       this.id,
-      this.isFriend});
+      this.isFriend,
+      this.commondFriend
+      });
 
   Map<String, dynamic> toJSON() => {
         'firstName': firstName,

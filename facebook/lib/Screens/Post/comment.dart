@@ -455,6 +455,7 @@ class _BottomCommentSheet extends State<BottomCommentSheet> {
                     padding: EdgeInsets.only(bottom: 5.0),
                     icon: Icon(Icons.send),
                     onPressed: () async {
+
                       await _commentBloc.uploadComment(post.id, comment);
                     },
                   ),

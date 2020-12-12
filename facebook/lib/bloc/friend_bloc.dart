@@ -33,4 +33,11 @@ class Friend_Bloc {
     print("send request friend");
     await friendRespository.SendFriendRequest(userId);
   }
+  getRecommendFriend() async {
+    await friendRespository.getRecommendFriend();
+  }
+
+  unfriend(String userId) async{
+    await friendRespository.unfriend(userId);
+  }
 }

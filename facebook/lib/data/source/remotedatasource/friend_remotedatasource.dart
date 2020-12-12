@@ -16,6 +16,8 @@ abstract class FriendRemotedatasource {
   apiDeclineFriendRequest(String userId);
   apiBlockFriend(String blockId);
   apiSendFriendRequest(String userId);
+  apiUnfriend(String userId);
+  apiGetRecommendFriend();
 }
 
 class FriendRemotedatasourceImpl implements FriendRemotedatasource {
@@ -162,6 +164,60 @@ class FriendRemotedatasourceImpl implements FriendRemotedatasource {
       if (responseJson['code'] == 1000) {
         print(responseJson['block_id']);
         print("Block friend succesfully");
+      }
+    }).catchError((error) {
+      print('Error');
+      print(error);
+    });
+  }
+
+  @override
+  apiUnfriend(String userId) async {
+    var response = await http.get(
+      'https://fakebook-20201.herokuapp.com/api/unfriend/' + userId,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    ).then((value) {
+      var responseJson = json.decode(value.body);
+      print(responseJson);
+      if (responseJson['code'] == 1000) {
+        print("Unfriend succesfully");
+      }
+    }).catchError((error) {
+      print('Error');
+      print(error);
+    });
+  }
+
+  @override
+  apiGetRecommendFriend() async {
+    var response = await http.get(
+      'https://fakebook-20201.herokuapp.com/api/friend/recommend',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    ).then((value) {
+      var responseJson = json.decode(value.body);
+      print(responseJson);
+      if (responseJson.length > 0) {
+        recommendfriend = [];
+        for (var info in responseJson) {
+          var avt = 'https://fakebook-20201.herokuapp.com/api/get_avt/' +
+              info['user'];
+          recommendfriend.add(User(
+            avatar: avt,
+            username: info['username'],
+            id: info['user'],
+            commondFriend: info['common_friend']
+          ));
+        }
+      }else{
+        recommendfriend = [];
       }
     }).catchError((error) {
       print('Error');
