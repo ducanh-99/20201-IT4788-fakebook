@@ -376,6 +376,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
               imageUrl: '',
               timeAgo: '');
           videoData.add(newpost);
+          print(videoData.length);
         }
       } else {
         videoData = [];

@@ -8,6 +8,7 @@ import 'package:facebook/data/source/localdatasource/data.dart';
 import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -16,12 +17,37 @@ class WatchTab extends StatefulWidget {
   _WatchTabState createState() => _WatchTabState();
 }
 
-class _WatchTabState extends State<WatchTab> {
+class _WatchTabState extends State<WatchTab>{
 
+
+
+  RefreshController _refreshController =
+  RefreshController(initialRefresh: false);
+  bool run;
+  void _onRefresh() async {
+    // monitor network fetch
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
+    setState(() {
+
+    });
+  }
+
+  void _onLoading() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000), () async {
+      PostBloc postBloc= PostBloc();
+      await postBloc.apiGetAllVideo();
+    });
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    if (mounted) setState(() {});
+    print('up');
+    _refreshController.loadComplete();
+  }
 
   List<VideoPlayerController> list =[];
   @override
-  void initState() {
+  void initState()  {
     super.initState();
   }
 
@@ -32,16 +58,17 @@ class _WatchTabState extends State<WatchTab> {
         return 'Data Loaded';
       },
     );
-
-    PostBloc postBloc=PostBloc();
+    PostBloc postBloc= PostBloc();
     await postBloc.apiGetAllVideo();
-    print(videoData.length);
-    for(var post in videoData){
-      print(post.video);
-
-    }
     return _calculation;
   }
+
+  Future<String> _calculation = Future<String>.delayed(
+    Duration(seconds: 1),
+        () async {
+      return 'Data Loaded';
+    },
+  );
 
   @override
   void dispose() {
@@ -74,7 +101,15 @@ class _WatchTabState extends State<WatchTab> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: SmartRefresher(
+    controller: _refreshController,
+    onRefresh: _onRefresh,
+    onLoading: _onLoading,
+    header: MaterialClassicHeader(),
+    footer: ClassicFooter(),
+    enablePullDown: true,
+    enablePullUp: true,
+    child: SingleChildScrollView(
         controller: controller,
         child: FutureBuilder(
         future: waitApi(),
@@ -108,6 +143,7 @@ class _WatchTabState extends State<WatchTab> {
         },
       ),
     ),
+      ),
     );
   }
 
