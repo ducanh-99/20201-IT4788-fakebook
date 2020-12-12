@@ -101,11 +101,6 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                   overflow: TextOverflow.visible,
                   style:
                       TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold))),
-          // Text(user.username,
-          //     overflow: TextOverflow.ellipsis,
-          //     style: TextStyle(
-          //         fontSize: 16.0, fontWeight: FontWeight.bold)
-          // )
         ],
       ),
       onTap: () {
@@ -247,7 +242,7 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                         children: <Widget>[
                           Icon(Icons.phone, color: Colors.grey, size: 30.0),
                           SizedBox(width: 10.0),
-                          Text(currentUser.phone,
+                          Text(currentUser.phone == null ? "" : currentUser.phone,
                               style: TextStyle(fontSize: 16.0))
                         ],
                       ),
@@ -328,7 +323,7 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                           )
                         ],
                       ),
-                      Padding(
+                      listFriends.length >= 1 ? Padding(
                         padding: const EdgeInsets.only(top: 15.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -365,45 +360,60 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                                   ),
                           ],
                         ),
-                      ),
-                      listFriends.length >= 4 ?  Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            listFriends.length >= 4
-                                ? widgetFriend(listFriends[3])
-                                : SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.width / 3 -
-                                            10,
-                                    width:
-                                        MediaQuery.of(context).size.width / 3 -
-                                            20,
-                                  ),
-                            listFriends.length >= 5
-                                ? widgetFriend(listFriends[4])
-                                : SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.width / 3 -
-                                            10,
-                                    width:
-                                        MediaQuery.of(context).size.width / 3 -
-                                            20,
-                                  ),
-                            listFriends.length >= 6
-                                ? widgetFriend(listFriends[5])
-                                : SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.width / 3 -
-                                            10,
-                                    width:
-                                        MediaQuery.of(context).size.width / 3 -
-                                            20,
-                                  ),
-                          ],
-                        ),
                       ) : SizedBox(),
+                      listFriends.length >= 4
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 15.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  listFriends.length >= 4
+                                      ? widgetFriend(listFriends[3])
+                                      : SizedBox(
+                                          height: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3 -
+                                              10,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3 -
+                                              20,
+                                        ),
+                                  listFriends.length >= 5
+                                      ? widgetFriend(listFriends[4])
+                                      : SizedBox(
+                                          height: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3 -
+                                              10,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3 -
+                                              20,
+                                        ),
+                                  listFriends.length >= 6
+                                      ? widgetFriend(listFriends[5])
+                                      : SizedBox(
+                                          height: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3 -
+                                              10,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3 -
+                                              20,
+                                        ),
+                                ],
+                              ),
+                            )
+                          : SizedBox(),
                       InkWell(
                         child: Container(
                           margin: EdgeInsets.symmetric(vertical: 15.0),
@@ -597,7 +607,7 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                         children: <Widget>[
                           Icon(Icons.phone, color: Colors.grey, size: 30.0),
                           SizedBox(width: 10.0),
-                          Text(currentUser.phone,
+                          Text(currentUser.phone == null ? "" : currentUser.phone,
                               style: TextStyle(fontSize: 16.0))
                         ],
                       ),
