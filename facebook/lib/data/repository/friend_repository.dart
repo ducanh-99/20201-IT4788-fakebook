@@ -9,6 +9,7 @@ abstract class FriendRespository {
   SendFriendRequest(String userId);
   unfriend(String userId);
   getRecommendFriend();
+  undoFriendRequest(String userId);
 }
 
 class FriendResposityImpl implements FriendRespository {
@@ -53,4 +54,10 @@ class FriendResposityImpl implements FriendRespository {
   unfriend(String userId) async{
     await _friendRemotedatasource.apiUnfriend(userId);
   }
+
+  @override
+  undoFriendRequest(String userId) async {
+    await _friendRemotedatasource.apiUndoFriendRequest(userId);
+  }
+
 }
