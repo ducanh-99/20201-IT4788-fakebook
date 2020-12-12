@@ -22,7 +22,7 @@ class _NavScreenState extends State<NavScreen> {
     HomeScreenMobile(),
     FriendsTab(),
     WatchTab(),
-    ProfileTab(),
+    ProfileCurrentUser(),
     NotificationsTab(),
     MenuTab(),
   ];
