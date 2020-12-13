@@ -22,7 +22,7 @@ class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin{
   final User user;
 
   TextEditingController _sendMessageController = new TextEditingController();
-  BottomMessageSheet bottomMessageSheet = new BottomMessageSheet();
+  // BottomMessageSheet bottomMessageSheet = new BottomMessageSheet(user: this.user);
 
   _ChatPageState(this.user);
 
@@ -222,7 +222,7 @@ class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin{
             ),
           ),
         ),
-        bottomSheet: bottomMessageSheet,
+        bottomSheet: BottomMessageSheet(user: this.user,),
       ),
     );
   }
@@ -397,9 +397,17 @@ class ChatBubble extends StatelessWidget {
 }
 
 class BottomMessageSheet extends StatefulWidget {
-  final User user=User();
-  const BottomMessageSheet({this.user});
-  // const BottomMessageSheet({Key key, this.user}) : super(key: key);
+  // final String id;
+  //
+  // const AllFriendsScreen({Key key, this.id}) : super(key: key);
+  //
+  // @override
+  // State<StatefulWidget> createState() {
+  //   return _AllFriendsScreen(id);
+  // }
+  final User user;
+  // const BottomMessageSheet({this.user});
+  const BottomMessageSheet({Key key, this.user}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -409,10 +417,9 @@ class BottomMessageSheet extends StatefulWidget {
 
 class _BottomMessageSheet extends State<BottomMessageSheet> {
   TextEditingController _sendMessageController = new TextEditingController();
-  final User user ;
+  final User user;
   ChatBloc _chatBloc = ChatBloc();
   var message;
-
   _BottomMessageSheet(this.user);
   @override
   Widget build(BuildContext context) {
@@ -476,7 +483,7 @@ class _BottomMessageSheet extends State<BottomMessageSheet> {
                       child: TextField(
                         cursorColor: black,
                         controller: _sendMessageController,
-                        onChanged:  (value){
+                        onChanged: (value){
                           message=value;
                         },
                         decoration: InputDecoration(
@@ -489,7 +496,8 @@ class _BottomMessageSheet extends State<BottomMessageSheet> {
                             )),
                         onTap: () {
                           print(user.id);
-                          // _chatBloc.sendMessage(user.id, message);
+                          _chatBloc.sendMessage(user.id, message);
+                          print("da xong");
                         },
                       ),
                     ),

@@ -141,31 +141,35 @@ class ChatRemoteDatasourceImpl implements ChatRemoteDatasource {
 
   @override
   apiSendMessage(String receiverId, String message) async {
-    var response = await http.post(
-      "https://fakebook-20201.herokuapp.com/api/message/" +receiverId,
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-      body: jsonEncode({'text':message}),
-    ).then((value) async {
-      var responseJson = json.decode(value.body);
-      print(responseJson);
-      listConversation[receiverId].listMessage.add(
-          Message(
-            index: responseJson['index'],
-            createAt: responseJson['create'],
-            message: responseJson['text'],
-            isMe: true,
-            profileImg: 'https://fakebook-20201.herokuapp.com/api/get_avt/' + receiverId,
-          )
-      );
+    if( message != null){
+      var response = await http.post(
+        "https://fakebook-20201.herokuapp.com/api/message/" +receiverId,
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({'text':message}),
+      ).then((value) async {
+        var responseJson = json.decode(value.body);
+        print(responseJson);
+        listConversation[receiverId].listMessage.add(
+            Message(
+              index: responseJson['index'],
+              createAt: responseJson['create'],
+              message: responseJson['text'],
+              isMe: true,
+              profileImg: 'https://fakebook-20201.herokuapp.com/api/get_avt/' + receiverId,
+            )
+        );
 
-    }).catchError((error) async {
-      print(error);
-      print('Error');
-    });
+      }).catchError((error) async {
+        print(error);
+        print('Error');
+      });
+    }else{
+      print("Tin nhan trong'");
+    }
   }
 
 
