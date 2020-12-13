@@ -71,6 +71,7 @@ class _CommentScreen extends State<CommentScreen>
 
   Widget postComment(String time, String postComment, String profileName,
       String profileImage) {
+    var avt  = 'http://fakebook-20201.herokuapp.com/api/get_avt/';
     return Padding(
       padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
       child: Row(
@@ -82,8 +83,10 @@ class _CommentScreen extends State<CommentScreen>
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               CircleAvatar(
-                  child: Image.asset(profileImage),
-                  radius: MediaQuery.of(context).size.width * 0.06),
+                radius: 25.0,
+                backgroundImage:
+                CachedNetworkImageProvider(avt + profileImage),
+              ),
               // radius: 20),
             ],
           ),
@@ -299,17 +302,17 @@ class _CommentScreen extends State<CommentScreen>
                 children = <Widget>[
                   for (var comment in commentOfPost)
                     postComment(
-                        '${timeago.format(DateTime.parse(post.createDate), locale: 'vi')} • ',
+                        '${timeago.format(DateTime.parse(comment.createDate), locale: 'vi')} • ',
                         comment.comment,
                         comment.username,
-                        comment.avatar),
+                        comment.userid),
                   SizedBox(height: 20.0)
                 ];
               } else if (snapshot.hasError) {
                 children = <Widget>[
-                  Text('Bạn bè',
-                      style: TextStyle(
-                          fontSize: 21.0, fontWeight: FontWeight.bold)),
+                  // Text('Bạn bè',
+                  //     style: TextStyle(
+                  //         fontSize: 21.0, fontWeight: FontWeight.bold)),
                   SizedBox(height: 15.0),
                   Icon(
                     Icons.error_outline,

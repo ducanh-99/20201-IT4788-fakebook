@@ -181,8 +181,8 @@ class NotificationWidget extends StatelessWidget {
         ),
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (_) {
-            return PostDetailScreen(
-                // post: ,
+            return PostDetail(
+                postId: notification.postId,
                 );
           }));
         },
