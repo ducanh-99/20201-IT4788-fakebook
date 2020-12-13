@@ -38,6 +38,7 @@ class _FriendsTabState extends State<FriendsTab>
           }),
         );
       });
+      await friendBloc.getRecommendFriend();
       return 'Data Loaded';
     });
     // if failed,use refreshFailed()
@@ -61,6 +62,7 @@ class _FriendsTabState extends State<FriendsTab>
           }),
         );
       });
+      await friendBloc.getRecommendFriend();
     });
     // if failed,use loadFailed(),if no data return,use LoadNodata()
     if (mounted) setState(() {});
@@ -90,7 +92,9 @@ class _FriendsTabState extends State<FriendsTab>
           return ErrorConnect();
         }),
       );
+
     });
+    await friendBloc.getRecommendFriend();
     return _calculation;
   }
 
@@ -181,7 +185,15 @@ class _FriendsTabState extends State<FriendsTab>
                   Text('Bạn bè có thể biết',
                       style: TextStyle(
                           fontSize: 19.0, fontWeight: FontWeight.bold)),
-                  SizedBox(height: 20.0),
+                  // SizedBox(height: 20.0),
+                  Column(
+                    children: [
+                      for (User user in recommendfriend)
+                        FriendRecommend(user: user,),
+                    ],
+                  ),
+
+
                   SizedBox(height: 20.0)
                 ];
               } else if (snapshot.hasError) {
@@ -421,9 +433,6 @@ class _FriendsTabState extends State<FriendsTab>
 
 // ignore: must_be_immutable
 class FriendRequestContainer extends StatefulWidget {
-  // final int friendRequest;
-  //
-  // const FriendRequestContainer({Key key, this.friendRequest}) : super(key: key);
   int friendRequest = 1;
 
   @override
@@ -434,50 +443,8 @@ class FriendRequestContainer extends StatefulWidget {
 
 class FriendRequestContainerState extends State<FriendRequestContainer> {
   int friendRequest = listFriendRequests.length;
-  // FriendRequestContainerState(this.friendRequest);
-  // @override
-  // void initState() {
-  //   friendRequest = listFriendRequests.length;
-  //   print("initState");
-  //   super.initState();
-  // }
-
-  // void update(){
-  //   Future.delayed(Duration)
-  // }
-
-  // void updateStateFriendRequestContainer() {
-  //   print("updateStateFriendRequestContainer");
-  //   setState(() {
-  //     friendRequest = listFriendRequests.length;
-  //   });
-  // }
-
-  // @override
-  // void didUpdateWidget(FriendRequestContainer oldWidget) {
-  //   // setState(() {
-  //   //   friendRequest = listFriendRequests.length;
-  //   // });
-  //   // updateStateFriendRequestContainer();
-  //   print("update");
-  //   friendRequest = listFriendRequests.length;
-  //   build(context);
-  //   super.didUpdateWidget(oldWidget);
-  //   setState(() {
-  //     friendRequest = listFriendRequests.length;
-  //   });
-  // }
-
-  // @override
-  // void didChangeDependencies() {
-  //   updateStateFriendRequestContainer();
-  //   print("change");
-  //   super.didChangeDependencies();
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // updateStateFriendRequestContainer();
     friendRequest = listFriendRequests.length;
     print('friendRequest=' + friendRequest.toString());
     return Container(

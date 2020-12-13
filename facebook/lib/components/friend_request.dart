@@ -120,3 +120,124 @@ class _FriendRequestState extends State<FriendRequest> {
     );
   }
 }
+class FriendRecommend extends StatefulWidget {
+  final User user;
+
+  const FriendRecommend({Key key, this.user}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _FriendRecommendState(user);
+  }
+}
+
+class _FriendRecommendState extends State<FriendRecommend> {
+  int isRequest;
+  final User user;
+
+  _FriendRecommendState(this.user);
+  Friend_Bloc _friend_bloc = Friend_Bloc();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isRequest = 0;
+  }
+
+  void _request() {
+    setState(() {
+      isRequest = 1;
+      print('decrement: $isRequest');
+    });
+  }
+  void _undo() {
+    setState(() {
+      isRequest = 0;
+      print('decrement: $isRequest');
+    });
+  }
+  void _delete() {
+    setState(() {
+      isRequest = 2;
+      print('increment: $isRequest');
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var avt = 'https://fakebook-20201.herokuapp.com/api/get_avt/';
+    return isRequest != 2 ? Row(
+      children: <Widget>[
+        CircleAvatar(
+          backgroundImage: CachedNetworkImageProvider(avt + user.id),
+          radius: 30.0,
+        ),
+        SizedBox(width: 20.0),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(user.username,
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+            SizedBox(height: 10.0),
+             Row(
+              children: <Widget>[
+                isRequest == 0
+                    ?  InkWell(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 10.0),
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(5.0)),
+                    child: Text('Thêm bạn bè',
+                        style: TextStyle(
+                            color: Colors.white, fontSize: 15.0)),
+                  ),
+                  onTap: () {
+                    _friend_bloc.SendFriendRequest(user.id);
+                    _request();
+                  },
+                ) : InkWell(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 10.0),
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(5.0)),
+                    child: Text('Hủy lời mời',
+                        style: TextStyle(
+                            color: Colors.white, fontSize: 15.0)),
+                  ),
+                  onTap: () {
+                    _friend_bloc.undoFriendRequest(user.id);
+                    _undo();
+                  },
+                ),
+                SizedBox(width: 10.0),
+                InkWell(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 10.0),
+                    decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(5.0)),
+                    child: Text('Gỡ',
+                        style: TextStyle(
+                            color: Colors.black, fontSize: 15.0)),
+                  ),
+                  onTap: () {
+                    _delete();
+                  },
+                ),
+              ],
+            )
+            ,
+            SizedBox(height: 15.0),
+          ],
+        ),
+        // SizedBox(height: 20.0),
+      ],
+    ) : SizedBox();
+  }
+}
