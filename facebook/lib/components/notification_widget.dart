@@ -161,7 +161,6 @@ class _NotificationWidget extends State<NotificationWidget> {
         onTap: () {
           _read();
           print("an neee");
-          setState(() {});
           NotificationBloc notificationBloc = new NotificationBloc();
           // notificationBloc.r
           // Navigator.push(context, MaterialPageRoute(builder: (_) {
