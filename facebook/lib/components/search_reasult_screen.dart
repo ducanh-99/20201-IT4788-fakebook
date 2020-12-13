@@ -75,143 +75,215 @@ class _SearchResultScreen extends State<SearchResultScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SmartRefresher(
-        controller: _refreshController,
-        onRefresh: _onRefresh,
-        onLoading: _onLoading,
-        header: MaterialClassicHeader(),
-        footer: ClassicFooter(),
-        enablePullDown: true,
-        enablePullUp: true,
-        child: SingleChildScrollView(
-          child: FutureBuilder<String>(
-            future: waitApi(),
-            builder: (context, snapshot) {
-              List<Widget> children;
-              if (snapshot.hasData) {
-                children = <Widget>[
-                  Row(
-                    children: <Widget>[
-                      FlatButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: kPrimaryColor,
-                          )),
-                      Text(search, style: TextStyle(fontSize: 30)),
-                    ],
-                  ),
-
-                  Container(
-                    child: Column(
-                      children: [
-                        Divider(height: 30.0),
-                        searchResult.length == 0
-                            ? SizedBox(height: 10)
-                            : ListBody(
-                                children:
-                                    List.generate(searchResult.length, (index) {
-                                  String string = historySearch[index];
-                                  return InkWell(
-                                    child: PostContainer(
-                                         searchResult[index]
-                                    ),
-                                    onTap: () {},
-                                  );
-                                }),
-                              )
-                      ],
-                    ),
-                  ),
-
-                  // Container(
-                  //   height: 10000,
-                  //   child: CupertinoScrollbar(
-
-                  //     child: ListView.builder(
-                  //       itemCount:
-                  //           searchResult.length > 20 ? 20 : searchResult.length,
-                  //       itemBuilder: (context, index) {
-                  //         return PostContainer(post: searchResult[index]);
-                  //       },
-                  //     ),
-                  //   ),
-                  //   // Text('User', style: TextStyle(fontSize: 25)),
-                  //   // for (var user in searchUser) FriendSearch(user: user),
-                  //   // Text('Post', style: TextStyle(fontSize: 25)),
-                  //   // for (var data in searchResult) PostContainer(post: data),
-                  // ),
-                ];
-              } else if (snapshot.hasError) {
-                children = <Widget>[
-                  Row(
-                    children: <Widget>[
-                      FlatButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: kPrimaryColor,
-                          )),
-                      Text(search),
-                    ],
-                  ),
-                  Icon(
-                    Icons.error_outline,
-                    color: Colors.red,
-                    size: 60,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: Text('Error: ${snapshot.error}'),
-                  ),
-                ];
-              } else {
-                children = <Widget>[
-                  Row(
-                    children: <Widget>[
-                      FlatButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: kPrimaryColor,
-                          )),
-                      Text(search),
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        child: CircularProgressIndicator(),
-                        width: 40,
-                        height: 40,
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 16),
-                  )
-                ];
-              }
-              return Container(
-                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: children,
-                ),
-              );
-            },
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(search, style: TextStyle(fontSize: 30)),
+          bottom: TabBar(
+            tabs: <Widget>[
+              Tab(
+                text: "Bài viết",
+              ),
+              Tab(
+                text: "Người dùng",
+              ),
+            ],
           ),
         ),
+        body: TabBarView(children: <Widget>[
+          SmartRefresher(
+            controller: _refreshController,
+            onRefresh: _onRefresh,
+            onLoading: _onLoading,
+            header: MaterialClassicHeader(),
+            footer: ClassicFooter(),
+            enablePullDown: true,
+            enablePullUp: true,
+            child: SingleChildScrollView(
+              child: FutureBuilder<String>(
+                future: waitApi(),
+                builder: (context, snapshot) {
+                  List<Widget> children;
+                  if (snapshot.hasData) {
+                    children = <Widget>[
+                      Container(
+                        child: Column(
+                          children: [
+                            searchResult.length == 0
+                                ? SizedBox(height: 10)
+                                : ListBody(
+                                    children: List.generate(searchResult.length,
+                                        (index) {
+                                      String string = historySearch[index];
+                                      return InkWell(
+                                        child:
+                                            PostContainer(searchResult[index]),
+                                        onTap: () {},
+                                      );
+                                    }),
+                                  )
+                          ],
+                        ),
+                      ),
+
+                      // Container(
+                      //   height: 10000,
+                      //   child: CupertinoScrollbar(
+
+                      //     child: ListView.builder(
+                      //       itemCount:
+                      //           searchResult.length > 20 ? 20 : searchResult.length,
+                      //       itemBuilder: (context, index) {
+                      //         return PostContainer(post: searchResult[index]);
+                      //       },
+                      //     ),
+                      //   ),
+                      //   // Text('User', style: TextStyle(fontSize: 25)),
+                      //   // for (var user in searchUser) FriendSearch(user: user),
+                      //   // Text('Post', style: TextStyle(fontSize: 25)),
+                      //   // for (var data in searchResult) PostContainer(post: data),
+                      // ),
+                    ];
+                  } else if (snapshot.hasError) {
+                    children = <Widget>[
+                      Icon(
+                        Icons.error_outline,
+                        color: Colors.red,
+                        size: 60,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Text('Error: ${snapshot.error}'),
+                      ),
+                    ];
+                  } else {
+                    children = <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            child: CircularProgressIndicator(),
+                            width: 40,
+                            height: 40,
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 16),
+                      )
+                    ];
+                  }
+                  return Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: children,
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          SmartRefresher(
+            controller: _refreshController,
+            onRefresh: _onRefresh,
+            onLoading: _onLoading,
+            header: MaterialClassicHeader(),
+            footer: ClassicFooter(),
+            enablePullDown: true,
+            enablePullUp: true,
+            child: SingleChildScrollView(
+              child: FutureBuilder<String>(
+                future: waitApi(),
+                builder: (context, snapshot) {
+                  List<Widget> children;
+                  if (snapshot.hasData) {
+                    children = <Widget>[
+                      Container(
+                        child: Column(
+                          children: [
+                            searchUser.length == 0
+                                ? SizedBox(height: 10)
+                                : ListBody(
+                                    children: List.generate(searchUser.length,
+                                        (index) {
+                                      return InkWell(
+                                        child: FriendSearch(
+                                            user: searchUser[index]),
+                                        onTap: () {},
+                                      );
+                                    }),
+                                  )
+                          ],
+                        ),
+                      ),
+
+                      // Container(
+                      //   height: 10000,
+                      //   child: CupertinoScrollbar(
+
+                      //     child: ListView.builder(
+                      //       itemCount:
+                      //           searchResult.length > 20 ? 20 : searchResult.length,
+                      //       itemBuilder: (context, index) {
+                      //         return PostContainer(post: searchResult[index]);
+                      //       },
+                      //     ),
+                      //   ),
+                      //   // Text('User', style: TextStyle(fontSize: 25)),
+                      //   // for (var user in searchUser) FriendSearch(user: user),
+                      //   // Text('Post', style: TextStyle(fontSize: 25)),
+                      //   // for (var data in searchResult) PostContainer(post: data),
+                      // ),
+                    ];
+                  } else if (snapshot.hasError) {
+                    children = <Widget>[
+                      Icon(
+                        Icons.error_outline,
+                        color: Colors.red,
+                        size: 60,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Text('Error: ${snapshot.error}'),
+                      ),
+                    ];
+                  } else {
+                    children = <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            child: CircularProgressIndicator(),
+                            width: 40,
+                            height: 40,
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 16),
+                      )
+                    ];
+                  }
+                  return Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: children,
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ]),
       ),
     );
   }
