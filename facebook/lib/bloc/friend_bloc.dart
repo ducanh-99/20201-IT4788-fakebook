@@ -40,4 +40,7 @@ class Friend_Bloc {
   unfriend(String userId) async{
     await friendRespository.unfriend(userId);
   }
+  undoFriendRequest(String userId) async {
+    await friendRespository.undoFriendRequest(userId);
+  }
 }

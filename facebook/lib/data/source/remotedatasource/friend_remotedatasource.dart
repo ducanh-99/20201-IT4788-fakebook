@@ -18,6 +18,7 @@ abstract class FriendRemotedatasource {
   apiSendFriendRequest(String userId);
   apiUnfriend(String userId);
   apiGetRecommendFriend();
+  apiUndoFriendRequest(String userId);
 }
 
 class FriendRemotedatasourceImpl implements FriendRemotedatasource {
@@ -218,6 +219,27 @@ class FriendRemotedatasourceImpl implements FriendRemotedatasource {
         }
       }else{
         recommendfriend = [];
+      }
+    }).catchError((error) {
+      print('Error');
+      print(error);
+    });
+  }
+
+  @override
+  apiUndoFriendRequest(String userId) async{
+    var response = await http.get(
+      'https://fakebook-20201.herokuapp.com/api/undo/' + userId,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    ).then((value) {
+      var responseJson = json.decode(value.body);
+      print(responseJson);
+      if (responseJson['code'] == 1000) {
+        print("Undo friend succesfully");
       }
     }).catchError((error) {
       print('Error');
