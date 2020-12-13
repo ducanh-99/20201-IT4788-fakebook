@@ -138,6 +138,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
         isFriend: responseJson['is_friend'],
         avatar: 'https://fakebook-20201.herokuapp.com/api/get_avt/' +
             responseJson['id'],
+        phone: responseJson['phonenumber']
       );
       print(userProfile.username);
     }).catchError((error) {

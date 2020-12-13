@@ -4,3 +4,4 @@ export 'post_model.dart';
 export 'comment_model.dart';
 export 'user_notification.dart';
 export 'conversation_model.dart';
+export 'message_model.dart';

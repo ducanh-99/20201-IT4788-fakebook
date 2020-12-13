@@ -113,12 +113,12 @@ class _ChatPageState extends State<ChatPage> {
   Widget getBody() {
     return ListView(
       padding: EdgeInsets.only(right: 20, left: 20, top: 20, bottom: 80),
-      children: List.generate(messages.length, (index) {
+      children: List.generate(listConversation[user.id].listMessage.length  , (index) {
         return ChatBubble(
-            isMe: messages[index]['isMe'],
-            messageType: messages[index]['messageType'],
-            message: messages[index]['message'],
-            profileImg: messages[index]['profileImg']);
+            isMe: listConversation[user.id].listMessage[index].isMe,
+            message: listConversation[user.id].listMessage[index].message,
+            profileImg: listConversation[user.id].listMessage[index].profileImg
+        );
       }),
     );
   }
@@ -128,14 +128,15 @@ class ChatBubble extends StatelessWidget {
   final bool isMe;
   final String profileImg;
   final String message;
-  final int messageType;
-
+  final String createAt;
+  final int index;
   const ChatBubble({
     Key key,
     this.isMe,
     this.profileImg,
     this.message,
-    this.messageType,
+    this.createAt,
+    this.index,
   }) : super(key: key);
 
   @override
@@ -149,7 +150,7 @@ class ChatBubble extends StatelessWidget {
             Flexible(
               child: Container(
                 decoration: BoxDecoration(
-                    color: kPrimaryColor, borderRadius: getMessageType(messageType)),
+                    color: kPrimaryColor, borderRadius: getMessageType()),
                 child: Padding(
                   padding: const EdgeInsets.all(13.0),
                   child: Text(
@@ -182,7 +183,7 @@ class ChatBubble extends StatelessWidget {
             Flexible(
               child: Container(
                 decoration: BoxDecoration(
-                    color: grey, borderRadius: getMessageType(messageType)),
+                    color: grey, borderRadius: getMessageType()),
                 child: Padding(
                   padding: const EdgeInsets.all(13.0),
                   child: Text(
@@ -198,67 +199,67 @@ class ChatBubble extends StatelessWidget {
     }
   }
 
-  getMessageType(messageType) {
+  getMessageType() {
     if (isMe) {
       // start message
-      if (messageType == 1) {
-        return BorderRadius.only(
-            topRight: Radius.circular(30),
-            bottomRight: Radius.circular(5),
-            topLeft: Radius.circular(30),
-            bottomLeft: Radius.circular(30));
-      }
+      // if (messageType == 1) {
+      //   return BorderRadius.only(
+      //       topRight: Radius.circular(30),
+      //       bottomRight: Radius.circular(5),
+      //       topLeft: Radius.circular(30),
+      //       bottomLeft: Radius.circular(30));
+      // }
       // middle message
-      else if (messageType == 2) {
-        return BorderRadius.only(
-            topRight: Radius.circular(5),
-            bottomRight: Radius.circular(5),
-            topLeft: Radius.circular(30),
-            bottomLeft: Radius.circular(30));
-      }
+      // else if (messageType == 2) {
+      //   return BorderRadius.only(
+      //       topRight: Radius.circular(5),
+      //       bottomRight: Radius.circular(5),
+      //       topLeft: Radius.circular(30),
+      //       bottomLeft: Radius.circular(30));
+      // }
       // end message
-      else if (messageType == 3) {
-        return BorderRadius.only(
-            topRight: Radius.circular(5),
-            bottomRight: Radius.circular(30),
-            topLeft: Radius.circular(30),
-            bottomLeft: Radius.circular(30));
-      }
+      // else if (messageType == 3) {
+      //   return BorderRadius.only(
+      //       topRight: Radius.circular(5),
+      //       bottomRight: Radius.circular(30),
+      //       topLeft: Radius.circular(30),
+      //       bottomLeft: Radius.circular(30));
+      // }
       // standalone message
-      else {
+      // else {
         return BorderRadius.all(Radius.circular(30));
-      }
+      // }
     }
     // for sender bubble
     else {
       // start message
-      if (messageType == 1) {
-        return BorderRadius.only(
-            topLeft: Radius.circular(30),
-            bottomLeft: Radius.circular(5),
-            topRight: Radius.circular(30),
-            bottomRight: Radius.circular(30));
-      }
-      // middle message
-      else if (messageType == 2) {
-        return BorderRadius.only(
-            topLeft: Radius.circular(5),
-            bottomLeft: Radius.circular(5),
-            topRight: Radius.circular(30),
-            bottomRight: Radius.circular(30));
-      }
-      // end message
-      else if (messageType == 3) {
-        return BorderRadius.only(
-            topLeft: Radius.circular(5),
-            bottomLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-            bottomRight: Radius.circular(30));
-      }
-      // standalone message
-      else {
+      // if (messageType == 1) {
+      //   return BorderRadius.only(
+      //       topLeft: Radius.circular(30),
+      //       bottomLeft: Radius.circular(5),
+      //       topRight: Radius.circular(30),
+      //       bottomRight: Radius.circular(30));
+      // }
+      // // middle message
+      // else if (messageType == 2) {
+      //   return BorderRadius.only(
+      //       topLeft: Radius.circular(5),
+      //       bottomLeft: Radius.circular(5),
+      //       topRight: Radius.circular(30),
+      //       bottomRight: Radius.circular(30));
+      // }
+      // // end message
+      // else if (messageType == 3) {
+      //   return BorderRadius.only(
+      //       topLeft: Radius.circular(5),
+      //       bottomLeft: Radius.circular(30),
+      //       topRight: Radius.circular(30),
+      //       bottomRight: Radius.circular(30));
+      // }
+      // // standalone message
+      // else {
         return BorderRadius.all(Radius.circular(30));
-      }
+      // }
     }
   }
 }
