@@ -164,13 +164,9 @@ class ActionRemoteDatasourceImpl implements ActionRemoteDatasource {
               content: noti['text'],
               postId: noti['post_id'],
               read: noti['read'],
-<<<<<<< HEAD
-              time: noti['create']);
-=======
               time: noti['create'],
               index: noti['index']
               );
->>>>>>> 82a7bd737683a9fe193ca654cb312c82cffb8f38
           notifications.add(newnoti);
         }
       } else {
