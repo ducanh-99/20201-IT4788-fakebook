@@ -87,7 +87,7 @@ class FriendWidget extends StatelessWidget {
                       ),
                       onTap: () {
                         Friend_Bloc friend = new Friend_Bloc();
-                        // friend.BlockFriend(user.id);
+                        friend.unfriend(user.id);
                         Navigator.of(context).pop();
                       },
                     )
@@ -141,9 +141,6 @@ class FriendWidget extends StatelessWidget {
                             }));
                           },
                         ),
-                        // Text(notification.content,
-                        //     style: TextStyle(
-                        //         fontSize: 17.0, fontWeight: FontWeight.bold)),
                         Text('1 bạn chung',
                             style:
                                 TextStyle(fontSize: 15.0, color: Colors.grey)),

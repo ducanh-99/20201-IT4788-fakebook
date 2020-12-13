@@ -400,7 +400,6 @@ class _ProfileUser extends State<ProfileUser>
     await friend_bloc.getListFriend(id);
     PostBloc postBloc = new PostBloc();
     await postBloc.getAllPostOfUser(id);
-    print('asdfbasd');
 
     return _calculation;
   }
@@ -515,28 +514,6 @@ class _ProfileUser extends State<ProfileUser>
                                     }));
                                   },
                                 ),
-                                // Positioned(
-                                //   top: 100,
-                                //   left: 100,
-                                //   child: Container(
-                                //       width: 40,
-                                //       height: 40,
-                                //       padding: const EdgeInsets.all(2.0),
-                                //       decoration: BoxDecoration(
-                                //         color: kPrimaryLightColor,
-                                //         shape: BoxShape.circle,
-                                //       ),
-                                //       child: InkWell(
-                                //         child: const Icon(
-                                //           Icons.camera_alt,
-                                //           size: 20.0,
-                                //           color: kBlack,
-                                //         ),
-                                //         onTap: () {
-                                //           print("thay ảnh đại diện");
-                                //         },
-                                //       )),
-                                // ),
                               ],
                             ),
                             SizedBox(height: 20.0),
@@ -546,7 +523,7 @@ class _ProfileUser extends State<ProfileUser>
                                     fontWeight: FontWeight.bold)),
                             SizedBox(height: 20.0),
                           // userProfile.isFriend ?
-                          Row(
+                         userProfile.isFriend ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 Container(
@@ -557,9 +534,10 @@ class _ProfileUser extends State<ProfileUser>
                                       borderRadius: BorderRadius.circular(5.0)),
                                   child: Center(
                                       child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Icon(MdiIcons.facebookMessenger),
-                                          Text('Nhắn tin',
+                                          Icon(MdiIcons.facebookMessenger, color: textColor,),
+                                          Text(' Nhắn tin',
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold,
@@ -577,7 +555,49 @@ class _ProfileUser extends State<ProfileUser>
                                   child: Icon(Icons.more_horiz),
                                 )
                               ],
-                            )
+                            ) : Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                           children: <Widget>[
+                             InkWell(
+                               child: Container(
+                                 height: 40.0,
+                                 width: MediaQuery.of(context).size.width - 80,
+                                 decoration: BoxDecoration(
+                                     color: Colors.blue,
+                                     borderRadius: BorderRadius.circular(5.0)),
+                                 child: Center(
+                                     child: Row(
+                                       mainAxisAlignment: MainAxisAlignment.center,
+                                       children: [
+                                         Icon(Icons.person_add,color: textColor,),
+                                         Text(' Kết bạn',
+                                             style: TextStyle(
+                                                 color: Colors.white,
+                                                 fontWeight: FontWeight.bold,
+                                                 fontSize: 16.0))
+                                       ],
+                                     )
+                                 ),
+                               ),
+                               onTap: (){
+                                 Friend_Bloc friend = new Friend_Bloc();
+                                 friend.SendFriendRequest(id);
+                               },
+                             ),
+                             InkWell(
+                               child: Container(
+                                 height: 40.0,
+                                 width: 45.0,
+                                 decoration: BoxDecoration(
+                                     color: Colors.grey[300],
+                                     borderRadius: BorderRadius.circular(5.0)),
+                                 child: Icon(Icons.more_horiz),
+                               ),
+                             ),
+
+
+                           ],
+                         )
                           //     : Row(
                           //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           //   children: <Widget>[
@@ -628,7 +648,7 @@ class _ProfileUser extends State<ProfileUser>
                         //         style: TextStyle(fontSize: 16.0))
                         //   ],
                         // ),
-                        SizedBox(height: 15.0),
+                        // SizedBox(height: 15.0),
                         Row(
                           children: <Widget>[
                             Icon(Icons.calendar_today,
