@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:facebook/Screens/Messenger/components/chat_page.dart';
 import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:facebook/components/components.dart';
 import 'package:facebook/constants.dart';
@@ -246,7 +247,14 @@ class FriendWidget extends StatelessWidget {
                           'Nhắn tin cho ' + friend.username,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return ChatPage(user: friend,);
+                            }),
+                          );
+                        },
                       ),
                       ListTile(
                         leading: Icon(Icons.block),

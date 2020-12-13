@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:facebook/Screens/Home/all_friends_tab.dart';
+import 'package:facebook/Screens/Messenger/components/chat_page.dart';
 import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:facebook/bloc/post_bloc.dart';
 import 'package:facebook/components/components.dart';
@@ -203,28 +204,39 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              Container(
-                                height: 40.0,
-                                width: MediaQuery.of(context).size.width - 80,
-                                decoration: BoxDecoration(
-                                    color: Colors.blue,
-                                    borderRadius: BorderRadius.circular(5.0)),
-                                child: Center(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          MdiIcons.facebookMessenger,
-                                          color: textColor,
-                                        ),
-                                        Text(' Nhắn tin',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16.0))
-                                      ],
-                                    )),
+                              InkWell(
+                                child: Container(
+                                  height: 40.0,
+                                  width: MediaQuery.of(context).size.width - 80,
+                                  decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.circular(5.0)),
+                                  child: Center(
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            MdiIcons.facebookMessenger,
+                                            color: textColor,
+                                          ),
+                                          Text(' Nhắn tin',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16.0))
+                                        ],
+                                      )),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return ChatPage(user: currentUser,);
+                                    }),
+                                  );
+                                },
                               ),
+
                               Container(
                                 height: 40.0,
                                 width: 45.0,
@@ -557,27 +569,37 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              Container(
-                                height: 40.0,
-                                width: MediaQuery.of(context).size.width - 80,
-                                decoration: BoxDecoration(
-                                    color: Colors.blue,
-                                    borderRadius: BorderRadius.circular(5.0)),
-                                child: Center(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          MdiIcons.facebookMessenger,
-                                          color: textColor,
-                                        ),
-                                        Text(' Nhắn tin',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16.0))
-                                      ],
-                                    )),
+                              InkWell(
+                                child: Container(
+                                  height: 40.0,
+                                  width: MediaQuery.of(context).size.width - 80,
+                                  decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.circular(5.0)),
+                                  child: Center(
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            MdiIcons.facebookMessenger,
+                                            color: textColor,
+                                          ),
+                                          Text(' Nhắn tin',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16.0))
+                                        ],
+                                      )),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return ChatPage(user: currentUser,);
+                                    }),
+                                  );
+                                },
                               ),
                               Container(
                                 height: 40.0,
