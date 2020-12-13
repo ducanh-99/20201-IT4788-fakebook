@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook/Screens/Home/all_friends_tab.dart';
+import 'package:facebook/Screens/Home/setup.dart';
 import 'package:facebook/Screens/Messenger/components/chat_page.dart';
 import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:facebook/bloc/post_bloc.dart';
@@ -487,9 +488,7 @@ class _ProfileUser extends State<ProfileUser>
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) {
-                                                  return ChatPage(
-                                                    user: userProfile,
-                                                  );
+                                                  return SetupUser(user: userProfile,);
                                                 }),
                                               );
                                             },
@@ -598,12 +597,12 @@ class _ProfileUser extends State<ProfileUser>
                                               child: Icon(Icons.more_horiz),
                                             ),
                                             onTap: () {
-                                              // Navigator.push(
-                                              //   context,
-                                              //   MaterialPageRoute(builder: (context) {
-                                              //     return ChatPage(user: userProfile,);
-                                              //   }),
-                                              // );
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(builder: (context) {
+                                                  return SetupUser(user: userProfile,);
+                                                }),
+                                              );
                                             },
                                           ),
                                         ],
@@ -683,7 +682,7 @@ class _ProfileUser extends State<ProfileUser>
                           ],
                         ),
                         SizedBox(height: 15.0),
-                        InkWell(
+                       id== currentUser.id ? InkWell(
                           child: Container(
                             height: 40.0,
                             decoration: BoxDecoration(
@@ -700,7 +699,7 @@ class _ProfileUser extends State<ProfileUser>
                           onTap: () {
                             // print();
                           },
-                        )
+                        ) : SizedBox(),
                       ],
                     ),
                   ),
@@ -1023,12 +1022,12 @@ class _ProfileUser extends State<ProfileUser>
                                     child: Icon(Icons.more_horiz),
                                   ),
                                   onTap: () {
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(builder: (context) {
-                                    //     return ChatPage(user: userProfile,);
-                                    //   }),
-                                    // );
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) {
+                                        return SetupUser(user: userProfile,);
+                                      }),
+                                    );
                                   },
                                 ),
                               ],
