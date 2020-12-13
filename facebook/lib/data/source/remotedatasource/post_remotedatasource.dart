@@ -25,6 +25,7 @@ List<Post> post_res;
 
 abstract class PostRemoteDatasource {
   apiGetAllPost();
+  apiGetPostById(String postId);
   apiGetAllPostOfUser(String userId);
   apiUploadPost(String token, String described, File image, Function onSuccess,
       Function onError);
@@ -386,6 +387,48 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       print(error);
       print('Error');
       // return List<Post>();
+    });
+  }
+
+  @override
+  apiGetPostById(String postId)  async {
+    var response = await http
+        .get(
+      "https://fakebook-20201.herokuapp.com/api/post/" + postId,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    )
+        .then((value) async {
+      var responseJson = json.decode(value.body);
+      if (responseJson['code'] == 1000) {
+        choosePost= null;
+        choosePost = Post(
+            id: responseJson['data']['id'],
+            isliked: responseJson['data']['is_liked'],
+            described: responseJson['data']['described'],
+            userid: responseJson['data']['owner']['user'],
+            username: responseJson['data']['owner']['username'],
+            likes: responseJson['data']['like'],
+            comments: responseJson['data']['comment'],
+            createDate: responseJson['data']['creation_date'],
+            video: responseJson['data']['video'] != null
+                ? 'https://fakebook-20201.herokuapp.com/api/video/' +
+                responseJson['data']['id']
+                : '',
+            imageUrl: '',
+            timeAgo: ''
+
+        );
+      } else {
+          choosePost = null;
+          print("Không tìm thấy bài viết");
+      }
+      print(responseJson);
+    }).catchError((error) {
+      print('Error');
     });
   }
 }

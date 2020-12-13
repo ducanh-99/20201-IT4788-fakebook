@@ -26,6 +26,7 @@ class ChatRemoteDatasourceImpl implements ChatRemoteDatasource {
         print(responseJson);
         listConversation = {};
         for (var conversation in responseJson) {
+          if(conversation[''])
           listConversation[conversation['received']['user']] =Conversation(
                   conversationId: conversation['id'],
                   lastMessage: conversation['last_messages'][0]['text'],

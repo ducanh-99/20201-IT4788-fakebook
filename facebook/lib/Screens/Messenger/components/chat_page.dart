@@ -166,12 +166,20 @@ class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin{
                   children = <Widget>[
                     Column(
                       children: [
-                        for  (Message message in listConversation[user.id].listMessage)
+                        if(listConversation[user.id].listMessage != null)
+                          for  (Message message in listConversation[user.id].listMessage)
+                            ChatBubble(
+                                isMe: message.isMe,
+                                message: message.message,
+                                profileImg: message.profileImg
+                            )
+                        else
                           ChatBubble(
-                              isMe: message.isMe,
-                              message: message.message,
-                              profileImg: message.profileImg
+                              isMe: true,
+                              message: "Bạn và ${user.username} chưa nhắn tin với nhau ",
+                              profileImg: ""
                           )
+
                       ],
                     )
                   ];
@@ -192,11 +200,11 @@ class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin{
                   children = <Widget>[
                     Column(
                       children: [
-                        for  (Message message in listConversation[user.id].listMessage)
+                        // for  (Message message in listConversation[user.id].listMessage)
                           ChatBubble(
-                              isMe: message.isMe,
-                              message: message.message,
-                              profileImg: message.profileImg
+                              isMe: true,
+                              message: "Đang chờ load tin nhắn",
+                              profileImg: ""
                           )
                       ],
                     )
