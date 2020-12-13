@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
@@ -72,7 +73,8 @@ class _FriendSearch extends State<FriendSearch> {
                                   color: Colors.white, fontSize: 15.0)),
                         ),
                         onTap: () {
-                          print('Thêm bạn bè');
+                          Friend_Bloc _friendBloc= Friend_Bloc();
+                          _friendBloc.SendFriendRequest(user.id);
                         },
                       ),
                     ],

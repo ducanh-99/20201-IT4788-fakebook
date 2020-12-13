@@ -8,6 +8,7 @@ import 'package:tiengviet/tiengviet.dart';
 import '../../constants.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:toast/toast.dart';
+import 'package:facebook/Screens/Home/edit_profile.dart';
 class Setup extends StatelessWidget {
 
   @override
@@ -49,7 +50,16 @@ class Setup extends StatelessWidget {
                 leading: Icon(MdiIcons.pencilOutline),
                 title: Text('Chỉnh sửa trang cá nhân',
                     style: TextStyle(fontSize: 16.0)),
-                onTap: () => {},
+                onTap: () => {
+                print("Chuyen den chỉnh sửa trang cá nhân"),
+                Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) {
+                return EditProfile();
+                }),
+                )
+
+                },
               ),
             ),
             Divider(
@@ -79,7 +89,7 @@ class Setup extends StatelessWidget {
               child: ListTile(
                 leading: Icon(MdiIcons.formatListBulleted),
                 title:
-                    Text('Nhật ký hoạt động', style: TextStyle(fontSize: 16.0)),
+                Text('Nhật ký hoạt động', style: TextStyle(fontSize: 16.0)),
                 onTap: () => {},
               ),
             ),
@@ -90,7 +100,7 @@ class Setup extends StatelessWidget {
               child: ListTile(
                 leading: Icon(MdiIcons.textBoxOutline),
                 title:
-                    Text('Quản lý bài viết', style: TextStyle(fontSize: 16.0)),
+                Text('Quản lý bài viết', style: TextStyle(fontSize: 16.0)),
                 onTap: () => {},
               ),
             ),
@@ -109,63 +119,63 @@ class Setup extends StatelessWidget {
               height: 5.0,
             ),
             Padding(padding: EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
 
-              children: [
-                Text(
-                  'Liên kết đến trang cá nhân',
-                  style:
-                  TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(
-                  'Liên kết của riêng bạn trên Facebook',
-                  style: TextStyle(fontSize: 15.0),
-                ),
-
-                Divider(
-                  height: 5.0,
-                ),
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(
-                  'https://www.facebook.com/' +
-                      TiengViet.parse(currentUser.username)
-                          .toLowerCase()
-                          .replaceAll(" ", ""),
-                  style:
-                  TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 5.0,
-                ),
-                InkWell(
-                  child: Container(
-                    height: 40.0,
-                    decoration: BoxDecoration(
-                        color: backgroundColor,
-                        border: Border.all(width: 2.0, color: Colors.grey[300]),
-                        borderRadius: BorderRadius.circular(5.0)
-                    ),
-                    child:
-                    FlatButton(
-                        onPressed: () async {
-                          await FlutterClipboard.copy(link);
-                          showToast("Đã sao chép liên kết vào bộ nhớ tạm", gravity: Toast.BOTTOM);
-                        },
-                        child: Text('SAO CHÉP LIÊN KẾT',
-                            style: TextStyle(color: kBlack))),
+                children: [
+                  Text(
+                    'Liên kết đến trang cá nhân',
+                    style:
+                    TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                   ),
-                ),
-                SizedBox(
-                  height: 5.0,
-                ),
-              ],
-            ),)
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Text(
+                    'Liên kết của riêng bạn trên Facebook',
+                    style: TextStyle(fontSize: 15.0),
+                  ),
+
+                  Divider(
+                    height: 5.0,
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Text(
+                    'https://www.facebook.com/' +
+                        TiengViet.parse(currentUser.username)
+                            .toLowerCase()
+                            .replaceAll(" ", ""),
+                    style:
+                    TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  InkWell(
+                    child: Container(
+                      height: 40.0,
+                      decoration: BoxDecoration(
+                          color: backgroundColor,
+                          border: Border.all(width: 2.0, color: Colors.grey[300]),
+                          borderRadius: BorderRadius.circular(5.0)
+                      ),
+                      child:
+                      FlatButton(
+                          onPressed: () async {
+                            await FlutterClipboard.copy(link);
+                            showToast("Đã sao chép liên kết vào bộ nhớ tạm", gravity: Toast.BOTTOM);
+                          },
+                          child: Text('SAO CHÉP LIÊN KẾT',
+                              style: TextStyle(color: kBlack))),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                ],
+              ),)
 
           ],
         ),

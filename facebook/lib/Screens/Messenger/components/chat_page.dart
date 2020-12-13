@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:facebook/bloc/friend_bloc.dart';
+
+import 'package:facebook/bloc/chat_bloc.dart';
+
 import 'package:facebook/constants.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/source/localdatasource/colors.dart';
@@ -18,11 +20,12 @@ class ChatPage extends StatefulWidget {
   _ChatPageState createState() => _ChatPageState(user);
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _ChatPageState extends State<ChatPage>
+    with AutomaticKeepAliveClientMixin {
   final User user;
 
   TextEditingController _sendMessageController = new TextEditingController();
-  BottomMessageSheet bottomMessageSheet = new BottomMessageSheet();
+  // BottomMessageSheet bottomMessageSheet = new BottomMessageSheet(user: this.user);
 
   _ChatPageState(this.user);
 
@@ -32,12 +35,42 @@ class _ChatPageState extends State<ChatPage> {
   void _onRefresh() async {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000), () async {
+      ChatBloc chatBloc = new ChatBloc();
+      await chatBloc.getConversationByUserId(user.id);
       return 'Data Loaded';
     });
     // if failed,use refreshFailed()
     print('down');
+
+    this.setState(() {});
     _refreshController.refreshCompleted();
-    setState(() {});
+  }
+
+  void _onLoading() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000), () async {
+      ChatBloc chatBloc = new ChatBloc();
+      // await chatBloc.getAllConversation();
+      await chatBloc.getConversationByUserId(user.id);
+    });
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    if (mounted) setState(() {});
+    print('up');
+    _refreshController.loadComplete();
+  }
+
+  Future<String> waitApi() async {
+    Future<String> _calculation = Future<String>.delayed(
+      Duration(seconds: 2),
+      () async {
+        return 'Data Loaded';
+      },
+    );
+
+    ChatBloc chatBloc = new ChatBloc();
+    await chatBloc.getConversationByUserId(user.id);
+    print(listConversation);
+    return _calculation;
   }
 
   @override
@@ -121,14 +154,92 @@ class _ChatPageState extends State<ChatPage> {
         ),
         body: SmartRefresher(
           controller: _refreshController,
+          onLoading: _onLoading,
           onRefresh: _onRefresh,
           header: MaterialClassicHeader(),
+          footer: ClassicFooter(),
           enablePullDown: true,
-          enablePullUp: false,
-          child: getBody(),
+          enablePullUp: true,
+          child: SingleChildScrollView(
+            child: FutureBuilder(
+              future: waitApi(),
+              builder: (context, snapshot) {
+                List<Widget> children;
+                if (snapshot.hasData) {
+                  children = <Widget>[
+                    Column(
+                      children: [
+                        if (listConversation[user.id].listMessage.length > 0)
+                          for (Message message
+                              in listConversation[user.id].listMessage)
+                            ChatBubble(
+                                isMe: message.isMe,
+                                message: message.message,
+                                profileImg: message.profileImg)
+                        else
+                          ChatBubble(
+                              isMe: true,
+                              message:
+                                  "Bạn và ${user.username} chưa nhắn tin với nhau ",
+                              profileImg: "")
+                      ],
+                    )
+                  ];
+                } else if (snapshot.hasError) {
+                  children = <Widget>[
+                    Text("Đã xảy ra lỗi"),
+                    Icon(
+                      Icons.error_outline,
+                      color: Colors.red,
+                      size: 60,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: Text('Error: ${snapshot.error}'),
+                    ),
+                  ];
+                } else {
+                  children = <Widget>[
+                    Column(
+                      children: [
+                        // for  (Message message in listConversation[user.id].listMessage)
+                        ChatBubble(
+                            isMe: true,
+                            message: "Đang chờ load tin nhắn",
+                            profileImg: "")
+                      ],
+                    )
+                  ];
+                }
+                return Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: children,
+                  ),
+                );
+              },
+            ),
+          ),
         ),
-        bottomSheet: bottomMessageSheet,
+        bottomSheet: BottomMessageSheet(
+          user: this.user,
+        ),
       ),
+    );
+  }
+
+  Widget getMessage() {
+    return Column(
+      children: [
+        for (Message message in listConversation[user.id].listMessage)
+          ChatBubble(
+              isMe: message.isMe,
+              message: message.message,
+              profileImg: message.profileImg)
+      ],
     );
   }
 
@@ -145,6 +256,9 @@ class _ChatPageState extends State<ChatPage> {
       }),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class ChatBubble extends StatelessWidget {
@@ -288,9 +402,17 @@ class ChatBubble extends StatelessWidget {
 }
 
 class BottomMessageSheet extends StatefulWidget {
+  // final String id;
+  //
+  // const AllFriendsScreen({Key key, this.id}) : super(key: key);
+  //
+  // @override
+  // State<StatefulWidget> createState() {
+  //   return _AllFriendsScreen(id);
+  // }
   final User user;
-  const BottomMessageSheet({this.user});
-  // const BottomMessageSheet({Key key, this.user}) : super(key: key);
+  // const BottomMessageSheet({this.user});
+  const BottomMessageSheet({Key key, this.user}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -301,7 +423,8 @@ class BottomMessageSheet extends StatefulWidget {
 class _BottomMessageSheet extends State<BottomMessageSheet> {
   TextEditingController _sendMessageController = new TextEditingController();
   final User user;
-
+  ChatBloc _chatBloc = ChatBloc();
+  var message;
   _BottomMessageSheet(this.user);
   @override
   Widget build(BuildContext context) {
@@ -365,16 +488,21 @@ class _BottomMessageSheet extends State<BottomMessageSheet> {
                       child: TextField(
                         cursorColor: black,
                         controller: _sendMessageController,
+                        onChanged: (value) {
+                          message = value;
+                        },
                         decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: "Aa",
+                            hintText: "Nhập tin nhắn...",
                             suffixIcon: Icon(
                               Icons.send,
                               color: kPrimaryColor,
                               size: 35,
                             )),
                         onTap: () {
-                          print("send");
+                          print(user.id);
+                          _chatBloc.sendMessage(user.id, message);
+                          print("da xong");
                         },
                       ),
                     ),

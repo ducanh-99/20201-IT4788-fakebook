@@ -156,6 +156,7 @@ class ActionRemoteDatasourceImpl implements ActionRemoteDatasource {
         notifications = [];
         for (var noti in responseJson['content']) {
           UserNotification newnoti = new UserNotification(
+              category: noti['category'],
               userId: noti['user_id'],
               username: noti['username'],
               imageUrl: 'https://fakebook-20201.herokuapp.com/api/get_avt/' +
@@ -163,7 +164,13 @@ class ActionRemoteDatasourceImpl implements ActionRemoteDatasource {
               content: noti['text'],
               postId: noti['post_id'],
               read: noti['read'],
+<<<<<<< HEAD
               time: noti['create']);
+=======
+              time: noti['create'],
+              index: noti['index']
+              );
+>>>>>>> 82a7bd737683a9fe193ca654cb312c82cffb8f38
           notifications.add(newnoti);
         }
       } else {

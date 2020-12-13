@@ -26,9 +26,9 @@ void main() async {
   await userLocalBloc.setCurrentUser();
   if (currentUser != null) {
     ChatBloc chatBloc = ChatBloc();
-    await chatBloc.getAllConversation();
-    await chatBloc.getConversationByUserId("5fa56d5d589d29364e8d4436");
-    await chatBloc.getConversationByUserId("5fa183c8bc5f9937a302714d");
+    // await chatBloc.getAllConversation();
+    // await chatBloc.getConversationByUserId("5fa56d5d589d29364e8d4436");
+    // await chatBloc.getConversationByUserId("5fa183c8bc5f9937a302714d");
     PostBloc postBloc = PostBloc();
     NotificationBloc noti = NotificationBloc();
     await noti.getNotification(() {}, () {});

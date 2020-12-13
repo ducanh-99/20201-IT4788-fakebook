@@ -4,7 +4,7 @@ import 'package:facebook/data/source/localdatasource/local_data.dart';
 import 'package:facebook/data/source/base/user_database.dart';
 import 'package:facebook/data/source/base/user_models.dart';
 import 'package:facebook/data/source/remotedatasource/post_remotedatasource.dart';
-
+Post choosePost = null;
 List<Post> posts = [];
 List<Post> userPosts = [];
 List<User> listFriends = [];
@@ -20,4 +20,4 @@ List<User> searchUser = [];
 List<Post> videoData=[];
 List<UserNotification> notifications = [];
 List<User> recommendfriend = [];
-Map listConversation = {};
+Map<String,Conversation> listConversation = {};

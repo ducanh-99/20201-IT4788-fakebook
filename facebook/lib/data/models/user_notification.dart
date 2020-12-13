@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 import 'package:facebook/data/models/models.dart';
 
 class UserNotification {
+  final String category;
   final String imageUrl;
   final String username;
   final String userId;
@@ -9,8 +10,9 @@ class UserNotification {
   final String time;
   final String postId;
   final int read;
-
+  final int index;
   UserNotification({
+    this.category,
     this.imageUrl,
     this.username,
     this.userId,
@@ -18,6 +20,8 @@ class UserNotification {
     this.time,
     this.postId,
     this.read,
+    this.index
+
   });
 }
 

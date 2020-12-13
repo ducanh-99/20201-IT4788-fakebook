@@ -96,8 +96,8 @@ class _PostContainer extends State<PostContainer> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PostDetailScreen(
-                              post: post,
+                            builder: (context) => PostDetail(
+                              postId: post.id,
                             ),
                           ));
                     },

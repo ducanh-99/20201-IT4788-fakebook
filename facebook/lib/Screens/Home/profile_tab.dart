@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:facebook/Screens/Home/all_friends_tab.dart';
@@ -16,11 +18,14 @@ import 'package:facebook/data/source/localdatasource/local_data.dart';
 
 // import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../constants.dart';
+import 'setup.dart';
+import 'setup.dart';
 
 class ProfileCurrentUser extends StatefulWidget {
   @override
@@ -29,9 +34,17 @@ class ProfileCurrentUser extends StatefulWidget {
   }
 }
 
-class _ProfileCurrentUser extends State<ProfileCurrentUser> {
+class _ProfileCurrentUser extends State<ProfileCurrentUser> with AutomaticKeepAliveClientMixin {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
+
+  //Image
+  File image;
+  void selectImage() async {
+    image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {});
+  }
+  //End Image
 
   void _onRefresh() async {
     // monitor network fetch
@@ -120,7 +133,6 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
   @override
   Widget build(BuildContext context) {
     var dateTime =
-        // Jiffy(currentUser.birthday, "yyyy/dd/MM").format("dd 'tháng' MM, yyyy");
         Jiffy(currentUser.birthday, "dd/MM/yyyy").format("dd 'tháng' MM, yyyy");
     return SmartRefresher(
       controller: _refreshController,
@@ -192,6 +204,7 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                                       ),
                                       onTap: () {
                                         print("thay ảnh đại diện");
+                                        selectImage();
                                       },
                                     )),
                               ),
@@ -694,6 +707,13 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                                       fontSize: 16.0))),
                         ),
                         onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return Setup();
+                            }),
+                          );
+                          print("Chuyen den chỉnh sửa thông tin");
                           print(currentUser.toJSON());
                         },
                       )
@@ -719,4 +739,8 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

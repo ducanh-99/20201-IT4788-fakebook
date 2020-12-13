@@ -3,7 +3,7 @@ class Conversation {
   final String conversationId;
   final String receiverId;
   final String receiverName;
-  final List<Message> listMessage;
+  List<Message> listMessage;
   final String lastMessage;
   Conversation({
     this.conversationId,

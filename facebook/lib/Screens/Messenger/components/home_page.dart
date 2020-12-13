@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:facebook/bloc/chat_bloc.dart';
 import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:facebook/data/source/localdatasource/colors.dart';
 import 'package:facebook/data/source/localdatasource/data.dart';
@@ -14,18 +15,18 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   TextEditingController _searchController = new TextEditingController();
   RefreshController _refreshController =
-  RefreshController(initialRefresh: false);
+      RefreshController(initialRefresh: false);
 
   void _onRefresh() async {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000), () async {
-
       Friend_Bloc friendBloc = new Friend_Bloc();
       await friendBloc.getListFriend(currentUser.id);
-
+      print(listFriends);
       return 'Data Loaded';
     });
     // if failed,use refreshFailed()
@@ -49,18 +50,22 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   Future<String> waitApi() async {
     Future<String> _calculation = Future<String>.delayed(
       Duration(seconds: 2),
-          () async {
+      () async {
         return 'Data Loaded';
       },
     );
-
     Friend_Bloc friendBloc = new Friend_Bloc();
     await friendBloc.getListFriend(currentUser.id);
-
+    ChatBloc chatBloc = new ChatBloc();
+    await chatBloc.getAllConversation();
+    print(listFriends);
+    print(listConversation);
     return _calculation;
   }
+
   @override
   Widget build(BuildContext context) {
+    var avt = 'http://fakebook-20201.herokuapp.com/api/get_avt/';
     return SafeArea(
       child: Scaffold(
         body: SmartRefresher(
@@ -71,17 +76,47 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
           footer: ClassicFooter(),
           enablePullDown: true,
           enablePullUp: true,
-          child: getBody(),
+          child: SingleChildScrollView(
+              child: FutureBuilder(
+            future: waitApi(),
+            builder: (context, snapshot) {
+              List<Widget> children;
+              if (snapshot.hasData) {
+                children = <Widget>[getHeader(), getStory()];
+              } else if (snapshot.hasError) {
+                children = <Widget>[
+                  Text("Đã xảy ra lỗi"),
+                  Icon(
+                    Icons.error_outline,
+                    color: Colors.red,
+                    size: 60,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Text('Error: ${snapshot.error}'),
+                  ),
+                ];
+              } else {
+                children = <Widget>[getHeader(), getStory()];
+              }
+              return Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: children,
+                ),
+              );
+            },
+          )),
         ),
       ),
-    ) ;
+    );
   }
 
-  Widget getBody() {
-    var avt = 'http://fakebook-20201.herokuapp.com/api/get_avt/';
-    return ListView(
-      padding: EdgeInsets.only(left: 20, right: 20, top: 15),
-      children: <Widget>[
+  Widget getHeader() {
+    return Column(
+      children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -119,25 +154,57 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
         SizedBox(
           height: 30,
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(right: 20),
+      ],
+    );
+  }
+
+  Widget getStory() {
+    var avt = 'http://fakebook-20201.herokuapp.com/api/get_avt/';
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(right: 20),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration:
+                      BoxDecoration(shape: BoxShape.circle, color: grey),
+                  child: Center(
+                    child: Icon(
+                      LineIcons.plus,
+                      size: 28,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  width: 75,
+                  child: Align(
+                      child: Text(
+                    'Tin của bạn',
+                    overflow: TextOverflow.ellipsis,
+                  )),
+                )
+              ],
+            ),
+          ),
+          Row(
+              children: List.generate(listFriends.length, (index) {
+            return Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: InkWell(
                 child: Column(
                   children: <Widget>[
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration:
-                      BoxDecoration(shape: BoxShape.circle, color: grey),
-                      child: Center(
-                        child: Icon(
-                          LineIcons.plus,
-                          size: 28,
-                        ),
-                      ),
+                    CircleAvatar(
+                      radius: 30.0,
+                      backgroundImage: CachedNetworkImageProvider(
+                          avt + listFriends[index].id),
                     ),
                     SizedBox(
                       height: 10,
@@ -146,205 +213,103 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                       width: 75,
                       child: Align(
                           child: Text(
-                            'Tin của bạn',
-                            overflow: TextOverflow.ellipsis,
-                          )),
+                        listFriends[index].username,
+                        overflow: TextOverflow.ellipsis,
+                      )),
                     )
                   ],
                 ),
-              ),
-              Row(
-                  children: List.generate(listFriends.length, (index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: InkWell(
-                        child: Column(
-                          children: <Widget>[
-                            // Container(
-                            //   width: 75,
-                            //   height: 75,
-                            //   child: Stack(
-                            //     children: <Widget>[
-                            //       userStories[index]['story']
-                            //           ? Container(
-                            //               decoration: BoxDecoration(
-                            //                   shape: BoxShape.circle,
-                            //                   border: Border.all(
-                            //                       color: blue_story, width: 3)),
-                            //               child: Padding(
-                            //                 padding: const EdgeInsets.all(3.0),
-                            //                 child: Container(
-                            //                   width: 75,
-                            //                   height: 75,
-                            //                   decoration: BoxDecoration(
-                            //                       shape: BoxShape.circle,
-                            //                       image: DecorationImage(
-                            //                           image: NetworkImage(
-                            //                               userStories[index]['img']),
-                            //                           fit: BoxFit.cover)),
-                            //                 ),
-                            //               ),
-                            //             )
-                            //           : Container(
-                            //               width: 70,
-                            //               height: 70,
-                            //               decoration: BoxDecoration(
-                            //                   shape: BoxShape.circle,
-                            //                   image: DecorationImage(
-                            //                       image: NetworkImage(
-                            //                           userStories[index]['img']),
-                            //                       fit: BoxFit.cover)),
-                            //             ),
-                            //       userStories[index]['online']
-                            //           ? Positioned(
-                            //               top: 48,
-                            //               left: 52,
-                            //               child: Container(
-                            //                 width: 20,
-                            //                 height: 20,
-                            //                 decoration: BoxDecoration(
-                            //                     color: online,
-                            //                     shape: BoxShape.circle,
-                            //                     border: Border.all(
-                            //                         color: white, width: 3)),
-                            //               ),
-                            //             )
-                            //           : Container()
-                            //     ],
-                            //   ),
-                            // ),
-
-                            CircleAvatar(
-                              radius: 30.0,
-                              backgroundImage:
-                              CachedNetworkImageProvider(avt + listFriends[index].id),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            SizedBox(
-                              width: 75,
-                              child: Align(
-                                  child: Text(
-                                    listFriends[index].username,
-                                    overflow: TextOverflow.ellipsis,
-                                  )),
-                            )
-                          ],
-                        ),
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) {
-                                return ChatPage(user: listFriends[index],);
-                              }));
-                        },
-                      ),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                    return ChatPage(
+                      user: listFriends[index],
                     );
-                  }))
-            ],
+                  }));
+                },
+              ),
+            );
+          }))
+        ],
+      ),
+    );
+  }
+
+  Widget getBody() {
+    var avt = 'http://fakebook-20201.herokuapp.com/api/get_avt/';
+    return Column(
+      children: List.generate(listConversation.length, (index) {
+        return InkWell(
+          onTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (_) => ChatPage()));
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: InkWell(
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    width: 75,
+                    height: 75,
+                    child: Stack(
+                      children: <Widget>[
+                        CircleAvatar(
+                          radius: 30.0,
+                          backgroundImage: CachedNetworkImageProvider(
+                              avt + listConversation[index].receiverId),
+                        ),
+                        // Container(
+                        //   width: 70,
+                        //   height: 70,
+                        //   decoration: BoxDecoration(
+                        //       shape: BoxShape.circle,
+                        //       image: DecorationImage(
+                        //           image: NetworkImage(listConversation[index].receiverId),
+                        //           fit: BoxFit.cover)),
+                        // ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        userMessages[index]['name'],
+                        style:
+                        TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width - 135,
+                        child: Text(
+                          userMessages[index]['message'] +
+                              " - " +
+                              userMessages[index]['created_at'],
+                          style: TextStyle(
+                              fontSize: 15, color: black.withOpacity(0.8)),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) {
+                  return ChatPage(
+                    user: listFriends[index],
+                  );
+                }));
+              },
+            ),
           ),
-        ),
-        SizedBox(
-          height: 30,
-        ),
-        // Column(
-        //   children: List.generate(userMessages.length, (index) {
-        //     return InkWell(
-        //       onTap: () {
-        //         Navigator.push(
-        //             context, MaterialPageRoute(builder: (_) => ChatPage()));
-        //       },
-        //       child: Padding(
-        //         padding: const EdgeInsets.only(bottom: 20),
-        //         child: Row(
-        //           children: <Widget>[
-        //             Container(
-        //               width: 75,
-        //               height: 75,
-        //               child: Stack(
-        //                 children: <Widget>[
-        //                   userMessages[index]['story']
-        //                       ? Container(
-        //                           decoration: BoxDecoration(
-        //                               shape: BoxShape.circle,
-        //                               border: Border.all(
-        //                                   color: blue_story, width: 3)),
-        //                           child: Padding(
-        //                             padding: const EdgeInsets.all(3.0),
-        //                             child: Container(
-        //                               width: 75,
-        //                               height: 75,
-        //                               decoration: BoxDecoration(
-        //                                   shape: BoxShape.circle,
-        //                                   image: DecorationImage(
-        //                                       image: NetworkImage(
-        //                                           userMessages[index]['img']),
-        //                                       fit: BoxFit.cover)),
-        //                             ),
-        //                           ),
-        //                         )
-        //                       : Container(
-        //                           width: 70,
-        //                           height: 70,
-        //                           decoration: BoxDecoration(
-        //                               shape: BoxShape.circle,
-        //                               image: DecorationImage(
-        //                                   image: NetworkImage(
-        //                                       userMessages[index]['img']),
-        //                                   fit: BoxFit.cover)),
-        //                         ),
-        //                   userMessages[index]['online']
-        //                       ? Positioned(
-        //                           top: 48,
-        //                           left: 52,
-        //                           child: Container(
-        //                             width: 20,
-        //                             height: 20,
-        //                             decoration: BoxDecoration(
-        //                                 color: online,
-        //                                 shape: BoxShape.circle,
-        //                                 border:
-        //                                     Border.all(color: white, width: 3)),
-        //                           ),
-        //                         )
-        //                       : Container()
-        //                 ],
-        //               ),
-        //             ),
-        //             SizedBox(
-        //               width: 20,
-        //             ),
-        //             Column(
-        //               crossAxisAlignment: CrossAxisAlignment.start,
-        //               children: <Widget>[
-        //                 Text(
-        //                   userMessages[index]['name'],
-        //                   style: TextStyle(
-        //                       fontSize: 17, fontWeight: FontWeight.w500),
-        //                 ),
-        //                 SizedBox(
-        //                   height: 5,
-        //                 ),
-        //                 SizedBox(
-        //                   width: MediaQuery.of(context).size.width - 135,
-        //                   child: Text(
-        //                     userMessages[index]['message'] +
-        //                         " - " +
-        //                         userMessages[index]['created_at'],
-        //                     style: TextStyle(
-        //                         fontSize: 15, color: black.withOpacity(0.8)),
-        //                     overflow: TextOverflow.ellipsis,
-        //                   ),
-        //                 )
-        //               ],
-        //             )
-        //           ],
-        //         ),
-        //       ),
-        //     );
-        //   }),
-        // )
-      ],
+        );
+      }),
     );
   }
 
