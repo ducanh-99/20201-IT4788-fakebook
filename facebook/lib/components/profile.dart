@@ -563,7 +563,7 @@ class _ProfileUser extends State<ProfileUser>
                                                               .center,
                                                       children: [
                                                         Icon(
-                                                          Icons.person_add,
+                                                          MdiIcons.accountArrowRight,
                                                           color: textColor,
                                                         ),
                                                         Text(
@@ -582,7 +582,7 @@ class _ProfileUser extends State<ProfileUser>
                                                     _delete();
                                                     Friend_Bloc friend =
                                                         new Friend_Bloc();
-                                                    friend.SendFriendRequest(
+                                                    friend.undoFriendRequest(
                                                         id);
                                                   },
                                                 ),
