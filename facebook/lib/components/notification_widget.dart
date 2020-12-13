@@ -1,15 +1,41 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook/Screens/Post/post_detail.dart';
+import 'package:facebook/bloc/notification_bloc.dart';
 import 'package:facebook/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/data/models/user_notification.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-class NotificationWidget extends StatelessWidget {
+class NotificationWidget extends StatefulWidget {
   final UserNotification notification;
 
-  NotificationWidget({this.notification});
+  const NotificationWidget({Key key, this.notification}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _NotificationWidget(notification);
+  }
+}
+
+class _NotificationWidget extends State<NotificationWidget> {
+  final UserNotification notification;
+  int read;
+
+  _NotificationWidget(this.notification);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    read = notification.read;
+  }
+
+  void _read() {
+    setState(() {
+      read = 1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +44,7 @@ class NotificationWidget extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: 100.0,
       padding: EdgeInsets.symmetric(horizontal: 5.0),
+      color: notification.read == 0 ? kPrimaryLightColor : backgroundColor,
       child: InkWell(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,45 +95,7 @@ class NotificationWidget extends StatelessWidget {
                                     ),
                                   )
                                 : notification.category == 'friend'
-                                    ?
-                                    // Container(
-                                    //   width: 20,
-                                    //   height: 20,
-                                    //   decoration: BoxDecoration(
-                                    //       color: kBlack,
-                                    //       shape: BoxShape.circle,
-                                    //       border:
-                                    //       Border.all(color: kBlack, width: 3)),
-                                    // ),
-                                    // Container(
-                                    //   width: 20,
-                                    //   height: 20,
-                                    //   padding: const EdgeInsets.all(4.0),
-                                    //   decoration: BoxDecoration(
-                                    //     color: kPrimaryColor,
-                                    //     shape: BoxShape.circle,
-                                    //   ),
-                                    //   child: const Icon(
-                                    //     Icons.thumb_up,
-                                    //     size: 10.0,
-                                    //     color: Colors.white,
-                                    //   ),
-                                    // ),
-                                    // Container(
-                                    //   width: 25,
-                                    //   height: 25,
-                                    //   padding: const EdgeInsets.all(2.0),
-                                    //   decoration: BoxDecoration(
-                                    //     color: kPrimaryColor,
-                                    //     shape: BoxShape.circle,
-                                    //   ),
-                                    //   child: const Icon(
-                                    //     Icons.person,
-                                    //     size: 20.0,
-                                    //     color: Colors.white,
-                                    //   ),
-                                    // ),
-                                    Container(
+                                    ? Container(
                                         width: 25,
                                         height: 25,
                                         padding: const EdgeInsets.all(2.0),
@@ -148,20 +137,10 @@ class NotificationWidget extends StatelessWidget {
                             child: Text(notification.content,
                                 style: TextStyle(fontSize: 16.0),
                                 overflow: TextOverflow.visible),
-                            // children: [
-                            //   Text(notification.username,
-                            //     style: TextStyle(
-                            //         fontSize: 17.0, fontWeight: FontWeight.bold), overflow: TextOverflow.visible,),
-                            //   Text(notification.content,
-                            //       style: TextStyle(fontSize: 16.0), overflow: TextOverflow.visible),
-                            // ],
                           ),
                           width: MediaQuery.of(context).size.width * 0.6,
                         ),
                       ),
-                      // Text(notification.content,
-                      //     style: TextStyle(
-                      //         fontSize: 17.0, fontWeight: FontWeight.bold)),
                       Text(
                           '${timeago.format(DateTime.parse(notification.time), locale: 'vi')}',
                           style: TextStyle(fontSize: 15.0, color: Colors.grey)),
@@ -180,11 +159,15 @@ class NotificationWidget extends StatelessWidget {
           ],
         ),
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) {
-            return PostDetail(
-                postId: notification.postId,
-                );
-          }));
+          _read();
+          print("an neee");
+          NotificationBloc notificationBloc = new NotificationBloc();
+          // notificationBloc.r
+          // Navigator.push(context, MaterialPageRoute(builder: (_) {
+          //   return PostDetail(
+          //     postId: notification.postId,
+          //   );
+          // }));
         },
       ),
     );

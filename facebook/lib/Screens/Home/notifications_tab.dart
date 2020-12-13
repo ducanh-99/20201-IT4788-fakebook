@@ -108,21 +108,30 @@ class _NotificationsTab extends State<NotificationsTab> with AutomaticKeepAliveC
   }
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-          child: Column(
+    return SmartRefresher(
+      controller: _refreshController,
+      onLoading: _onLoading,
+      onRefresh: _onRefresh,
+      header: MaterialClassicHeader(),
+      footer: ClassicFooter(),
+      enablePullDown: true,
+      enablePullUp: true,
+      child: SingleChildScrollView(
+        child: Container(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15.0, 15.0, 0.0, 15.0),
-                child: Text('Thông báo',
-                style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
-            ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15.0, 15.0, 0.0, 15.0),
+                  child: Text('Thông báo',
+                      style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
+                ),
                 for (UserNotification notification in notifications)
-               NotificationWidget(notification: notification)
-        ],
-      )),
+                  NotificationWidget(notification: notification)
+              ],
+            )),
+      ),
     );
   }
 }
