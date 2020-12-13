@@ -5,11 +5,13 @@ class Conversation {
   final String receiverName;
   List<Message> listMessage;
   final String lastMessage;
+  final String createAt;
   Conversation({
     this.conversationId,
     this.receiverId,
     this.listMessage,
     this.receiverName,
-    this.lastMessage
+    this.lastMessage,
+    this.createAt
   });
 }

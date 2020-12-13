@@ -30,6 +30,7 @@ class ChatRemoteDatasourceImpl implements ChatRemoteDatasource {
             listConversation[conversation['received']['user']] = Conversation(
                 conversationId: conversation['id'],
                 lastMessage: conversation['last_messages'][0]['text'],
+                createAt: conversation['last_messages'][0]['create'],
                 listMessage: [],
                 receiverId: conversation['received']['user'],
                 receiverName: conversation['received']['username']

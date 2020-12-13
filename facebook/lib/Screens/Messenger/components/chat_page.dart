@@ -499,9 +499,9 @@ class _BottomMessageSheet extends State<BottomMessageSheet> {
                               color: kPrimaryColor,
                               size: 35,
                             )),
-                        onTap: () {
+                        onTap: () async {
                           print(user.id);
-                          _chatBloc.sendMessage(user.id, message);
+                          await _chatBloc.sendMessage(user.id, message);
                           print("da xong");
                         },
                       ),

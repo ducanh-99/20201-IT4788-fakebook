@@ -134,7 +134,7 @@ class _NotificationWidget extends State<NotificationWidget> {
                       InkWell(
                         child: Container(
                           child: Flexible(
-                            child: Text(notification.content,
+                            child: Text(notification.username+" "+notification.content,
                                 style: TextStyle(fontSize: 16.0),
                                 overflow: TextOverflow.visible),
                           ),

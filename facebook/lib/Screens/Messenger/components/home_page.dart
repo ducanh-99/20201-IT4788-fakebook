@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage>
             builder: (context, snapshot) {
               List<Widget> children;
               if (snapshot.hasData) {
-                children = <Widget>[getHeader(), getStory()];
+                children = <Widget>[getHeader(), getStory(),getBody()];
               } else if (snapshot.hasError) {
                 children = <Widget>[
                   Text("Đã xảy ra lỗi"),
@@ -228,7 +228,8 @@ class _HomePageState extends State<HomePage>
                 },
               ),
             );
-          }))
+          })
+          )
         ],
       ),
     );
@@ -237,7 +238,7 @@ class _HomePageState extends State<HomePage>
   Widget getBody() {
     var avt = 'http://fakebook-20201.herokuapp.com/api/get_avt/';
     return Column(
-      children: List.generate(listConversation.length, (index) {
+      children: List.generate(listFriends.length, (index) {
         return InkWell(
           onTap: () {
             Navigator.push(
@@ -256,7 +257,7 @@ class _HomePageState extends State<HomePage>
                         CircleAvatar(
                           radius: 30.0,
                           backgroundImage: CachedNetworkImageProvider(
-                              avt + listConversation[index].receiverId),
+                              avt + listFriends[index].id),
                         ),
                         // Container(
                         //   width: 70,
@@ -277,7 +278,7 @@ class _HomePageState extends State<HomePage>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        userMessages[index]['name'],
+                        listFriends[index].username,
                         style:
                         TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                       ),
@@ -287,9 +288,7 @@ class _HomePageState extends State<HomePage>
                       SizedBox(
                         width: MediaQuery.of(context).size.width - 135,
                         child: Text(
-                          userMessages[index]['message'] +
-                              " - " +
-                              userMessages[index]['created_at'],
+                          "${listConversation[listFriends[index].id].lastMessage==null?"Hãy vẫy tay":listConversation[listFriends[index].id].lastMessage} - ${listConversation[listFriends[index].id].createAt==null?"chào bạn mới đi":listConversation[listFriends[index].id].createAt}",
                           style: TextStyle(
                               fontSize: 15, color: black.withOpacity(0.8)),
                           overflow: TextOverflow.ellipsis,
