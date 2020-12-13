@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:facebook/bloc/chat_bloc.dart';
 import 'package:facebook/constants.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/source/localdatasource/colors.dart';
@@ -6,6 +7,7 @@ import 'package:facebook/data/source/localdatasource/local_data.dart';
 import 'package:facebook/data/source/localdatasource/messenger_data.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ChatPage extends StatefulWidget {
   final User user;
@@ -16,13 +18,56 @@ class ChatPage extends StatefulWidget {
   _ChatPageState createState() => _ChatPageState(user);
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin{
   final User user;
 
   TextEditingController _sendMessageController = new TextEditingController();
   BottomMessageSheet bottomMessageSheet = new BottomMessageSheet();
 
   _ChatPageState(this.user);
+
+  RefreshController _refreshController =
+  RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000), () async {
+      ChatBloc chatBloc = new ChatBloc();
+      await chatBloc.getConversationByUserId(user.id);
+      return 'Data Loaded';
+    });
+    // if failed,use refreshFailed()
+    print('down');
+    this.setState(() {});
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000), () async {
+      ChatBloc chatBloc = new ChatBloc();
+      // await chatBloc.getAllConversation();
+      await chatBloc.getConversationByUserId(user.id);
+    });
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    if (mounted) setState(() {});
+    print('up');
+    _refreshController.loadComplete();
+  }
+
+  Future<String> waitApi() async {
+    Future<String> _calculation = Future<String>.delayed(
+      Duration(seconds: 2),
+          () async {
+        return 'Data Loaded';
+      },
+    );
+
+    ChatBloc chatBloc = new ChatBloc();
+    await chatBloc.getConversationByUserId(user.id);
+    print(listConversation);
+    return _calculation;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,9 +149,85 @@ class _ChatPageState extends State<ChatPage> {
             // ),
           // ],
         ),
-        body: getBody(),
+        body: SmartRefresher(
+          controller: _refreshController,
+          onLoading: _onLoading,
+          onRefresh: _onRefresh,
+          header: MaterialClassicHeader(),
+          footer: ClassicFooter(),
+          enablePullDown: true,
+          enablePullUp: true,
+          child: SingleChildScrollView(
+            child: FutureBuilder(
+              future: waitApi(),
+              builder: (context, snapshot) {
+                List<Widget> children;
+                if (snapshot.hasData) {
+                  children = <Widget>[
+                    Column(
+                      children: [
+                        for  (Message message in listConversation[user.id].listMessage)
+                          ChatBubble(
+                              isMe: message.isMe,
+                              message: message.message,
+                              profileImg: message.profileImg
+                          )
+                      ],
+                    )
+                  ];
+                } else if (snapshot.hasError) {
+                  children = <Widget>[
+                    Text("Đã xảy ra lỗi"),
+                    Icon(
+                      Icons.error_outline,
+                      color: Colors.red,
+                      size: 60,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: Text('Error: ${snapshot.error}'),
+                    ),
+                  ];
+                } else {
+                  children = <Widget>[
+                    Column(
+                      children: [
+                        for  (Message message in listConversation[user.id].listMessage)
+                          ChatBubble(
+                              isMe: message.isMe,
+                              message: message.message,
+                              profileImg: message.profileImg
+                          )
+                      ],
+                    )
+                  ];
+                }
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: children,
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
         bottomSheet: bottomMessageSheet,
       ),
+    );
+  }
+  Widget getMessage() {
+    return Column(
+      children: [
+      for  (Message message in listConversation[user.id].listMessage)
+        ChatBubble(
+            isMe: message.isMe,
+            message: message.message,
+            profileImg: message.profileImg
+        )
+      ],
     );
   }
 
@@ -122,6 +243,9 @@ class _ChatPageState extends State<ChatPage> {
       }),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class ChatBubble extends StatelessWidget {
