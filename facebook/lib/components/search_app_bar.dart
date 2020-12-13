@@ -242,7 +242,7 @@ class _SearchBackGround extends State<SearchBackGround>
                           height: 0.0,
                           color: Colors.black,
                         ),
-                        itemCount: 10,
+                        itemCount: historySearch.length > 10 ? 10 : historySearch.length,
                         itemBuilder: (context, index) {
                           return Dismissible(
                             key: Key(historySearch[index]),

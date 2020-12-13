@@ -15,9 +15,9 @@ class PhoneSignup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController phoneNumber = new TextEditingController();
-    TextEditingController email = new TextEditingController();
-    // firstName.text = user.firstName;
-    // lastName.text= user.lastName;
+    print('b');
+    print(user.birthday);
+
     Size size = MediaQuery.of(context).size;
     return Background(
       text: Text(
@@ -40,10 +40,12 @@ class PhoneSignup extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.only(left: 5.0, right: 5.0),
                     child: TextFormField(
-                      autofocus: true,
+                      autofocus: false,
                       controller: phoneNumber,
                       onChanged: (value) {
                         user.phone = value;
+                        print('a');
+                        print(user.birthday);
                       },
                       decoration: InputDecoration(
                         labelText: "SDT",
@@ -69,12 +71,13 @@ class PhoneSignup extends StatelessWidget {
               minWidth: double.infinity,
               child: MaterialButton(
                 onPressed: () {
-                  _registerBloc.signUp(user, (){
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => ConfirmSignup(user: user)));
-                  }, (code){
-
-                  });
+                  print(user.birthday);
+                  // _registerBloc.signUp(user, (){
+                  //   Navigator.push(
+                  //       context, MaterialPageRoute(builder: (context) => ConfirmSignup(user: user)));
+                  // }, (code){
+                  //
+                  // });
                 },
                 child: Text('Tiếp'),
                 color: kPrimaryColor,

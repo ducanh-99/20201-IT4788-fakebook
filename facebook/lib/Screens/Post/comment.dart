@@ -4,10 +4,14 @@ import 'package:facebook/components/error_connect.dart';
 import 'package:facebook/data/models/post_model.dart';
 import 'package:facebook/data/source/localdatasource/data.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/constants.dart';
+import 'package:flutter/rendering.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:timeago/timeago.dart' as timeago;
+
+Post postGlobal;
 
 class CommentScreen extends StatefulWidget {
   final Post post;
@@ -16,6 +20,7 @@ class CommentScreen extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
+    postGlobal = this.post;
     return _CommentScreen(post);
   }
 }
@@ -168,7 +173,7 @@ class _CommentScreen extends State<CommentScreen>
 
   // TextEditingController _sendMessageController = new TextEditingController();
 
-  BottomCommentSheet bottomCommentSheet =  BottomCommentSheet();
+  BottomCommentSheet bottomCommentSheet = new BottomCommentSheet();
 
   @override
   Widget build(BuildContext context) {
@@ -395,7 +400,7 @@ class _CommentScreen extends State<CommentScreen>
         ),
       ),
       // resizeToAvoidBottomInset: true,
-      bottomSheet: BottomCommentSheet(post: post,),
+      bottomSheet: bottomCommentSheet,
     );
   }
 
@@ -408,7 +413,7 @@ class BottomCommentSheet extends StatefulWidget {
 
   // const BottomCommentSheet(this.post);
 
-  const BottomCommentSheet({ this.post});
+  const BottomCommentSheet({this.post});
   @override
   State<StatefulWidget> createState() {
     return _BottomCommentSheet(post);
@@ -417,22 +422,20 @@ class BottomCommentSheet extends StatefulWidget {
 
 class _BottomCommentSheet extends State<BottomCommentSheet> {
   final Post post;
-  CommentBloc _commentBloc =CommentBloc();
-  var comment="";
+  TextEditingController textEditingController = new TextEditingController();
+  CommentBloc _commentBloc = CommentBloc();
+  var comment = "";
   _BottomCommentSheet(this.post);
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    textEditingController.clear();
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       child: Row(
         children: [
           InkWell(
+            focusNode: new FocusNode(),
+            autofocus: true,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               // EdgeInsets.all(10.0),
@@ -443,10 +446,15 @@ class _BottomCommentSheet extends State<BottomCommentSheet> {
                   color: kBackgroundGrey,
                   borderRadius: BorderRadius.circular(30.0)),
               child: TextField(
+                controller: textEditingController,
                 // autofocus: true,
+                onTap: () {
+                  textEditingController.clear();
+                },
                 onChanged: (value) {
                   comment = value;
                 },
+
                 decoration: InputDecoration(
                   isCollapsed: true,
                   border: InputBorder.none,
@@ -455,8 +463,7 @@ class _BottomCommentSheet extends State<BottomCommentSheet> {
                     padding: EdgeInsets.only(bottom: 5.0),
                     icon: Icon(Icons.send),
                     onPressed: () async {
-
-                      await _commentBloc.uploadComment(post.id, comment);
+                      await _commentBloc.uploadComment(postGlobal.id, comment);
                     },
                   ),
                 ),

@@ -40,7 +40,6 @@ class _WatchTabState extends State<WatchTab>{
       await postBloc.apiGetAllVideo();
     });
     // if failed,use loadFailed(),if no data return,use LoadNodata()
-    if (mounted) setState(() {});
     print('up');
     _refreshController.loadComplete();
   }
