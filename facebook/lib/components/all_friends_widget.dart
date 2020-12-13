@@ -6,6 +6,7 @@ import 'package:facebook/constants.dart';
 import 'package:facebook/data/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/data/models/user_notification.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 // class AllFriends extends StatefulWidget {
 //   final String id;
@@ -242,7 +243,7 @@ class FriendWidget extends StatelessWidget {
                             vertical: 8.0, horizontal: 8.0),
                       ),
                       ListTile(
-                        leading: Icon(Icons.message),
+                        leading: Icon(MdiIcons.facebookMessenger),
                         title: Text(
                           'Nhắn tin cho ' + friend.username,
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -257,7 +258,7 @@ class FriendWidget extends StatelessWidget {
                         },
                       ),
                       ListTile(
-                        leading: Icon(Icons.block),
+                        leading: Icon(MdiIcons.accountCancel),
                         title: Text('Chặn ' + friend.username,
                             style: TextStyle(fontWeight: FontWeight.bold)),
                         subtitle: Text(friend.username +
@@ -265,7 +266,7 @@ class FriendWidget extends StatelessWidget {
                         onTap: () => {_showMyDialog('block', friend)},
                       ),
                       ListTile(
-                        leading: Icon(Icons.clear),
+                        leading: Icon(MdiIcons.accountRemove),
                         title: Text('Hủy kết bạn với ' + friend.username,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, color: kDanger)),

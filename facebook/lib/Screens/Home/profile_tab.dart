@@ -237,13 +237,25 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                                 },
                               ),
 
-                              Container(
-                                height: 40.0,
-                                width: 45.0,
-                                decoration: BoxDecoration(
-                                    color: Colors.grey[300],
-                                    borderRadius: BorderRadius.circular(5.0)),
-                                child: Icon(Icons.more_horiz),
+                              InkWell(
+                                child: Container(
+                                  height: 40.0,
+                                  width: 45.0,
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[300],
+                                      borderRadius:
+                                      BorderRadius.circular(5.0)),
+                                  child: Icon(Icons.more_horiz),
+                                ),
+                                onTap: (){
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(builder: (context) {
+                                  //     return ChatPage(user: userProfile,);
+                                  //   }),
+                                  // );
+                                  print("cd");
+                                },
                               )
                             ],
                           )
@@ -601,13 +613,25 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                                   );
                                 },
                               ),
-                              Container(
-                                height: 40.0,
-                                width: 45.0,
-                                decoration: BoxDecoration(
-                                    color: Colors.grey[300],
-                                    borderRadius: BorderRadius.circular(5.0)),
-                                child: Icon(Icons.more_horiz),
+                              InkWell(
+                                child: Container(
+                                  height: 40.0,
+                                  width: 45.0,
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[300],
+                                      borderRadius:
+                                      BorderRadius.circular(5.0)),
+                                  child: Icon(Icons.more_horiz),
+                                ),
+                                onTap: (){
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(builder: (context) {
+                                  //     return ChatPage(user: userProfile,);
+                                  //   }),
+                                  // );
+                                  print("Chuyen den cai dat");
+                                },
                               )
                             ],
                           )

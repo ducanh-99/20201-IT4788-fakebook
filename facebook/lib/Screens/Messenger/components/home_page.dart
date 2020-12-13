@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:facebook/data/source/localdatasource/colors.dart';
 import 'package:facebook/data/source/localdatasource/data.dart';
 import 'package:facebook/data/source/localdatasource/data_personal.dart';
@@ -6,26 +7,79 @@ import 'package:facebook/data/source/localdatasource/messenger_data.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:facebook/Screens/Messenger/components/chat_page.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   TextEditingController _searchController = new TextEditingController();
+  RefreshController _refreshController =
+  RefreshController(initialRefresh: false);
 
+  void _onRefresh() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000), () async {
+
+      Friend_Bloc friendBloc = new Friend_Bloc();
+      await friendBloc.getListFriend(currentUser.id);
+
+      return 'Data Loaded';
+    });
+    // if failed,use refreshFailed()
+    print('down');
+    this.setState(() {});
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000), () async {
+      Friend_Bloc friendBloc = new Friend_Bloc();
+      await friendBloc.getListFriend(currentUser.id);
+    });
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    if (mounted) setState(() {});
+    print('up');
+    _refreshController.loadComplete();
+  }
+
+  Future<String> waitApi() async {
+    Future<String> _calculation = Future<String>.delayed(
+      Duration(seconds: 2),
+          () async {
+        return 'Data Loaded';
+      },
+    );
+
+    Friend_Bloc friendBloc = new Friend_Bloc();
+    await friendBloc.getListFriend(currentUser.id);
+
+    return _calculation;
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: getBody(),
-    );
+    return SafeArea(
+      child: Scaffold(
+        body: SmartRefresher(
+          controller: _refreshController,
+          onLoading: _onLoading,
+          onRefresh: _onRefresh,
+          header: MaterialClassicHeader(),
+          footer: ClassicFooter(),
+          enablePullDown: true,
+          enablePullUp: true,
+          child: getBody(),
+        ),
+      ),
+    ) ;
   }
 
   Widget getBody() {
     var avt = 'http://fakebook-20201.herokuapp.com/api/get_avt/';
-    return SafeArea(
-        child: ListView(
+    return ListView(
       padding: EdgeInsets.only(left: 20, right: 20, top: 15),
       children: <Widget>[
         Row(
@@ -77,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                       width: 60,
                       height: 60,
                       decoration:
-                          BoxDecoration(shape: BoxShape.circle, color: grey),
+                      BoxDecoration(shape: BoxShape.circle, color: grey),
                       child: Center(
                         child: Icon(
                           LineIcons.plus,
@@ -92,101 +146,101 @@ class _HomePageState extends State<HomePage> {
                       width: 75,
                       child: Align(
                           child: Text(
-                        'Tin của bạn',
-                        overflow: TextOverflow.ellipsis,
-                      )),
+                            'Tin của bạn',
+                            overflow: TextOverflow.ellipsis,
+                          )),
                     )
                   ],
                 ),
               ),
               Row(
                   children: List.generate(listFriends.length, (index) {
-                return Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: InkWell(
-                    child: Column(
-                      children: <Widget>[
-                        // Container(
-                        //   width: 75,
-                        //   height: 75,
-                        //   child: Stack(
-                        //     children: <Widget>[
-                        //       userStories[index]['story']
-                        //           ? Container(
-                        //               decoration: BoxDecoration(
-                        //                   shape: BoxShape.circle,
-                        //                   border: Border.all(
-                        //                       color: blue_story, width: 3)),
-                        //               child: Padding(
-                        //                 padding: const EdgeInsets.all(3.0),
-                        //                 child: Container(
-                        //                   width: 75,
-                        //                   height: 75,
-                        //                   decoration: BoxDecoration(
-                        //                       shape: BoxShape.circle,
-                        //                       image: DecorationImage(
-                        //                           image: NetworkImage(
-                        //                               userStories[index]['img']),
-                        //                           fit: BoxFit.cover)),
-                        //                 ),
-                        //               ),
-                        //             )
-                        //           : Container(
-                        //               width: 70,
-                        //               height: 70,
-                        //               decoration: BoxDecoration(
-                        //                   shape: BoxShape.circle,
-                        //                   image: DecorationImage(
-                        //                       image: NetworkImage(
-                        //                           userStories[index]['img']),
-                        //                       fit: BoxFit.cover)),
-                        //             ),
-                        //       userStories[index]['online']
-                        //           ? Positioned(
-                        //               top: 48,
-                        //               left: 52,
-                        //               child: Container(
-                        //                 width: 20,
-                        //                 height: 20,
-                        //                 decoration: BoxDecoration(
-                        //                     color: online,
-                        //                     shape: BoxShape.circle,
-                        //                     border: Border.all(
-                        //                         color: white, width: 3)),
-                        //               ),
-                        //             )
-                        //           : Container()
-                        //     ],
-                        //   ),
-                        // ),
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: InkWell(
+                        child: Column(
+                          children: <Widget>[
+                            // Container(
+                            //   width: 75,
+                            //   height: 75,
+                            //   child: Stack(
+                            //     children: <Widget>[
+                            //       userStories[index]['story']
+                            //           ? Container(
+                            //               decoration: BoxDecoration(
+                            //                   shape: BoxShape.circle,
+                            //                   border: Border.all(
+                            //                       color: blue_story, width: 3)),
+                            //               child: Padding(
+                            //                 padding: const EdgeInsets.all(3.0),
+                            //                 child: Container(
+                            //                   width: 75,
+                            //                   height: 75,
+                            //                   decoration: BoxDecoration(
+                            //                       shape: BoxShape.circle,
+                            //                       image: DecorationImage(
+                            //                           image: NetworkImage(
+                            //                               userStories[index]['img']),
+                            //                           fit: BoxFit.cover)),
+                            //                 ),
+                            //               ),
+                            //             )
+                            //           : Container(
+                            //               width: 70,
+                            //               height: 70,
+                            //               decoration: BoxDecoration(
+                            //                   shape: BoxShape.circle,
+                            //                   image: DecorationImage(
+                            //                       image: NetworkImage(
+                            //                           userStories[index]['img']),
+                            //                       fit: BoxFit.cover)),
+                            //             ),
+                            //       userStories[index]['online']
+                            //           ? Positioned(
+                            //               top: 48,
+                            //               left: 52,
+                            //               child: Container(
+                            //                 width: 20,
+                            //                 height: 20,
+                            //                 decoration: BoxDecoration(
+                            //                     color: online,
+                            //                     shape: BoxShape.circle,
+                            //                     border: Border.all(
+                            //                         color: white, width: 3)),
+                            //               ),
+                            //             )
+                            //           : Container()
+                            //     ],
+                            //   ),
+                            // ),
 
-                        CircleAvatar(
-                          radius: 30.0,
-                          backgroundImage:
-                          CachedNetworkImageProvider(avt + listFriends[index].id),
+                            CircleAvatar(
+                              radius: 30.0,
+                              backgroundImage:
+                              CachedNetworkImageProvider(avt + listFriends[index].id),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            SizedBox(
+                              width: 75,
+                              child: Align(
+                                  child: Text(
+                                    listFriends[index].username,
+                                    overflow: TextOverflow.ellipsis,
+                                  )),
+                            )
+                          ],
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          width: 75,
-                          child: Align(
-                              child: Text(
-                                listFriends[index].username,
-                                overflow: TextOverflow.ellipsis,
-                              )),
-                        )
-                      ],
-                    ),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) {
-                            return ChatPage(user: listFriends[index],);
-                          }));
-                    },
-                  ),
-                );
-              }))
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (_) {
+                                return ChatPage(user: listFriends[index],);
+                              }));
+                        },
+                      ),
+                    );
+                  }))
             ],
           ),
         ),
@@ -291,6 +345,9 @@ class _HomePageState extends State<HomePage> {
         //   }),
         // )
       ],
-    ));
+    );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
