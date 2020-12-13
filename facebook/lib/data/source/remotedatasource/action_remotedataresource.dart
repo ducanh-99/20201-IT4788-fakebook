@@ -157,13 +157,15 @@ class ActionRemoteDatasourceImpl implements ActionRemoteDatasource {
         notifications = [];
         for (var noti in responseJson['content']) {
           UserNotification newnoti = new UserNotification(
+              category: noti['category'],
               userId: noti['user_id'],
               username: noti['username'],
               imageUrl: 'https://fakebook-20201.herokuapp.com/api/get_avt/' + noti['user_id'],
               content: noti['text'],
               postId: noti['post_id'],
               read: noti['read'],
-              time: noti['create']
+              time: noti['create'],
+              index: noti['index']
               );
           notifications.add(newnoti);
         }
