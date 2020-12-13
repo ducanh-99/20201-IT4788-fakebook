@@ -79,7 +79,6 @@ class ActionRemoteDatasourceImpl implements ActionRemoteDatasource {
         .then((value) async {
       var responseJson = json.decode(value.body);
       if (responseJson.length > 0) {
-        print('search result' + keyword);
         print(responseJson['user']);
         searchResult = [];
         for (var post in responseJson['posts']) {
@@ -142,7 +141,7 @@ class ActionRemoteDatasourceImpl implements ActionRemoteDatasource {
   }
 
   @override
-  apiGetNotification(Function onSuccess, Function onError ) async {
+  apiGetNotification(Function onSuccess, Function onError) async {
     var response = await http.get(
       "https://fakebook-20201.herokuapp.com/api/noti",
       headers: {
@@ -160,13 +159,18 @@ class ActionRemoteDatasourceImpl implements ActionRemoteDatasource {
               category: noti['category'],
               userId: noti['user_id'],
               username: noti['username'],
-              imageUrl: 'https://fakebook-20201.herokuapp.com/api/get_avt/' + noti['user_id'],
+              imageUrl: 'https://fakebook-20201.herokuapp.com/api/get_avt/' +
+                  noti['user_id'],
               content: noti['text'],
               postId: noti['post_id'],
               read: noti['read'],
+<<<<<<< HEAD
+              time: noti['create']);
+=======
               time: noti['create'],
               index: noti['index']
               );
+>>>>>>> 82a7bd737683a9fe193ca654cb312c82cffb8f38
           notifications.add(newnoti);
         }
       } else {
@@ -181,6 +185,4 @@ class ActionRemoteDatasourceImpl implements ActionRemoteDatasource {
       // return List<Post>();
     });
   }
-
-
 }

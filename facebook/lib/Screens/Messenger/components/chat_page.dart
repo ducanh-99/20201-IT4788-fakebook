@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:facebook/bloc/chat_bloc.dart';
+
 import 'package:facebook/constants.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/source/localdatasource/colors.dart';
@@ -18,7 +20,8 @@ class ChatPage extends StatefulWidget {
   _ChatPageState createState() => _ChatPageState(user);
 }
 
-class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin{
+class _ChatPageState extends State<ChatPage>
+    with AutomaticKeepAliveClientMixin {
   final User user;
 
   TextEditingController _sendMessageController = new TextEditingController();
@@ -27,7 +30,7 @@ class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin{
   _ChatPageState(this.user);
 
   RefreshController _refreshController =
-  RefreshController(initialRefresh: false);
+      RefreshController(initialRefresh: false);
 
   void _onRefresh() async {
     // monitor network fetch
@@ -38,6 +41,7 @@ class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin{
     });
     // if failed,use refreshFailed()
     print('down');
+
     this.setState(() {});
     _refreshController.refreshCompleted();
   }
@@ -58,7 +62,7 @@ class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin{
   Future<String> waitApi() async {
     Future<String> _calculation = Future<String>.delayed(
       Duration(seconds: 2),
-          () async {
+      () async {
         return 'Data Loaded';
       },
     );
@@ -114,39 +118,38 @@ class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin{
                     style:
                         TextStyle(color: black.withOpacity(0.4), fontSize: 14),
                   )
-
                 ],
               )
             ],
           ),
           // actions: <Widget>[
-            // Icon(
-            //   LineIcons.phone,
-            //   color: kPrimaryColor,
-            //   size: 32,
-            // ),
-            // SizedBox(
-            //   width: 15,
-            // ),
-            // Icon(
-            //   LineIcons.video_camera,
-            //   color: kPrimaryColor,
-            //   size: 35,
-            // ),
-            // SizedBox(
-            //   width: 8,
-            // ),
-            // Container(
-            //   width: 13,
-            //   height: 13,
-            //   decoration: BoxDecoration(
-            //       color: online,
-            //       shape: BoxShape.circle,
-            //       border: Border.all(color: Colors.white38)),
-            // ),
-            // SizedBox(
-            //   width: 15,
-            // ),
+          // Icon(
+          //   LineIcons.phone,
+          //   color: kPrimaryColor,
+          //   size: 32,
+          // ),
+          // SizedBox(
+          //   width: 15,
+          // ),
+          // Icon(
+          //   LineIcons.video_camera,
+          //   color: kPrimaryColor,
+          //   size: 35,
+          // ),
+          // SizedBox(
+          //   width: 8,
+          // ),
+          // Container(
+          //   width: 13,
+          //   height: 13,
+          //   decoration: BoxDecoration(
+          //       color: online,
+          //       shape: BoxShape.circle,
+          //       border: Border.all(color: Colors.white38)),
+          // ),
+          // SizedBox(
+          //   width: 15,
+          // ),
           // ],
         ),
         body: SmartRefresher(
@@ -166,20 +169,19 @@ class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin{
                   children = <Widget>[
                     Column(
                       children: [
-                        if(listConversation[user.id].listMessage.length > 0)
-                          for  (Message message in listConversation[user.id].listMessage)
+                        if (listConversation[user.id].listMessage.length > 0)
+                          for (Message message
+                              in listConversation[user.id].listMessage)
                             ChatBubble(
                                 isMe: message.isMe,
                                 message: message.message,
-                                profileImg: message.profileImg
-                            )
+                                profileImg: message.profileImg)
                         else
                           ChatBubble(
                               isMe: true,
-                              message: "Bạn và ${user.username} chưa nhắn tin với nhau ",
-                              profileImg: ""
-                          )
-
+                              message:
+                                  "Bạn và ${user.username} chưa nhắn tin với nhau ",
+                              profileImg: "")
                       ],
                     )
                   ];
@@ -201,17 +203,17 @@ class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin{
                     Column(
                       children: [
                         // for  (Message message in listConversation[user.id].listMessage)
-                          ChatBubble(
-                              isMe: true,
-                              message: "Đang chờ load tin nhắn",
-                              profileImg: ""
-                          )
+                        ChatBubble(
+                            isMe: true,
+                            message: "Đang chờ load tin nhắn",
+                            profileImg: "")
                       ],
                     )
                   ];
                 }
                 return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -222,19 +224,21 @@ class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin{
             ),
           ),
         ),
-        bottomSheet: BottomMessageSheet(user: this.user,),
+        bottomSheet: BottomMessageSheet(
+          user: this.user,
+        ),
       ),
     );
   }
+
   Widget getMessage() {
     return Column(
       children: [
-      for  (Message message in listConversation[user.id].listMessage)
-        ChatBubble(
-            isMe: message.isMe,
-            message: message.message,
-            profileImg: message.profileImg
-        )
+        for (Message message in listConversation[user.id].listMessage)
+          ChatBubble(
+              isMe: message.isMe,
+              message: message.message,
+              profileImg: message.profileImg)
       ],
     );
   }
@@ -242,12 +246,13 @@ class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin{
   Widget getBody() {
     return ListView(
       padding: EdgeInsets.only(right: 20, left: 20, top: 20, bottom: 80),
-      children: List.generate(listConversation[user.id].listMessage.length  , (index) {
+      children:
+          List.generate(listConversation[user.id].listMessage.length, (index) {
         return ChatBubble(
             isMe: listConversation[user.id].listMessage[index].isMe,
             message: listConversation[user.id].listMessage[index].message,
-            profileImg: listConversation[user.id].listMessage[index].profileImg
-        );
+            profileImg:
+                listConversation[user.id].listMessage[index].profileImg);
       }),
     );
   }
@@ -314,8 +319,8 @@ class ChatBubble extends StatelessWidget {
             ),
             Flexible(
               child: Container(
-                decoration: BoxDecoration(
-                    color: grey, borderRadius: getMessageType()),
+                decoration:
+                    BoxDecoration(color: grey, borderRadius: getMessageType()),
                 child: Padding(
                   padding: const EdgeInsets.all(13.0),
                   child: Text(
@@ -359,7 +364,7 @@ class ChatBubble extends StatelessWidget {
       // }
       // standalone message
       // else {
-        return BorderRadius.all(Radius.circular(30));
+      return BorderRadius.all(Radius.circular(30));
       // }
     }
     // for sender bubble
@@ -390,7 +395,7 @@ class ChatBubble extends StatelessWidget {
       // }
       // // standalone message
       // else {
-        return BorderRadius.all(Radius.circular(30));
+      return BorderRadius.all(Radius.circular(30));
       // }
     }
   }
@@ -483,8 +488,8 @@ class _BottomMessageSheet extends State<BottomMessageSheet> {
                       child: TextField(
                         cursorColor: black,
                         controller: _sendMessageController,
-                        onChanged: (value){
-                          message=value;
+                        onChanged: (value) {
+                          message = value;
                         },
                         decoration: InputDecoration(
                             border: InputBorder.none,
