@@ -7,7 +7,7 @@ abstract class ChatRemoteDatasource {
   apiGetAllConversation();
   apiGetConversationByUserId(String receiverId);
   apiRemoveConversation(String receiverId);
-  apiSendMessage(String receiverId);
+  apiSendMessage(String receiverId, String message);
   apiRemoveMessage(String receiverId,int index);
 }
 class ChatRemoteDatasourceImpl implements ChatRemoteDatasource {
@@ -80,21 +80,82 @@ class ChatRemoteDatasourceImpl implements ChatRemoteDatasource {
   }
 
   @override
-  apiRemoveConversation(receiverId) {
-    // TODO: implement apiRemoveConversation
-    throw UnimplementedError();
+  apiRemoveConversation(String receiverId) async {
+    var response = await http.post(
+      "https://fakebook-20201.herokuapp.com/api/get_chat/" +receiverId,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    ).then((value) async {
+      var responseJson = json.decode(value.body);
+      print(responseJson);
+      if(responseJson['code']==1000){
+        print("Xoa cuoc tro chuyen thanh cong");
+      } else {
+        print("Xoa cuoc tro chuyen that bai ");
+      }
+
+    }).catchError((error) async {
+      print(error);
+      print('Error');
+    });
   }
 
   @override
-  apiRemoveMessage(receiverId, index) {
-    // TODO: implement apiRemoveMessage
-    throw UnimplementedError();
+  apiRemoveMessage(String receiverId, int index) async {
+    try{
+      final baseUrl = "https://fakebook-20201.herokuapp.com/api/message/";
+      final url = Uri.parse(baseUrl + receiverId);
+      final request = http.Request("DELETE", url);
+      request.headers.addAll(<String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        "Accept": "application/json",
+        'Authorization': 'Bearer $token',
+      });
+      request.body = jsonEncode({"index": index});
+      final response = await request.send();
+      final responseJson = json.decode(response.toString());
+      if(responseJson['code']==1000){
+        print('Xoa message thanh cong');
+        listConversation[receiverId].listMessage.removeWhere((item) => item.index == index);
+      }else{
+        print('Xoa message that bai');
+      }
+    } catch(err){
+      print('ERROR $err');
+    }
   }
 
   @override
-  apiSendMessage(receiverId) {
-    // TODO: implement apiSendMessage
-    throw UnimplementedError();
+  apiSendMessage(String receiverId, String message) async {
+    var response = await http.post(
+      "https://fakebook-20201.herokuapp.com/api/message/" +receiverId,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({'text':message}),
+    ).then((value) async {
+      var responseJson = json.decode(value.body);
+      print(responseJson);
+      listConversation[receiverId].listMessage.add(
+          Message(
+            index: listConversation[receiverId].listMessage.length +1,
+            createAt: "",
+            message: message,
+            isMe: true,
+            profileImg: 'https://fakebook-20201.herokuapp.com/api/get_avt/' + receiverId,
+          )
+      );
+
+    }).catchError((error) async {
+      print(error);
+      print('Error');
+    });
   }
+
 
 }
