@@ -44,10 +44,11 @@ class _FriendRequestState extends State<FriendRequest> {
 
   @override
   Widget build(BuildContext context) {
+    var avt = 'https://fakebook-20201.herokuapp.com/api/get_avt/';
     return Row(
       children: <Widget>[
         CircleAvatar(
-          backgroundImage: CachedNetworkImageProvider(user.avatar),
+          backgroundImage: CachedNetworkImageProvider(avt + user.id),
           radius: 30.0,
         ),
         SizedBox(width: 20.0),

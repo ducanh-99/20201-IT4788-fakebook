@@ -15,6 +15,7 @@ import 'package:facebook/data/source/localdatasource/local_data.dart';
 // import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../constants.dart';
@@ -209,11 +210,20 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                                     color: Colors.blue,
                                     borderRadius: BorderRadius.circular(5.0)),
                                 child: Center(
-                                    child: Text('Thêm tin',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0))),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          MdiIcons.facebookMessenger,
+                                          color: textColor,
+                                        ),
+                                        Text(' Nhắn tin',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16.0))
+                                      ],
+                                    )),
                               ),
                               Container(
                                 height: 40.0,
@@ -242,7 +252,10 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                         children: <Widget>[
                           Icon(Icons.phone, color: Colors.grey, size: 30.0),
                           SizedBox(width: 10.0),
-                          Text(currentUser.phone == null ? "" : currentUser.phone,
+                          Text(
+                              currentUser.phone == null
+                                  ? ""
+                                  : currentUser.phone,
                               style: TextStyle(fontSize: 16.0))
                         ],
                       ),
@@ -323,44 +336,59 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                           )
                         ],
                       ),
-                      listFriends.length >= 1 ? Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            listFriends.length >= 1
-                                ? widgetFriend(listFriends[0])
-                                : SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.width / 3 -
-                                            10,
-                                    width:
-                                        MediaQuery.of(context).size.width / 3 -
-                                            20,
-                                  ),
-                            listFriends.length >= 2
-                                ? widgetFriend(listFriends[1])
-                                : SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.width / 3 -
-                                            10,
-                                    width:
-                                        MediaQuery.of(context).size.width / 3 -
-                                            20,
-                                  ),
-                            listFriends.length >= 3
-                                ? widgetFriend(listFriends[2])
-                                : SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.width / 3 -
-                                            10,
-                                    width:
-                                        MediaQuery.of(context).size.width / 3 -
-                                            20,
-                                  ),
-                          ],
-                        ),
-                      ) : SizedBox(),
+                      listFriends.length >= 1
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 15.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  listFriends.length >= 1
+                                      ? widgetFriend(listFriends[0])
+                                      : SizedBox(
+                                          height: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3 -
+                                              10,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3 -
+                                              20,
+                                        ),
+                                  listFriends.length >= 2
+                                      ? widgetFriend(listFriends[1])
+                                      : SizedBox(
+                                          height: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3 -
+                                              10,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3 -
+                                              20,
+                                        ),
+                                  listFriends.length >= 3
+                                      ? widgetFriend(listFriends[2])
+                                      : SizedBox(
+                                          height: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3 -
+                                              10,
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3 -
+                                              20,
+                                        ),
+                                ],
+                              ),
+                            )
+                          : SizedBox(),
                       listFriends.length >= 4
                           ? Padding(
                               padding: const EdgeInsets.only(top: 15.0),
@@ -500,62 +528,24 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                               Positioned(
                                 top: 100,
                                 left: 100,
-                                child:
-// Container(
-//   width: 20,
-//   height: 20,
-//   decoration: BoxDecoration(
-//       color: kBlack,
-//       shape: BoxShape.circle,
-//       border:
-//       Border.all(color: kBlack, width: 3)),
-// ),
-// Container(
-//   width: 20,
-//   height: 20,
-//   padding: const EdgeInsets.all(4.0),
-//   decoration: BoxDecoration(
-//     color: kPrimaryColor,
-//     shape: BoxShape.circle,
-//   ),
-//   child: const Icon(
-//     Icons.thumb_up,
-//     size: 10.0,
-//     color: Colors.white,
-//   ),
-// ),
-// Container(
-//   width: 25,
-//   height: 25,
-//   padding: const EdgeInsets.all(2.0),
-//   decoration: BoxDecoration(
-//     color: kPrimaryColor,
-//     shape: BoxShape.circle,
-//   ),
-//   child: const Icon(
-//     Icons.person,
-//     size: 20.0,
-//     color: Colors.white,
-//   ),
-// ),
-                                    Container(
-                                        width: 40,
-                                        height: 40,
-                                        padding: const EdgeInsets.all(2.0),
-                                        decoration: BoxDecoration(
-                                          color: kPrimaryLightColor,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: InkWell(
-                                          child: const Icon(
-                                            Icons.camera_alt,
-                                            size: 20.0,
-                                            color: kBlack,
-                                          ),
-                                          onTap: () {
-                                            print("thay ảnh đại diện");
-                                          },
-                                        )),
+                                child: Container(
+                                    width: 40,
+                                    height: 40,
+                                    padding: const EdgeInsets.all(2.0),
+                                    decoration: BoxDecoration(
+                                      color: kPrimaryLightColor,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: InkWell(
+                                      child: const Icon(
+                                        Icons.camera_alt,
+                                        size: 20.0,
+                                        color: kBlack,
+                                      ),
+                                      onTap: () {
+                                        print("thay ảnh đại diện");
+                                      },
+                                    )),
                               ),
                             ],
                           ),
@@ -574,11 +564,20 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                                     color: Colors.blue,
                                     borderRadius: BorderRadius.circular(5.0)),
                                 child: Center(
-                                    child: Text('Thêm tin',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0))),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          MdiIcons.facebookMessenger,
+                                          color: textColor,
+                                        ),
+                                        Text(' Nhắn tin',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16.0))
+                                      ],
+                                    )),
                               ),
                               Container(
                                 height: 40.0,
@@ -607,7 +606,10 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                         children: <Widget>[
                           Icon(Icons.phone, color: Colors.grey, size: 30.0),
                           SizedBox(width: 10.0),
-                          Text(currentUser.phone == null ? "" : currentUser.phone,
+                          Text(
+                              currentUser.phone == null
+                                  ? ""
+                                  : currentUser.phone,
                               style: TextStyle(fontSize: 16.0))
                         ],
                       ),

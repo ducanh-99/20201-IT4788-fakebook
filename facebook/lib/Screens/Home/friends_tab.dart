@@ -434,7 +434,6 @@ class FriendRequestContainer extends StatefulWidget {
 
 class FriendRequestContainerState extends State<FriendRequestContainer> {
   int friendRequest = listFriendRequests.length;
-
   // FriendRequestContainerState(this.friendRequest);
   // @override
   // void initState() {

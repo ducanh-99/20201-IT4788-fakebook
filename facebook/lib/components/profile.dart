@@ -20,6 +20,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../constants.dart';
+import 'create_post_container.dart';
 
 class Profile extends StatelessWidget {
   @override
@@ -440,6 +441,27 @@ class _ProfileUser extends State<ProfileUser>
     );
   }
 
+  int isRequest;
+
+  void initState() {
+    super.initState();
+    isRequest = 0;
+  }
+
+  void _request() {
+    setState(() {
+      isRequest = 1;
+      print('gui loi moi: $isRequest');
+    });
+  }
+
+  void _delete() {
+    setState(() {
+      isRequest = 0;
+      print('undo: $isRequest');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var avt = 'http://fakebook-20201.herokuapp.com/api/get_avt/';
@@ -514,6 +536,38 @@ class _ProfileUser extends State<ProfileUser>
                                     }));
                                   },
                                 ),
+                                id == currentUser.id
+                                    ? Positioned(
+                                        top: 100,
+                                        left: 100,
+                                        child: Container(
+                                            width: 40,
+                                            height: 40,
+                                            padding: const EdgeInsets.all(2.0),
+                                            decoration: BoxDecoration(
+                                              color: kPrimaryLightColor,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: InkWell(
+                                              child: const Icon(
+                                                Icons.camera_alt,
+                                                size: 20.0,
+                                                color: kBlack,
+                                              ),
+                                              onTap: () {
+                                                print("thay ảnh đại diện");
+                                              },
+                                            )),
+                                      )
+                                    : Positioned(
+                                        top: 100,
+                                        left: 100,
+                                        child: Container(
+                                          width: 40,
+                                          height: 40,
+                                          padding: const EdgeInsets.all(2.0),
+                                        ),
+                                      ),
                               ],
                             ),
                             SizedBox(height: 20.0),
@@ -522,108 +576,223 @@ class _ProfileUser extends State<ProfileUser>
                                     fontSize: 24.0,
                                     fontWeight: FontWeight.bold)),
                             SizedBox(height: 20.0),
-                          // userProfile.isFriend ?
-                         userProfile.isFriend ? Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                Container(
-                                  height: 40.0,
-                                  width: MediaQuery.of(context).size.width - 80,
-                                  decoration: BoxDecoration(
-                                      color: Colors.blue,
-                                      borderRadius: BorderRadius.circular(5.0)),
-                                  child: Center(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(MdiIcons.facebookMessenger, color: textColor,),
-                                          Text(' Nhắn tin',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16.0))
+                            // userProfile.isFriend ?
+                            id == currentUser.id
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      Container(
+                                        height: 40.0,
+                                        width:
+                                            MediaQuery.of(context).size.width -
+                                                80,
+                                        decoration: BoxDecoration(
+                                            color: Colors.blue,
+                                            borderRadius:
+                                                BorderRadius.circular(5.0)),
+                                        child: Center(
+                                            child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              MdiIcons.facebookMessenger,
+                                              color: textColor,
+                                            ),
+                                            Text(' Nhắn tin',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16.0))
+                                          ],
+                                        )),
+                                      ),
+                                      Container(
+                                        height: 40.0,
+                                        width: 45.0,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[300],
+                                            borderRadius:
+                                                BorderRadius.circular(5.0)),
+                                        child: Icon(Icons.more_horiz),
+                                      )
+                                    ],
+                                  )
+                                : userProfile.isFriend
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: <Widget>[
+                                          Container(
+                                            height: 40.0,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                80,
+                                            decoration: BoxDecoration(
+                                                color: Colors.blue,
+                                                borderRadius:
+                                                    BorderRadius.circular(5.0)),
+                                            child: Center(
+                                                child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  MdiIcons.facebookMessenger,
+                                                  color: textColor,
+                                                ),
+                                                Text(' Nhắn tin',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16.0))
+                                              ],
+                                            )),
+                                          ),
+                                          Container(
+                                            height: 40.0,
+                                            width: 45.0,
+                                            decoration: BoxDecoration(
+                                                color: Colors.grey[300],
+                                                borderRadius:
+                                                    BorderRadius.circular(5.0)),
+                                            child: Icon(Icons.more_horiz),
+                                          )
                                         ],
                                       )
-                                  ),
-                                ),
-                                Container(
-                                  height: 40.0,
-                                  width: 45.0,
-                                  decoration: BoxDecoration(
-                                      color: Colors.grey[300],
-                                      borderRadius: BorderRadius.circular(5.0)),
-                                  child: Icon(Icons.more_horiz),
-                                )
-                              ],
-                            ) : Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                           children: <Widget>[
-                             InkWell(
-                               child: Container(
-                                 height: 40.0,
-                                 width: MediaQuery.of(context).size.width - 80,
-                                 decoration: BoxDecoration(
-                                     color: Colors.blue,
-                                     borderRadius: BorderRadius.circular(5.0)),
-                                 child: Center(
-                                     child: Row(
-                                       mainAxisAlignment: MainAxisAlignment.center,
-                                       children: [
-                                         Icon(Icons.person_add,color: textColor,),
-                                         Text(' Kết bạn',
-                                             style: TextStyle(
-                                                 color: Colors.white,
-                                                 fontWeight: FontWeight.bold,
-                                                 fontSize: 16.0))
-                                       ],
-                                     )
-                                 ),
-                               ),
-                               onTap: (){
-                                 Friend_Bloc friend = new Friend_Bloc();
-                                 friend.SendFriendRequest(id);
-                               },
-                             ),
-                             InkWell(
-                               child: Container(
-                                 height: 40.0,
-                                 width: 45.0,
-                                 decoration: BoxDecoration(
-                                     color: Colors.grey[300],
-                                     borderRadius: BorderRadius.circular(5.0)),
-                                 child: Icon(Icons.more_horiz),
-                               ),
-                             ),
-
-
-                           ],
-                         )
-                          //     : Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          //   children: <Widget>[
-                          //     Container(
-                          //       height: 40.0,
-                          //       width: MediaQuery.of(context).size.width - 80,
-                          //       decoration: BoxDecoration(
-                          //           color: Colors.blue,
-                          //           borderRadius: BorderRadius.circular(5.0)),
-                          //       child: Center(
-                          //           child: Text('Thêm tin',
-                          //               style: TextStyle(
-                          //                   color: Colors.white,
-                          //                   fontWeight: FontWeight.bold,
-                          //                   fontSize: 16.0))),
-                          //     ),
-                          //     Container(
-                          //       height: 40.0,
-                          //       width: 45.0,
-                          //       decoration: BoxDecoration(
-                          //           color: Colors.grey[300],
-                          //           borderRadius: BorderRadius.circular(5.0)),
-                          //       child: Icon(Icons.more_horiz),
-                          //     )
-                          //   ],
-                          // )
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: <Widget>[
+                                          isRequest == 0
+                                              ? InkWell(
+                                                  child: Container(
+                                                    height: 40.0,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width -
+                                                            80,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.blue,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5.0)),
+                                                    child: Center(
+                                                        child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.person_add,
+                                                          color: textColor,
+                                                        ),
+                                                        Text(' Kết bạn',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 16.0))
+                                                      ],
+                                                    )),
+                                                  ),
+                                                  onTap: () {
+                                                    Friend_Bloc friend =
+                                                        new Friend_Bloc();
+                                                    friend.SendFriendRequest(
+                                                        id);
+                                                    _request();
+                                                  },
+                                                )
+                                              : InkWell(
+                                                  child: Container(
+                                                    height: 40.0,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width -
+                                                            80,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.blue,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5.0)),
+                                                    child: Center(
+                                                        child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.person_add,
+                                                          color: textColor,
+                                                        ),
+                                                        Text(
+                                                            ' Đã gửi lời mời kết bạn',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 16.0))
+                                                      ],
+                                                    )),
+                                                  ),
+                                                  onTap: () {
+                                                    _delete();
+                                                    Friend_Bloc friend =
+                                                        new Friend_Bloc();
+                                                    friend.SendFriendRequest(
+                                                        id);
+                                                  },
+                                                ),
+                                          InkWell(
+                                            child: Container(
+                                              height: 40.0,
+                                              width: 45.0,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey[300],
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          5.0)),
+                                              child: Icon(Icons.more_horiz),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                            //     : Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            //   children: <Widget>[
+                            //     Container(
+                            //       height: 40.0,
+                            //       width: MediaQuery.of(context).size.width - 80,
+                            //       decoration: BoxDecoration(
+                            //           color: Colors.blue,
+                            //           borderRadius: BorderRadius.circular(5.0)),
+                            //       child: Center(
+                            //           child: Text('Thêm tin',
+                            //               style: TextStyle(
+                            //                   color: Colors.white,
+                            //                   fontWeight: FontWeight.bold,
+                            //                   fontSize: 16.0))),
+                            //     ),
+                            //     Container(
+                            //       height: 40.0,
+                            //       width: 45.0,
+                            //       decoration: BoxDecoration(
+                            //           color: Colors.grey[300],
+                            //           borderRadius: BorderRadius.circular(5.0)),
+                            //       child: Icon(Icons.more_horiz),
+                            //     )
+                            //   ],
+                            // )
                           ],
                         )
                       ],
@@ -725,54 +894,66 @@ class _ProfileUser extends State<ProfileUser>
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {
                                   return AllFriendsScreen(
-                                    id: id,
+                                    id: avt + id,
                                   );
                                 }));
                               },
                             )
                           ],
                         ),
-                        listFriends.length >= 1 ? Padding(
-                          padding: const EdgeInsets.only(top: 15.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              listFriends.length >= 1
-                                  ? widgetFriend(listFriends[0])
-                                  : SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.width /
-                                                  3 -
-                                              10,
-                                      width: MediaQuery.of(context).size.width /
-                                              3 -
-                                          20,
-                                    ),
-                              listFriends.length >= 2
-                                  ? widgetFriend(listFriends[1])
-                                  : SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.width /
-                                                  3 -
-                                              10,
-                                      width: MediaQuery.of(context).size.width /
-                                              3 -
-                                          20,
-                                    ),
-                              listFriends.length >= 3
-                                  ? widgetFriend(listFriends[2])
-                                  : SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.width /
-                                                  3 -
-                                              10,
-                                      width: MediaQuery.of(context).size.width /
-                                              3 -
-                                          20,
-                                    ),
-                            ],
-                          ),
-                        ) : SizedBox(),
+                        listFriends.length >= 1
+                            ? Padding(
+                                padding: const EdgeInsets.only(top: 15.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    listFriends.length >= 1
+                                        ? widgetFriend(listFriends[0])
+                                        : SizedBox(
+                                            height: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    3 -
+                                                10,
+                                            width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    3 -
+                                                20,
+                                          ),
+                                    listFriends.length >= 2
+                                        ? widgetFriend(listFriends[1])
+                                        : SizedBox(
+                                            height: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    3 -
+                                                10,
+                                            width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    3 -
+                                                20,
+                                          ),
+                                    listFriends.length >= 3
+                                        ? widgetFriend(listFriends[2])
+                                        : SizedBox(
+                                            height: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    3 -
+                                                10,
+                                            width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    3 -
+                                                20,
+                                          ),
+                                  ],
+                                ),
+                              )
+                            : SizedBox(),
                         listFriends.length >= 4
                             ? Padding(
                                 padding: const EdgeInsets.only(top: 15.0),
@@ -845,7 +1026,7 @@ class _ProfileUser extends State<ProfileUser>
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
                               return AllFriendsScreen(
-                                id: id,
+                                id: avt + id,
                               );
                             }));
                           },
@@ -854,6 +1035,10 @@ class _ProfileUser extends State<ProfileUser>
                     ),
                   ),
                   SeparatorWidget(),
+                  id == currentUser.id ?
+                  Container(
+                    child: CreatePostContainer(currentUser: currentUser),
+                  ) : SizedBox(),
                   for (Post post in userPosts) PostContainer(post)
                 ];
               } else if (snapshot.hasError) {
@@ -906,66 +1091,38 @@ class _ProfileUser extends State<ProfileUser>
                                     }));
                                   },
                                 ),
-                                Positioned(
-                                  top: 100,
-                                  left: 100,
-                                  child:
-// Container(
-//   width: 20,
-//   height: 20,
-//   decoration: BoxDecoration(
-//       color: kBlack,
-//       shape: BoxShape.circle,
-//       border:
-//       Border.all(color: kBlack, width: 3)),
-// ),
-// Container(
-//   width: 20,
-//   height: 20,
-//   padding: const EdgeInsets.all(4.0),
-//   decoration: BoxDecoration(
-//     color: kPrimaryColor,
-//     shape: BoxShape.circle,
-//   ),
-//   child: const Icon(
-//     Icons.thumb_up,
-//     size: 10.0,
-//     color: Colors.white,
-//   ),
-// ),
-// Container(
-//   width: 25,
-//   height: 25,
-//   padding: const EdgeInsets.all(2.0),
-//   decoration: BoxDecoration(
-//     color: kPrimaryColor,
-//     shape: BoxShape.circle,
-//   ),
-//   child: const Icon(
-//     Icons.person,
-//     size: 20.0,
-//     color: Colors.white,
-//   ),
-// ),
-                                      Container(
+                                id == currentUser.id
+                                    ? Positioned(
+                                        top: 100,
+                                        left: 100,
+                                        child: Container(
+                                            width: 40,
+                                            height: 40,
+                                            padding: const EdgeInsets.all(2.0),
+                                            decoration: BoxDecoration(
+                                              color: kPrimaryLightColor,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: InkWell(
+                                              child: const Icon(
+                                                Icons.camera_alt,
+                                                size: 20.0,
+                                                color: kBlack,
+                                              ),
+                                              onTap: () {
+                                                print("thay ảnh đại diện");
+                                              },
+                                            )),
+                                      )
+                                    : Positioned(
+                                        top: 100,
+                                        left: 100,
+                                        child: Container(
                                           width: 40,
                                           height: 40,
                                           padding: const EdgeInsets.all(2.0),
-                                          decoration: BoxDecoration(
-                                            color: kPrimaryLightColor,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: InkWell(
-                                            child: const Icon(
-                                              Icons.camera_alt,
-                                              size: 20.0,
-                                              color: kBlack,
-                                            ),
-                                            onTap: () {
-                                              print("thay ảnh đại diện");
-                                            },
-                                          )),
-                                ),
+                                        ),
+                                      ),
                               ],
                             ),
                             SizedBox(height: 20.0),
@@ -978,18 +1135,29 @@ class _ProfileUser extends State<ProfileUser>
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 Container(
-                                  height: 40.0,
-                                  width: MediaQuery.of(context).size.width - 80,
-                                  decoration: BoxDecoration(
-                                      color: Colors.blue,
-                                      borderRadius: BorderRadius.circular(5.0)),
-                                  child: Center(
-                                      child: Text('Thêm tin',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16.0))),
-                                ),
+                                    height: 40.0,
+                                    width:
+                                        MediaQuery.of(context).size.width - 80,
+                                    decoration: BoxDecoration(
+                                        color: Colors.blue,
+                                        borderRadius:
+                                            BorderRadius.circular(5.0)),
+                                    child: Center(
+                                        child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          MdiIcons.facebookMessenger,
+                                          color: textColor,
+                                        ),
+                                        Text(' Nhắn tin',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16.0))
+                                      ],
+                                    ))),
                                 Container(
                                   height: 40.0,
                                   width: 45.0,
