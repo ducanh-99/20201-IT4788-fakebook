@@ -49,4 +49,7 @@ class PostBloc {
   apiGetAllVideo()async{
     await _postRepositoryImpl.apiGetAllVideo();
   }
+  getPostById(String postId) async {
+    await _postRepositoryImpl.getPostById(postId);
+  }
 }

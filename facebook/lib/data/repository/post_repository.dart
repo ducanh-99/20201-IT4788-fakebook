@@ -23,6 +23,7 @@ abstract class PostRepository {
   Future<bool> unlikePost(String postID);
   setLocalPost();
   apiGetAllVideo();
+  getPostById(String postId);
 }
 
 class PostRepositoryImpl extends PostRepository {
@@ -76,5 +77,10 @@ class PostRepositoryImpl extends PostRepository {
   @override
   apiGetAllVideo() async{
     await _postRemoteDatasource.apiGetAllVideo();
+  }
+
+  @override
+  getPostById(String postId) async {
+    await _postRemoteDatasource.apiGetPostById(postId);
   }
 }
