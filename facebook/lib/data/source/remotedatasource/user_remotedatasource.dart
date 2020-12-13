@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:facebook/bloc/local_bloc.dart';
 import 'package:facebook/data/models/user.dart';
@@ -13,12 +14,17 @@ import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:facebook/data/source/remotedatasource/post_remotedatasource.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:dio/dio.dart' as dio;
+import 'package:path/path.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 abstract class UserRemoteDatasource {
   apiRegister(User user, Function onSuccess, Function(String) onError);
   apiSignin(String phone, String password, Function onSuccess,
       Function(String) onError);
   apiGetUserProfilebyId(String userId);
+  apiUploadAvatar(File image,Function onSuccess, Function onError);
 }
 
 class UserRemoteDatasourceImpl implements UserRemoteDatasource {
@@ -145,6 +151,49 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
       print('Error');
       print(error);
     });
+  }
+
+  @override
+  apiUploadAvatar(File image ,Function onSuccess, Function onError) async {
+    try {
+      ///[1] CREATING INSTANCE
+      var dioRequest = dio.Dio();
+      dioRequest.options.baseUrl =
+      'https://fakebook-20201.herokuapp.com/api/post';
+
+      //[2] ADDING TOKEN
+      dioRequest.options.headers = {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      };
+
+      //[3] ADDING EXTRA INFO
+      var formData = new dio.FormData.fromMap({});
+
+      //[4] ADD IMAGE TO UPLOAD
+      if (image != null) {
+        print("image is not null");
+        var file = await dio.MultipartFile.fromFile(image.path,
+            filename: basename(image.path),
+            contentType: MediaType("image", basename(image.path)));
+        await DefaultCacheManager().removeFile('https://fakebook-20201.herokuapp.com/api/get_avt/'+currentUser.id);
+        formData.files.add(MapEntry('file', file));
+      }
+      //Add video to upload
+
+      //[5] SEND TO SERVER
+      var response = await dioRequest.post(
+        'https://fakebook-20201.herokuapp.com/api/upload_avt',
+        data: formData,
+      );
+      final responseJson = json.decode(response.toString());
+      print(responseJson);
+      onSuccess();
+      print("success");
+    } catch (err) {
+      onError();
+      print('ERROR  $err');
+    }
   }
 
 

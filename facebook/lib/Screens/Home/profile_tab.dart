@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:facebook/Screens/Home/all_friends_tab.dart';
+import 'package:facebook/Screens/Home/nav_screen.dart';
 import 'package:facebook/Screens/Home/setup.dart';
 import 'package:facebook/Screens/Messenger/components/chat_page.dart';
 import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:facebook/bloc/post_bloc.dart';
+import 'package:facebook/bloc/user_bloc.dart';
 import 'package:facebook/components/components.dart';
 import 'package:facebook/components/create_post_container.dart';
 import 'package:facebook/components/detail_image_screen.dart';
@@ -15,6 +17,7 @@ import 'package:facebook/components/separator_widget.dart';
 import 'package:facebook/data/models/post_model.dart';
 import 'package:facebook/data/models/user.dart';
 import 'package:facebook/data/source/localdatasource/local_data.dart';
+import 'package:facebook/components/error_connect.dart';
 
 // import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:flutter/material.dart';
@@ -202,9 +205,27 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> with AutomaticKeepAl
                                         size: 20.0,
                                         color: kBlack,
                                       ),
-                                      onTap: () {
-                                        print("thay ảnh đại diện");
-                                        selectImage();
+                                      onTap: () async {
+                                        UserBloc _userBloc = UserBloc();
+                                        await selectImage();
+                                        await _userBloc.uploadAvatar(image, () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return NavScreen();
+                                              },
+                                            ),
+                                          );
+                                        }, () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) {
+                                              return ErrorConnect();
+                                            }),
+                                          );
+                                        }
+                                        );
                                       },
                                     )),
                               ),
@@ -580,8 +601,27 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> with AutomaticKeepAl
                                         size: 20.0,
                                         color: kBlack,
                                       ),
-                                      onTap: () {
-                                        print("thay ảnh đại diện");
+                                      onTap: () async {
+                                        UserBloc _userBloc = UserBloc();
+                                        await selectImage();
+                                        await _userBloc.uploadAvatar(image, () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return NavScreen();
+                                              },
+                                            ),
+                                          );
+                                        }, () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) {
+                                              return ErrorConnect();
+                                            }),
+                                          );
+                                        }
+                                        );
                                       },
                                     )),
                               ),
