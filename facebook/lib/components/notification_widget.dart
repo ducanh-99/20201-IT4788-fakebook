@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook/Screens/Post/post_detail.dart';
 import 'package:facebook/bloc/notification_bloc.dart';
+import 'package:facebook/components/components.dart';
 import 'package:facebook/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -162,12 +163,18 @@ class _NotificationWidget extends State<NotificationWidget> {
           _read();
           print("an neee");
           NotificationBloc notificationBloc = new NotificationBloc();
-          // notificationBloc.r
-          // Navigator.push(context, MaterialPageRoute(builder: (_) {
-          //   return PostDetail(
-          //     postId: notification.postId,
-          //   );
-          // }));
+          // notificationBloc.
+          if(notification.category == 'like' || notification.category == 'comment') {
+            Navigator.push(context, MaterialPageRoute(builder: (_) {
+              return PostDetail(
+                postId: notification.postId,
+              );
+            }));
+          } else if(notification.category == 'friend') {
+            Navigator.push(context, MaterialPageRoute(builder: (_) {
+              return ProfileUser(id: notification.userId, username: notification.username,);
+            }));
+          }
         },
       ),
     );
