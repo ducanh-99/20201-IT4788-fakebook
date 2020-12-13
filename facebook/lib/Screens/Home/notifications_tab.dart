@@ -31,6 +31,7 @@ class _NotificationsTab extends State<NotificationsTab> with AutomaticKeepAliveC
             return ErrorConnect();
           }),
         );
+        print(notifications);
       });
       return 'Data Loaded';
     });
@@ -80,6 +81,7 @@ class _NotificationsTab extends State<NotificationsTab> with AutomaticKeepAliveC
         }),
       );
     });
+    print(notifications);
     return _calculation;
   }
 
