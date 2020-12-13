@@ -9,13 +9,14 @@ import '../../constants.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:toast/toast.dart';
 import 'package:facebook/Screens/Home/edit_profile.dart';
-class Setup extends StatelessWidget {
 
+class Setup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void showToast(String msg, {int duration, int gravity}) {
       Toast.show(msg, context, duration: duration, gravity: gravity);
     }
+
     var link = 'https://www.facebook.com/' +
         TiengViet.parse(currentUser.username).toLowerCase().replaceAll(" ", "");
     return SafeArea(
@@ -51,14 +52,13 @@ class Setup extends StatelessWidget {
                 title: Text('Chỉnh sửa trang cá nhân',
                     style: TextStyle(fontSize: 16.0)),
                 onTap: () => {
-                print("Chuyen den chỉnh sửa trang cá nhân"),
-                Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) {
-                return EditProfile();
-                }),
-                )
-
+                  print("Chuyen den chỉnh sửa trang cá nhân"),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return EditProfile();
+                    }),
+                  )
                 },
               ),
             ),
@@ -89,7 +89,7 @@ class Setup extends StatelessWidget {
               child: ListTile(
                 leading: Icon(MdiIcons.formatListBulleted),
                 title:
-                Text('Nhật ký hoạt động', style: TextStyle(fontSize: 16.0)),
+                    Text('Nhật ký hoạt động', style: TextStyle(fontSize: 16.0)),
                 onTap: () => {},
               ),
             ),
@@ -100,7 +100,7 @@ class Setup extends StatelessWidget {
               child: ListTile(
                 leading: Icon(MdiIcons.textBoxOutline),
                 title:
-                Text('Quản lý bài viết', style: TextStyle(fontSize: 16.0)),
+                    Text('Quản lý bài viết', style: TextStyle(fontSize: 16.0)),
                 onTap: () => {},
               ),
             ),
@@ -118,15 +118,15 @@ class Setup extends StatelessWidget {
             Divider(
               height: 5.0,
             ),
-            Padding(padding: EdgeInsets.all(10.0),
+            Padding(
+              padding: EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-
                 children: [
                   Text(
                     'Liên kết đến trang cá nhân',
                     style:
-                    TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     height: 5.0,
@@ -135,7 +135,6 @@ class Setup extends StatelessWidget {
                     'Liên kết của riêng bạn trên Facebook',
                     style: TextStyle(fontSize: 15.0),
                   ),
-
                   Divider(
                     height: 5.0,
                   ),
@@ -148,7 +147,7 @@ class Setup extends StatelessWidget {
                             .toLowerCase()
                             .replaceAll(" ", ""),
                     style:
-                    TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     height: 5.0,
@@ -158,14 +157,14 @@ class Setup extends StatelessWidget {
                       height: 40.0,
                       decoration: BoxDecoration(
                           color: backgroundColor,
-                          border: Border.all(width: 2.0, color: Colors.grey[300]),
-                          borderRadius: BorderRadius.circular(5.0)
-                      ),
-                      child:
-                      FlatButton(
+                          border:
+                              Border.all(width: 2.0, color: Colors.grey[300]),
+                          borderRadius: BorderRadius.circular(5.0)),
+                      child: FlatButton(
                           onPressed: () async {
                             await FlutterClipboard.copy(link);
-                            showToast("Đã sao chép liên kết vào bộ nhớ tạm", gravity: Toast.BOTTOM);
+                            showToast("Đã sao chép liên kết vào bộ nhớ tạm",
+                                gravity: Toast.BOTTOM);
                           },
                           child: Text('SAO CHÉP LIÊN KẾT',
                               style: TextStyle(color: kBlack))),
@@ -175,8 +174,8 @@ class Setup extends StatelessWidget {
                     height: 5.0,
                   ),
                 ],
-              ),)
-
+              ),
+            )
           ],
         ),
       ),
