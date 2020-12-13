@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:facebook/constants.dart';
 import 'package:facebook/data/models/models.dart';
 import 'package:facebook/data/source/localdatasource/colors.dart';
@@ -6,6 +7,7 @@ import 'package:facebook/data/source/localdatasource/local_data.dart';
 import 'package:facebook/data/source/localdatasource/messenger_data.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ChatPage extends StatefulWidget {
   final User user;
@@ -23,6 +25,20 @@ class _ChatPageState extends State<ChatPage> {
   BottomMessageSheet bottomMessageSheet = new BottomMessageSheet();
 
   _ChatPageState(this.user);
+
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000), () async {
+      return 'Data Loaded';
+    });
+    // if failed,use refreshFailed()
+    print('down');
+    _refreshController.refreshCompleted();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,42 +85,48 @@ class _ChatPageState extends State<ChatPage> {
                     style:
                         TextStyle(color: black.withOpacity(0.4), fontSize: 14),
                   )
-
                 ],
               )
             ],
           ),
           // actions: <Widget>[
-            // Icon(
-            //   LineIcons.phone,
-            //   color: kPrimaryColor,
-            //   size: 32,
-            // ),
-            // SizedBox(
-            //   width: 15,
-            // ),
-            // Icon(
-            //   LineIcons.video_camera,
-            //   color: kPrimaryColor,
-            //   size: 35,
-            // ),
-            // SizedBox(
-            //   width: 8,
-            // ),
-            // Container(
-            //   width: 13,
-            //   height: 13,
-            //   decoration: BoxDecoration(
-            //       color: online,
-            //       shape: BoxShape.circle,
-            //       border: Border.all(color: Colors.white38)),
-            // ),
-            // SizedBox(
-            //   width: 15,
-            // ),
+          // Icon(
+          //   LineIcons.phone,
+          //   color: kPrimaryColor,
+          //   size: 32,
+          // ),
+          // SizedBox(
+          //   width: 15,
+          // ),
+          // Icon(
+          //   LineIcons.video_camera,
+          //   color: kPrimaryColor,
+          //   size: 35,
+          // ),
+          // SizedBox(
+          //   width: 8,
+          // ),
+          // Container(
+          //   width: 13,
+          //   height: 13,
+          //   decoration: BoxDecoration(
+          //       color: online,
+          //       shape: BoxShape.circle,
+          //       border: Border.all(color: Colors.white38)),
+          // ),
+          // SizedBox(
+          //   width: 15,
+          // ),
           // ],
         ),
-        body: getBody(),
+        body: SmartRefresher(
+          controller: _refreshController,
+          onRefresh: _onRefresh,
+          header: MaterialClassicHeader(),
+          enablePullDown: true,
+          enablePullUp: false,
+          child: getBody(),
+        ),
         bottomSheet: bottomMessageSheet,
       ),
     );
@@ -113,12 +135,13 @@ class _ChatPageState extends State<ChatPage> {
   Widget getBody() {
     return ListView(
       padding: EdgeInsets.only(right: 20, left: 20, top: 20, bottom: 80),
-      children: List.generate(listConversation[user.id].listMessage.length  , (index) {
+      children:
+          List.generate(listConversation[user.id].listMessage.length, (index) {
         return ChatBubble(
             isMe: listConversation[user.id].listMessage[index].isMe,
             message: listConversation[user.id].listMessage[index].message,
-            profileImg: listConversation[user.id].listMessage[index].profileImg
-        );
+            profileImg:
+                listConversation[user.id].listMessage[index].profileImg);
       }),
     );
   }
@@ -182,8 +205,8 @@ class ChatBubble extends StatelessWidget {
             ),
             Flexible(
               child: Container(
-                decoration: BoxDecoration(
-                    color: grey, borderRadius: getMessageType()),
+                decoration:
+                    BoxDecoration(color: grey, borderRadius: getMessageType()),
                 child: Padding(
                   padding: const EdgeInsets.all(13.0),
                   child: Text(
@@ -227,7 +250,7 @@ class ChatBubble extends StatelessWidget {
       // }
       // standalone message
       // else {
-        return BorderRadius.all(Radius.circular(30));
+      return BorderRadius.all(Radius.circular(30));
       // }
     }
     // for sender bubble
@@ -258,7 +281,7 @@ class ChatBubble extends StatelessWidget {
       // }
       // // standalone message
       // else {
-        return BorderRadius.all(Radius.circular(30));
+      return BorderRadius.all(Radius.circular(30));
       // }
     }
   }
