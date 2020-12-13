@@ -19,7 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:facebook/bloc/post_bloc.dart';
 import 'package:video_player/video_player.dart';
-
+import 'package:facebook/Screens/Home/nav_screen.dart';
 import 'detail_image_screen.dart';
 
 class PostContainer extends StatefulWidget{
@@ -282,7 +282,7 @@ class _PostHeader extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return HomeScreenMobile();
+                                  return NavScreen();
                                 },
                               ),
                             );
