@@ -24,6 +24,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../constants.dart';
+import 'setup.dart';
+import 'setup.dart';
 
 class ProfileCurrentUser extends StatefulWidget {
   @override
@@ -705,6 +707,13 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> with AutomaticKeepAl
                                       fontSize: 16.0))),
                         ),
                         onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return Setup();
+                            }),
+                          );
+                          print("Chuyen den chỉnh sửa thông tin");
                           print(currentUser.toJSON());
                         },
                       )
