@@ -32,7 +32,7 @@ class ProfileCurrentUser extends StatefulWidget {
   }
 }
 
-class _ProfileCurrentUser extends State<ProfileCurrentUser> {
+class _ProfileCurrentUser extends State<ProfileCurrentUser> with AutomaticKeepAliveClientMixin {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
@@ -131,7 +131,6 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
   @override
   Widget build(BuildContext context) {
     var dateTime =
-        // Jiffy(currentUser.birthday, "yyyy/dd/MM").format("dd 'tháng' MM, yyyy");
         Jiffy(currentUser.birthday, "dd/MM/yyyy").format("dd 'tháng' MM, yyyy");
     return SmartRefresher(
       controller: _refreshController,
@@ -731,4 +730,8 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

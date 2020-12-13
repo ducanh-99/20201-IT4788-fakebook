@@ -5,6 +5,7 @@ import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/bloc/local_bloc.dart';
 import 'package:facebook/Screens/Welcome/welcome_screen.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MenuTab extends StatelessWidget {
@@ -30,7 +31,7 @@ class MenuTab extends StatelessWidget {
                 CircleAvatar(
                   radius: 25.0,
                   backgroundImage:
-                      CachedNetworkImageProvider(currentUser.avatar),
+                  CachedNetworkImageProvider(currentUser.avatar),
                 ),
                 SizedBox(width: 20.0),
                 Column(
@@ -81,7 +82,7 @@ class MenuTab extends StatelessWidget {
                     children: <Widget>[
                       Icon(Icons.group, color: Colors.blue, size: 30.0),
                       SizedBox(height: 5.0),
-                      Text('Groups',
+                      Text('Nhóm',
                           style: TextStyle(
                               fontSize: 16.0, fontWeight: FontWeight.bold))
                     ],
@@ -128,7 +129,7 @@ class MenuTab extends StatelessWidget {
                     children: <Widget>[
                       Icon(Icons.person, color: Colors.blue, size: 30.0),
                       SizedBox(height: 5.0),
-                      Text('Friends',
+                      Text('Bạn bè',
                           style: TextStyle(
                               fontSize: 16.0, fontWeight: FontWeight.bold))
                     ],
@@ -147,7 +148,7 @@ class MenuTab extends StatelessWidget {
                     children: <Widget>[
                       Icon(Icons.history, color: Colors.blue, size: 30.0),
                       SizedBox(height: 5.0),
-                      Text('Memories',
+                      Text('Kỉ niệm',
                           style: TextStyle(
                               fontSize: 16.0, fontWeight: FontWeight.bold))
                     ],
@@ -174,7 +175,7 @@ class MenuTab extends StatelessWidget {
                     children: <Widget>[
                       Icon(Icons.flag, color: Colors.blue, size: 30.0),
                       SizedBox(height: 5.0),
-                      Text('Pages',
+                      Text('Trang',
                           style: TextStyle(
                               fontSize: 16.0, fontWeight: FontWeight.bold))
                     ],
@@ -193,7 +194,7 @@ class MenuTab extends StatelessWidget {
                     children: <Widget>[
                       Icon(Icons.save_alt, color: Colors.blue, size: 30.0),
                       SizedBox(height: 5.0),
-                      Text('Saved',
+                      Text('Đã lưu',
                           style: TextStyle(
                               fontSize: 16.0, fontWeight: FontWeight.bold))
                     ],
@@ -218,9 +219,9 @@ class MenuTab extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      // Icon(FontAwesomeIcons.shoppingBag, color: Colors.blue, size: 25.0),
+                      Icon(Icons.ondemand_video, color: Colors.blue, size: 25.0),
                       SizedBox(height: 5.0),
-                      Text('Jobs',
+                      Text('Video',
                           style: TextStyle(
                               fontSize: 16.0, fontWeight: FontWeight.bold))
                     ],
@@ -239,7 +240,7 @@ class MenuTab extends StatelessWidget {
                     children: <Widget>[
                       Icon(Icons.event, color: Colors.blue, size: 30.0),
                       SizedBox(height: 5.0),
-                      Text('Events',
+                      Text('Sự kiện',
                           style: TextStyle(
                               fontSize: 16.0, fontWeight: FontWeight.bold))
                     ],
@@ -260,7 +261,7 @@ class MenuTab extends StatelessWidget {
                   children: <Widget>[
                     Icon(Icons.help, size: 40.0, color: Colors.grey[700]),
                     SizedBox(width: 10.0),
-                    Text('Help & Support', style: TextStyle(fontSize: 17.0)),
+                    Text('Trợ giúp và hỗ trợ', style: TextStyle(fontSize: 17.0)),
                   ],
                 ),
                 Icon(Icons.arrow_drop_down, size: 30.0),
@@ -280,7 +281,7 @@ class MenuTab extends StatelessWidget {
                   children: <Widget>[
                     Icon(Icons.settings, size: 40.0, color: Colors.grey[700]),
                     SizedBox(width: 10.0),
-                    Text('Settings & Privacy',
+                    Text('Cài đặt và bảo mật',
                         style: TextStyle(fontSize: 17.0)),
                   ],
                 ),
