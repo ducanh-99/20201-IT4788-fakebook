@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage>
                 padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: children,
                 ),
               );
