@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:facebook/Screens/Home/all_friends_tab.dart';
+import 'package:facebook/Screens/Home/setup.dart';
 import 'package:facebook/Screens/Messenger/components/chat_page.dart';
 import 'package:facebook/bloc/friend_bloc.dart';
 import 'package:facebook/bloc/post_bloc.dart';
@@ -248,12 +249,12 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                                   child: Icon(Icons.more_horiz),
                                 ),
                                 onTap: (){
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(builder: (context) {
-                                  //     return ChatPage(user: userProfile,);
-                                  //   }),
-                                  // );
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return Setup();
+                                    }),
+                                  );
                                   print("cd");
                                 },
                               )
@@ -624,12 +625,12 @@ class _ProfileCurrentUser extends State<ProfileCurrentUser> {
                                   child: Icon(Icons.more_horiz),
                                 ),
                                 onTap: (){
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(builder: (context) {
-                                  //     return ChatPage(user: userProfile,);
-                                  //   }),
-                                  // );
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return Setup();
+                                    }),
+                                  );
                                   print("Chuyen den cai dat");
                                 },
                               )

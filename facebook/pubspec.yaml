@@ -43,6 +43,8 @@ dependencies:
   youtube_player_flutter: ^7.0.0+7
   video_player: ^0.10.2+1
   font_awesome_flutter: ^8.10.1
+  tiengviet: ^0.4.1
+  clipboard: ^0.1.2+8
   flutter:
     sdk: flutter
 
