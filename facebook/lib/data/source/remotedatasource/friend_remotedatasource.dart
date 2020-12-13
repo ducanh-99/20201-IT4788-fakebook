@@ -163,8 +163,7 @@ class FriendRemotedatasourceImpl implements FriendRemotedatasource {
       var responseJson = json.decode(value.body);
       print(responseJson);
       if (responseJson['code'] == 1000) {
-        print(responseJson['block_id']);
-        print("Block friend succesfully");
+        print("Send friend succesfully");
       }
     }).catchError((error) {
       print('Error');

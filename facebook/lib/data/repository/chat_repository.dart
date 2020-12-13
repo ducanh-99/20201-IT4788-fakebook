@@ -4,7 +4,7 @@ abstract class ChatRepository {
   getAllConversation();
   getConversationByUserId(String receiverId);
   removeConversation(String receiverId);
-  sendMessage(String receiverId);
+  sendMessage(String receiverId,String message);
   removeMessage(String receiverId,int index);
 }
 class ChatRepositoryImpl implements ChatRepository {
@@ -21,21 +21,20 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  removeConversation(receiverId) {
-    // TODO: implement removeConversation
-    throw UnimplementedError();
+  removeConversation(String receiverId) async {
+    await _chatRemoteDatasource.apiRemoveConversation(receiverId);
   }
 
   @override
-  removeMessage(receiverId, index) {
-    // TODO: implement removeMessage
-    throw UnimplementedError();
+  removeMessage(String receiverId, int index) async {
+    await _chatRemoteDatasource.apiRemoveMessage(receiverId, index);
   }
 
   @override
-  sendMessage(receiverId) {
-    // TODO: implement sendMessage
-    throw UnimplementedError();
+  sendMessage(String receiverId, String message) async {
+    await _chatRemoteDatasource.apiSendMessage(receiverId, message);
   }
+
+
 
 }

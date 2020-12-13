@@ -37,6 +37,13 @@
             </list>
           </value>
         </entry>
+        <entry key="clipboard">
+          <value>
+            <list>
+              <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/clipboard-0.1.2+8/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="clock">
           <value>
             <list>
@@ -534,6 +541,13 @@
             </list>
           </value>
         </entry>
+        <entry key="tiengviet">
+          <value>
+            <list>
+              <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/tiengviet-0.4.1/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="timeago">
           <value>
             <list>
@@ -626,6 +640,7 @@
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/cached_network_image-2.4.1/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.0.0/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/charcode-1.1.3/lib" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/clipboard-0.1.2+8/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/clock-1.0.1/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.14.13/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/convert-2.1.1/lib" />
@@ -692,6 +707,7 @@
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/synchronized-2.2.0+2/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.1.0/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/test_api-0.2.17/lib" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/tiengviet-0.4.1/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/timeago-2.0.27/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/toast-0.1.5/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/typed_data-1.2.0/lib" />
