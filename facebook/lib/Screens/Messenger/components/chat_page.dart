@@ -265,16 +265,21 @@ class ChatBubble extends StatelessWidget {
 }
 
 class BottomMessageSheet extends StatefulWidget {
+  final User user;
+  const BottomMessageSheet({this.user});
+  // const BottomMessageSheet({Key key, this.user}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _BottomMessageSheet();
+    return _BottomMessageSheet(user);
   }
 }
 
 class _BottomMessageSheet extends State<BottomMessageSheet> {
   TextEditingController _sendMessageController = new TextEditingController();
+  final User user;
 
+  _BottomMessageSheet(this.user);
   @override
   Widget build(BuildContext context) {
     return Container(

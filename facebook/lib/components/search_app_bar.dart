@@ -180,8 +180,8 @@ class _SearchBackGround extends State<SearchBackGround>
                             height: 45.0,
                             width: MediaQuery.of(context).size.width * 0.65,
                             decoration: BoxDecoration(
-                              // border:
-                              //     Border.all(width: 1.0, color: Colors.grey[400]),
+                                // border:
+                                //     Border.all(width: 1.0, color: Colors.grey[400]),
                                 color: kBackgroundGrey,
                                 borderRadius: BorderRadius.circular(30.0)),
                             child: TextField(
@@ -242,7 +242,9 @@ class _SearchBackGround extends State<SearchBackGround>
                           height: 0.0,
                           color: Colors.black,
                         ),
-                        itemCount: historySearch.length > 10 ? 10 : historySearch.length,
+                        itemCount: historySearch.length > 10
+                            ? 10
+                            : historySearch.length,
                         itemBuilder: (context, index) {
                           return Dismissible(
                             key: Key(historySearch[index]),
@@ -355,8 +357,8 @@ class _SearchBackGround extends State<SearchBackGround>
                             height: 45.0,
                             width: MediaQuery.of(context).size.width * 0.65,
                             decoration: BoxDecoration(
-                              // border:
-                              //     Border.all(width: 1.0, color: Colors.grey[400]),
+                                // border:
+                                //     Border.all(width: 1.0, color: Colors.grey[400]),
                                 color: kBackgroundGrey,
                                 borderRadius: BorderRadius.circular(30.0)),
                             child: TextField(
@@ -413,7 +415,8 @@ class _SearchBackGround extends State<SearchBackGround>
                   ];
                 }
                 return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -425,8 +428,7 @@ class _SearchBackGround extends State<SearchBackGround>
           ),
         ),
       ),
-    )
-    ;
+    );
 
     //   appBar: AppBar(
     //     backgroundColor: kBackgroundGrey.withOpacity(0.2),
