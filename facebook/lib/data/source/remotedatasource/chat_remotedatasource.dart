@@ -58,6 +58,7 @@ class ChatRemoteDatasourceImpl implements ChatRemoteDatasource {
       var responseJson = json.decode(value.body);
       print(responseJson);
       if(responseJson['messages'].length >0){
+        listConversation[receiverId].listMessage = [];
         for (var message in responseJson['messages']) {
             listConversation[receiverId].listMessage.add(
               Message(
