@@ -26,16 +26,25 @@ class ChatRemoteDatasourceImpl implements ChatRemoteDatasource {
         print(responseJson);
         listConversation = {};
         for (var conversation in responseJson) {
-          if(conversation[''])
-          listConversation[conversation['received']['user']] =Conversation(
-                  conversationId: conversation['id'],
-                  lastMessage: conversation['last_messages'][0]['text'],
-                  listMessage: [],
-                  receiverId: conversation['received']['user'],
-                  receiverName: conversation['received']['username']
-              )
-          ;
+          if(conversation['last_messages'] != null){
+            listConversation[conversation['received']['user']] = Conversation(
+                conversationId: conversation['id'],
+                lastMessage: conversation['last_messages'][0]['text'],
+                listMessage: [],
+                receiverId: conversation['received']['user'],
+                receiverName: conversation['received']['username']
+            );
+          }else{
+            listConversation[conversation['received']['user']] = Conversation(
+                conversationId: conversation['id'],
+                listMessage: [],
+                receiverId: conversation['received']['user'],
+                receiverName: conversation['received']['username']
+            );
+          }
         }
+        print(" get conversation");
+        print(listConversation);
       } else {
         listConversation = {};
       }
@@ -145,9 +154,9 @@ class ChatRemoteDatasourceImpl implements ChatRemoteDatasource {
       print(responseJson);
       listConversation[receiverId].listMessage.add(
           Message(
-            index: listConversation[receiverId].listMessage.length +1,
-            createAt: "",
-            message: message,
+            index: responseJson['index'],
+            createAt: responseJson['create'],
+            message: responseJson['text'],
             isMe: true,
             profileImg: 'https://fakebook-20201.herokuapp.com/api/get_avt/' + receiverId,
           )

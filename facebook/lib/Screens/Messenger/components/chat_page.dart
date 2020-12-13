@@ -166,7 +166,7 @@ class _ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin{
                   children = <Widget>[
                     Column(
                       children: [
-                        if(listConversation[user.id].listMessage != null)
+                        if(listConversation[user.id].listMessage.length > 0)
                           for  (Message message in listConversation[user.id].listMessage)
                             ChatBubble(
                                 isMe: message.isMe,
@@ -397,7 +397,7 @@ class ChatBubble extends StatelessWidget {
 }
 
 class BottomMessageSheet extends StatefulWidget {
-  final User user;
+  final User user=User();
   const BottomMessageSheet({this.user});
   // const BottomMessageSheet({Key key, this.user}) : super(key: key);
   @override
@@ -409,7 +409,9 @@ class BottomMessageSheet extends StatefulWidget {
 
 class _BottomMessageSheet extends State<BottomMessageSheet> {
   TextEditingController _sendMessageController = new TextEditingController();
-  final User user;
+  final User user ;
+  ChatBloc _chatBloc = ChatBloc();
+  var message;
 
   _BottomMessageSheet(this.user);
   @override
@@ -474,16 +476,20 @@ class _BottomMessageSheet extends State<BottomMessageSheet> {
                       child: TextField(
                         cursorColor: black,
                         controller: _sendMessageController,
+                        onChanged:  (value){
+                          message=value;
+                        },
                         decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: "Aa",
+                            hintText: "Nhập tin nhắn...",
                             suffixIcon: Icon(
                               Icons.send,
                               color: kPrimaryColor,
                               size: 35,
                             )),
                         onTap: () {
-                          print("send");
+                          print(user.id);
+                          // _chatBloc.sendMessage(user.id, message);
                         },
                       ),
                     ),
