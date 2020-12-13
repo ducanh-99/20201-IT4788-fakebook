@@ -15,7 +15,7 @@ import 'package:flutter/rendering.dart';
 abstract class PostRepository {
   getAllPost();
   getAllPostOfUser(String userId);
-  uploadPost(String token, String described, File image, Function onSuccess,
+  uploadPost(String token, String described, File image,File video, Function onSuccess,
       Function onError);
   updatePost(Post post, String described, Function onSuccess);
   deletePost(Post postId, Function onSuccess);
@@ -37,10 +37,10 @@ class PostRepositoryImpl extends PostRepository {
   }
 
   @override
-  uploadPost(String token, String described, File image, Function onSuccess,
+  uploadPost(String token, String described, File image,File video, Function onSuccess,
       Function onError) async {
     await _postRemoteDatasource.apiUploadPost(
-        token, described, image, onSuccess, onError);
+        token, described, image,video, onSuccess, onError);
   }
 
   @override

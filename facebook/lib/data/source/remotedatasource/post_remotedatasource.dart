@@ -27,7 +27,7 @@ abstract class PostRemoteDatasource {
   apiGetAllPost();
   apiGetPostById(String postId);
   apiGetAllPostOfUser(String userId);
-  apiUploadPost(String token, String described, File image, Function onSuccess,
+  apiUploadPost(String token, String described, File image,File video, Function onSuccess,
       Function onError);
   apiUpdatePost(Post post, String described, Function onSuccess);
   apiDeletePost(Post postId, Function onSuccess);
@@ -109,7 +109,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   }
 
   @override
-  apiUploadPost(String token, String described, File image, Function onSuccess,
+  apiUploadPost(String token, String described, File image,File video, Function onSuccess,
       Function onError) async {
     if (described != null) {
       try {
@@ -135,6 +135,14 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
               contentType: MediaType("image", basename(image.path)));
 
           formData.files.add(MapEntry('image1', file));
+        }
+        //Add video to upload
+        if(video != null) {
+          print("video is not null");
+          var videofile = await dio.MultipartFile.fromFile(video.path,
+              filename: basename(video.path),
+              contentType: MediaType("video",basename(video.path)));
+          formData.files.add(MapEntry("video",videofile));
         }
 
         //[5] SEND TO SERVER

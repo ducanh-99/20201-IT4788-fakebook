@@ -20,10 +20,10 @@ class PostBloc {
     await _postRepositoryImpl.getAllPostOfUser(userId);
   }
 
-  uploadPost(String token, String described, File image, Function onSuccess,
+  uploadPost(String token, String described, File image,File video, Function onSuccess,
       Function onError) async {
     await _postRepositoryImpl.uploadPost(
-        token, described, image, onSuccess, onError);
+        token, described, image,video, onSuccess, onError);
   }
 
   Future<bool> likePost(String postID) async {
