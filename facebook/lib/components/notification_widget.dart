@@ -27,8 +27,8 @@ class _NotificationWidget extends State<NotificationWidget> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     read = notification.read;
+    super.initState();
   }
 
   void _read() {
@@ -44,7 +44,7 @@ class _NotificationWidget extends State<NotificationWidget> {
       width: MediaQuery.of(context).size.width,
       height: 100.0,
       padding: EdgeInsets.symmetric(horizontal: 5.0),
-      color: notification.read == 0 ? kPrimaryLightColor : backgroundColor,
+      color: read == 0 ? kPrimaryLightColor : backgroundColor,
       child: InkWell(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

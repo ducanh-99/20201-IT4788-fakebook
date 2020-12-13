@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook/components/components.dart';
 import 'package:facebook/components/search_app_bar.dart';
 import 'package:facebook/data/source/localdatasource/data_personal.dart';
@@ -78,12 +79,10 @@ class EditProfile extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    new Container(
-                      child: new Image.asset(
-                        'assets/images/fb.png',
-                        height: 150.0,
-                        fit: BoxFit.cover,
-                      ),
+                    CircleAvatar(
+                      radius: 65.0,
+                      backgroundImage:
+                      CachedNetworkImageProvider(currentUser.avatar),
                     ),
                   ],
                 )
@@ -125,7 +124,7 @@ class EditProfile extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: Image.asset(
-                          'assets/images/images.jfif',
+                          'assets/images/login_bottom.png',
                           width: 350.0,
                           height: 200.0,
                           fit: BoxFit.fill,
@@ -169,7 +168,7 @@ class EditProfile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     new Text(
-                      'Hello, Hậu Phạm! How are you?',
+                      'Hello, ' + currentUser.username+ '! How are you?',
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
