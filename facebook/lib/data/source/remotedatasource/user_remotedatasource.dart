@@ -114,8 +114,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
         await test.apiGetAllPost();
         onSuccess();
       } else {
-        print(responseJson);
-        print('no login');
+        onError(responseJson.toString());
       }
     }).catchError((error) {
       onError(error.message);
