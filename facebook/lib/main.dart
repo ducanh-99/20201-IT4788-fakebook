@@ -34,10 +34,10 @@ void main() async {
     await noti.getNotification(() {}, () {});
     await postBloc.setLocalPost();
     await postBloc.getAllPost();
-    await userBloc.getProfileUser(currentUser.id);
-    await postBloc.getAllPostOfUser(currentUser.id);
-    Friend_Bloc friendBloc = Friend_Bloc();
-    await friendBloc.getListFriend(currentUser.id);
+    // await userBloc.getProfileUser(currentUser.id);
+    // await postBloc.getAllPostOfUser(currentUser.id);
+    // Friend_Bloc friendBloc = Friend_Bloc();
+    // await friendBloc.getListFriend(currentUser.id);
     print(token);
     // await friendBloc.apiGetRequestFriend();
   }

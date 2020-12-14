@@ -503,6 +503,9 @@ class _BottomMessageSheet extends State<BottomMessageSheet> {
                           print(user.id);
                           await _chatBloc.sendMessage(user.id, message);
                           print("da xong");
+                          setState(() {
+
+                          });
                         },
                       ),
                     ),

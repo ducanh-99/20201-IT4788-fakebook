@@ -201,7 +201,11 @@ class _FriendRecommendState extends State<FriendRecommend> {
                     Text(user.username,
                         style: TextStyle(
                             fontSize: 16.0, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 10.0),
+                    SizedBox(height: 3.0),
+                    Text('${user.commondFriend}'+ ' bạn chung',
+                        style: TextStyle(
+                            fontSize: 12.0, fontWeight: FontWeight.normal)),
+                    SizedBox(height: 3.0),
                     Row(
                       children: <Widget>[
                         isRequest == 0
@@ -253,6 +257,8 @@ class _FriendRecommendState extends State<FriendRecommend> {
                             _delete();
                           },
                         ),
+                        SizedBox(width: 10.0),
+
                       ],
                     ),
                     SizedBox(height: 15.0),

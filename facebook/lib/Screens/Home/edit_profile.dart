@@ -1,15 +1,38 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:facebook/bloc/user_bloc.dart';
 import 'package:facebook/components/components.dart';
+import 'package:facebook/components/error_connect.dart';
 import 'package:facebook/components/search_app_bar.dart';
 import 'package:facebook/data/source/localdatasource/data_personal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:tiengviet/tiengviet.dart';
 import '../../constants.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:toast/toast.dart';
-class EditProfile extends StatelessWidget {
+
+import 'nav_screen.dart';
+
+class EditProfile extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _EditProfile();
+  }
+}
+
+class _EditProfile extends State<EditProfile> {
+
+  //Image
+  File image;
+  void selectImage() async {
+    image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {});
+  }
+  //End Image
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +91,34 @@ class EditProfile extends StatelessWidget {
                       flex: 2,
                       child: Container(
                         alignment: Alignment.topRight,
-                        child: Padding(
+                        child: InkWell(
+                          child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text("Chỉnh sửa",style: TextStyle(color:Colors.blue,fontSize:16),)
-                        ),
+                            child: Text("Chỉnh sửa",style: TextStyle(color:Colors.blue,fontSize:16),),
+                          ),
+                          onTap: () async {
+                            UserBloc _userBloc = UserBloc();
+                            await selectImage();
+                            await _userBloc.uploadAvatar(image, () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return NavScreen();
+                                  },
+                                ),
+                              );
+                            }, () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return ErrorConnect();
+                                }),
+                              );
+                            }
+                            );
+                          },
+                        )
                       ),),
                   ],
                 ),

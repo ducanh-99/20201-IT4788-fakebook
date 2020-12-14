@@ -37,6 +37,9 @@ class _CommentScreen extends State<CommentScreen>
     await Future.delayed(Duration(milliseconds: 1000), () async {
       CommentBloc commentBloc = CommentBloc();
       await commentBloc.getCommentByPostId(post.id);
+      setState(() {
+
+      });
       return 'Data Loaded';
     });
     // if failed,use refreshFailed()
@@ -467,6 +470,9 @@ class _BottomCommentSheet extends State<BottomCommentSheet> {
                     icon: Icon(Icons.send),
                     onPressed: () async {
                       await _commentBloc.uploadComment(postGlobal.id, comment);
+                      setState(() {
+
+                      });
                     },
                   ),
                 ),
